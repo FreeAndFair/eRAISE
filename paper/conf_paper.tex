@@ -40,7 +40,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Title}
+\title{A methodology for analyzing and designing GUI plug-ins}
 
 
 % author names and affiliations
@@ -72,10 +72,13 @@ Email: http://www.example.com}}
 % make the title area
 \maketitle
 
+%------------------
+% Abstract
+%------------------
 
 \begin{abstract}
 %\boldmath
-The abstract goes here.
+Since basic graphical user interface elements can be created very easily with only a few lines of code, most of the developers start their GUI plug-ins' lives directly with the implementation phase. As more GUI elements are being added, their functionality start to interfere maybe even overlap leading to a less stable and reliable product. The current paper addresses these problems by providing a methodology for analyzing and designing GUI plug-in systems. The solution is described and exemplified using an ongoing project as a study case. 
 \end{abstract}
 
 % no keywords
@@ -97,17 +100,17 @@ The abstract goes here.
 \section{Introduction}
 What is the paper about.
 
-%------------------
+
 % Background
-%------------------
-\section{Background}
+%
+\subsection{Background}
 What problems do we run into when starting building an Eclipse plug-in.
 
 
-%------------------
+
 % Related work
-%------------------
-\section{Related work}
+%
+\subsection{Related work}
 What solutions have other papers brought
 
 
@@ -118,31 +121,36 @@ What solutions have other papers brought
 The steps used to design and analyze the plug-in.
 
 
-
+% User interface
+%
 \subsection{User interface}
 UI mock-ups. 
 
 
 Requirements identification. Captured in BON \emph{scenario\_chart}.
 
+% Events
+%
+\subsection{Events}
+\emph{Incoming} events representing user actions and \emph{outgoing} events meant to inform the user.
 
 
+% Components
+%
 \subsection{Components}
 Major components captured in BON \emph{static\_diagram}s using \emph{cluster\_chart} and \emph{class}.
 
 
-
+% Components communication
+%
 \subsection{Components communication}
 Component interfaces added to the interface diagram using  \emph{feature}, \emph{require} and \emph{ensure}. This will later result in plug-in extensions and extension points.
 
 
-
-\subsection{Events}
-\emph{Incoming} events representing user actions and \emph{outgoing} events meant to inform the user.
-
 Update scenarios with events.
 
-
+% Code generation
+%
 \subsection{Code generation}
 Beetlz generates the Java code from BON specification.
 
