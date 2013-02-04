@@ -30,11 +30,42 @@
    \DeclareGraphicsExtensions{.eps}
 \fi
 
+%=========================================================
+% Latex Packages
+%=========================================================
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[colorinlistoftodos,textwidth=2.5cm,shadow]{todonotes}
 
+%=========================================================
+% Other
+%=========================================================
+
+\include{style/bon}
+\lstset{style=bon, columns=fullflexible, keepspaces=true, 
+        frame=topline, captionpos=b}
+
+%=========================================================
+% Generic Macros
+%=========================================================
+
+\newcommand{\lstbon}[1]{\lstinline[style=boninline]{#1}} 
+\newcommand{\lstjava}[1]{\lstinline[style=jml2inline]{#1}} 
+
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\xspace}
+\newcommand{\vs}{vs.\xspace}
+\newcommand{\etal}{et.~al.\xspace}
+
+% Todos
+\newcommand{\note}[1]{\todo[inline,color=red!40]{#1}}
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+% =========================================================
 
 \begin{document}
 %
@@ -46,24 +77,25 @@
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{ Anne E. Haxthausen}
+\author{
+\IEEEauthorblockN{ Marieta V. Fasie}
+\IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
+DK-2800 Lyngby, Denmark\\
+Email: marietafasie@gmail.com}
+
+\and
+
+\IEEEauthorblockN{ Anne E. Haxthausen}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
 Email: ah@imm.dtu.dk}
+
 \and
 
 \IEEEauthorblockN{Joseph Kiniry}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
-Email: jkin@imm.dtu.dk}
-\and
-
-\IEEEauthorblockN{ Marieta V. Fasie}
-\IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
-DK-2800 Lyngby, Denmark\\
-Email: marietafasie@gmail.com}}
-
-
+Email: jkin@imm.dtu.dk}}
 
 % use for special paper notices
 %\IEEEspecialpapernotice{(Invited Paper)}
@@ -72,9 +104,9 @@ Email: marietafasie@gmail.com}}
 % make the title area
 \maketitle
 
-%------------------
+% =========================================================
 % Abstract
-%------------------
+% =========================================================
 
 \begin{abstract}
 %\boldmath
@@ -105,75 +137,86 @@ Email: marietafasie@gmail.com}}
 \IEEEpeerreviewmaketitle
 
 
-%------------------
+% =========================================================
 % Introduction
-%------------------
+% =========================================================
 \section{Introduction}
-What is the paper about.
+\label{sec:introduction}
 
+What is the paper about.
 
 % Background
 %
 \subsection{Background}
+\label{sec:background}
+
 What problems do we run into when starting building an Eclipse plug-in.
-
-
 
 % Related work
 %
 \subsection{Related work}
+\label{sec:related-work}
+
 What solutions have other papers brought
 
-
-%------------------
+% =========================================================
 % Analysis and design method
-%------------------
+% =========================================================
 \section{Analysis and design method}
-This section describes the methodology used for analyzing and
-designing plug-ins. The methodology comprises a number of five steps,
-each described in a separate subsection and presented in the order in
-which they should be applied. These five steps are: \emph{user
-interface, events, components, components communication} and
+\label{sec:analys-design-meth}
+
+This section describes a methodology used to analyze and design
+plug-ins. The methodology has six stages, each described in a separate
+subsection and presented in the order in which they are applied. These
+six steps are: \emph{domain modeling}, \emph{user interface},
+\emph{events}, \emph{components}, \emph{components communication} and
 \emph{code generation}.
 
-The methodology is illustrated via a case study whose focus is an
-Eclipse environment for the RAISE formal method's tool suite. In other
-words, the case study aims to develop an Eclipse plug-in for RAISE
-tool set. This case study is a real project, meant to be used in an
-academic environment and it will be used to illustrate how the five
-steps can be applied in practice. Due to space restrictions the entire
-project's analysis and design phases can not be presented in this
-paper, therefore only one scenario of the plug-in is chosen to be
-shown throughout the five steps. This way, the reader can see the
-evolution from one step to another, and can apply the method in the
-same way for different scenarios.
+\note{What happened to the domain modeling you did? I added in a
+  mention of it here. -jrk}
 
-% User interface
-%
+The methodology is illustrated via a case study whose focus is an
+Eclipse environment for the RAISE formal method's tool suite.  This
+case study is a real project, meant to be used in an academic
+environment, and it will be used to illustrate how the methodology is
+applied in practice. Due to space restrictions, the entire project's
+analysis and design phases are not presented here; instead, only one
+scenario of the plug-in is shown from beginning to end.  This way, the
+reader sees the evolution step by step, and can then apply the method
+themselves.
+
+\subsection{Domain Modeling}
+\label{sec:domain-modeling}
+
+\note{To be written.}
+
 \subsection{User interface}
+\label{sec:user-interface}
 
 The purpose of the first step is to determine the plug-in
-functionality from the user point of view. This means identifying all,
-or a subset of all the things a user can do inside the user interface.
-This is done by identifying the requirements and establishing the user
-interface in the same time. Therefore, for each user action that is
-relevant and important for the plug-in, a mock-up user interface is
-being created. Of course, if more user actions are similar, they can
-be grouped under a single user interface. It is up to the plug-in
-developer to determine what are the most important functionalities and
-how or if he wants to prioritize them.
+functionality from the user's point of view.  This means identifying
+all the things a user can do from the plugin's user interface (UI).
+This UI feature set consequently derives the requirements for the
+product (the plugin) and designs the UI in the same time.  Therefore,
+for each user action that is relevant and important for the plug-in, a
+mock-up user interface is created.  Of course, if many user actions
+are similar, they can be grouped under a single user interface.  It is
+up to the plug-in developer to determine what are the most important
+features and how, or if, she wants to prioritize them.
 
-The mock-up user interface can be a vague hand made sketch or a
-precise drawing made with an advanced graphical editing program.
+The mock-up user interface can be a vague handmade sketch or a
+precise drawing made with an advanced graphical editing program.  The
+intention here is not presentation and precision, but instead feature
+completeness and UI consistency.
 
 For the Eclipse case study, it was decided, for example, that a user
-should have the possibility to type check all RSL files. Also the user
-should have the possibility to translate all files to SML, to run all
-test cases existing in all files and to generate Latex documents for
-them. Therefore it was decided that this four actions can be grouped
-under a menu item which is called \emph{RSL} and presented in the same
-user interface. Figure \ref{UIMenu} illustrates the graphical user
-interface for the \emph{RSL} menu item.
+should have the possibility to typecheck all RAISE Specification
+Language (RSL) files (the primary file type of the RAISE tool suite).
+Also, the user should have the possibility to translate all files to
+SML, to run all test cases existing in all files, and to generate
+\LaTeX documents for them.  Therefore, it was decided that these four
+actions should be grouped under a menu item which is called \emph{RSL}
+and presented in the same UI, for consistency and simplicity.  
 
 \begin{figure}[!t] \centering
 \includegraphics[width=2.5in]{RSLMenu.jpeg} 
@@ -184,81 +227,78 @@ interface for the \emph{RSL} menu item.
 \label{UIMenu} 
 \end{figure}
 
-While the user interface is drawn, the requirements are documented in
-EBON using \emph{scenario\_charts} elements. The beautiful part about
-using EBON from the beginning is that it allows the requirements
-specification to be captured using natural language. Therefore no
-intermediate step is required between identifying the requirements and
-documenting them. And to demonstrate it, this is how the
-\emph{scenario\_charts} for the requirements presented in Figure
-\ref{UIMenu}, looks like:
+\note{These figures will have to span both columns to be viewable, I
+  suspect. Also note that figure-like things in Latex should always
+  appear before their first reference in the source Latex. Also note
+  the use of the autoref command. -jrk}
 
-\begin{verbatim} 
-	scenario_chart MENU 
-	scenario "MENU1" 
-	description "The
-user can type check all RSL files in the workspace. Success or failure
-messages will be displayed along with the list of errors in case of a
-failure" 
-	scenario "MENU2" 
-	description "The user can translate to SML all RSL files in the
- workspace. Success or failure messages will be displayed along with
-the list of errors in case of a failure" 
-	scenario "MENU3" 
-	description "The user can run all test cases in the workspace.
-Success or failure messages will be displayed along with the list of
-errors in case of a failure" 
-	scenario "MENU4" 
-	description "The user can generate Latex files for all files in
-the workspace. Success or failure messages will be displayed along
-with the list of errors in case of a failure" 
-\end{verbatim}
+\autoref{UIMenu} illustrates the graphical user interface for the
+\emph{RSL} menu item.  This illustration was created by taking a
+screenshot of Eclipse and then hand-editing the resulting image in
+just a few minutes.
 
+While the user interface is being drawn, product requirements are
+documented using EBON \emph{scenario\_chart} elements.  The beautiful
+part about using EBON from the beginning is that it allows the
+requirements specification to be captured using natural language.
+Therefore no intermediate step is required between identifying the
+requirements and documenting them.  To demonstrate requirements, this
+is how the \emph{scenario\_charts} for the requirements presented in
+\autoref{UIMenu} look:
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
+caption={Scenario chart for typechecking features.},
+captionpos=b]{scenario_example.bon}
 
 % Events
 %
 \subsection{Events}
-\emph{Incoming} events representing user actions and \emph{outgoing} events meant to inform the user.
+\label{sec:events}
 
+\emph{Incoming} events representing user actions and \emph{outgoing}
+events meant to inform the user.
 
 % Components
 %
 \subsection{Components}
-Major components captured in BON \emph{static\_diagram}s using \emph{cluster\_chart} and \emph{class}.
+\label{sec:components}
 
+Major components captured in BON \emph{static\_diagram}s using
+\emph{cluster\_chart} and \emph{class}.
 
 % Components communication
 %
 \subsection{Components communication}
-Component interfaces added to the interface diagram using  \emph{feature}, \emph{require} and \emph{ensure}. This will later result in plug-in extensions and extension points.
+\label{sec:comp-comm}
 
+Component interfaces added to the interface diagram using
+\emph{feature}, \emph{require} and \emph{ensure}. This will later
+result in plug-in extensions and extension points.
 
 Update scenarios with events.
 
 % Code generation
 %
 \subsection{Code generation}
+\label{sec:code-generation}
+
 Beetlz generates the Java code from BON specification.
 
 %------------------
 % Conclusion
 %------------------
 \section{Conclusion}
+\label{sec:conclusion}
+
 In conclusion
-
-
 
 % conference papers do not normally have an appendix
 
-
 % use section* for acknowledgement
 \section*{Acknowledgment}
-
+\label{sec:acknowledgment}
 
 The authors would like to thank...
-
-
-
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
