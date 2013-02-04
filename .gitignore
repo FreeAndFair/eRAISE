@@ -1,6 +1,9 @@
 *.class
-
-# Package Files #
+*.aux
+*.log
+*.out
+*.synctex.gz
+*~
 *.jar
 *.war
 *.ear
