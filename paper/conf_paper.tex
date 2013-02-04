@@ -255,8 +255,44 @@ captionpos=b]{scenario_example.bon}
 \subsection{Events}
 \label{sec:events}
 
-\emph{Incoming} events representing user actions and \emph{outgoing}
-events meant to inform the user.
+In this section the entire system is seen as a black box. The focus is
+on the external actions that make the system react and on the system
+outgoing responses. However, not all systems outgoing events are of
+interest, but only the ones that are started by external stimuli. 
+
+An incoming external event is any action that determines the system to
+change its state. For example it can be a user clicking a button or
+another system sending a request. An outgoing internal event is the
+response the system sends to the one that initiated the incoming
+external event. The system outgoing event for the action of pressing
+the button could be the display of a new window or closing a window.
+
+Looking back at the scenario presented in
+\autoref{sec:user-interface}, the user has the possibility to type
+check all RSL files. This is illustrated in \autoref{UIMenu} by the
+presence of a sub-menu item named \emph{Type check all}. Therefore,
+the incoming external action in this case is: \emph{the user selects
+the Type check all menu item}. And this external event has been determined
+just by looking at the scenarios previously identified. However there
+is another user event that triggers the same system reaction and that
+is using the shortcuts: \emph{The user presses Ctrl+Alt+T}.
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:event_chart},
+caption={Event chart for typechecking features.},
+captionpos=b]{external_event_example.bon}
+
+Once established, the user actions can be captured in EBON using
+\emph{event\_chart} elements. The \emph{event\_chart} can be ingoing
+or outgoing based on which events they capture. Since the two user
+incoming events that have just been identified aims for the same
+functionality, they are grouped under the same name and captured in
+\autoref{example:event_chart}.
+
+\note{How to add here the internal outgoing events? Since they are: 
+Console update and so on. -mvf} 
+\emph{Outgoing} events meant to inform the
+user.
 
 % Components
 %
@@ -284,9 +320,9 @@ Update scenarios with events.
 
 Beetlz generates the Java code from BON specification.
 
-%------------------
+% =========================================================
 % Conclusion
-%------------------
+% =========================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
