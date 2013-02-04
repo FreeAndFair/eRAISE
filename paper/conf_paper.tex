@@ -12,22 +12,22 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+   \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
+   \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
   % driver is specified.
-  % \usepackage[dvips]{graphicx}
+   \usepackage[dvips]{graphicx}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../eps/}}
+   \graphicspath{{../eps/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
+   \DeclareGraphicsExtensions{.eps}
 \fi
 
 
@@ -129,16 +129,91 @@ What solutions have other papers brought
 % Analysis and design method
 %------------------
 \section{Analysis and design method}
-The steps used to design and analyze the plug-in.
+This section describes the methodology used for analyzing and
+designing plug-ins. The methodology comprises a number of five steps,
+each described in a separate subsection and presented in the order in
+which they should be applied. These five steps are: \emph{user
+interface, events, components, components communication} and
+\emph{code generation}.
 
+The methodology is illustrated via a case study whose focus is an
+Eclipse environment for the RAISE formal method's tool suite. In other
+words, the case study aims to develop an Eclipse plug-in for RAISE
+tool set. This case study is a real project, meant to be used in an
+academic environment and it will be used to illustrate how the five
+steps can be applied in practice. Due to space restrictions the entire
+project's analysis and design phases can not be presented in this
+paper, therefore only one scenario of the plug-in is chosen to be
+shown throughout the five steps. This way, the reader can see the
+evolution from one step to another, and can apply the method in the
+same way for different scenarios.
 
 % User interface
 %
 \subsection{User interface}
-UI mock-ups. 
 
+The purpose of the first step is to determine the plug-in
+functionality from the user point of view. This means identifying all,
+or a subset of all the things a user can do inside the user interface.
+This is done by identifying the requirements and establishing the user
+interface in the same time. Therefore, for each user action that is
+relevant and important for the plug-in, a mock-up user interface is
+being created. Of course, if more user actions are similar, they can
+be grouped under a single user interface. It is up to the plug-in
+developer to determine what are the most important functionalities and
+how or if he wants to prioritize them.
 
-Requirements identification. Captured in BON \emph{scenario\_chart}.
+The mock-up user interface can be a vague hand made sketch or a
+precise drawing made with an advanced graphical editing program.
+
+For the Eclipse case study, it was decided, for example, that a user
+should have the possibility to type check all RSL files. Also the user
+should have the possibility to translate all files to SML, to run all
+test cases existing in all files and to generate Latex documents for
+them. Therefore it was decided that this four actions can be grouped
+under a menu item which is called \emph{RSL} and presented in the same
+user interface. Figure \ref{UIMenu} illustrates the graphical user
+interface for the \emph{RSL} menu item.
+
+\begin{figure}[!t] \centering
+\includegraphics[width=2.5in]{RSLMenu.jpeg} 
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has
+% been declared via \DeclareGraphicsExtensions. 
+\caption{Eclipse user interface displaying the RSL menu item} 
+\label{UIMenu} 
+\end{figure}
+
+While the user interface is drawn, the requirements are documented in
+EBON using \emph{scenario\_charts} elements. The beautiful part about
+using EBON from the beginning is that it allows the requirements
+specification to be captured using natural language. Therefore no
+intermediate step is required between identifying the requirements and
+documenting them. And to demonstrate it, this is how the
+\emph{scenario\_charts} for the requirements presented in Figure
+\ref{UIMenu}, looks like:
+
+\begin{verbatim} 
+	scenario_chart MENU 
+	scenario "MENU1" 
+	description "The
+user can type check all RSL files in the workspace. Success or failure
+messages will be displayed along with the list of errors in case of a
+failure" 
+	scenario "MENU2" 
+	description "The user can translate to SML all RSL files in the
+ workspace. Success or failure messages will be displayed along with
+the list of errors in case of a failure" 
+	scenario "MENU3" 
+	description "The user can run all test cases in the workspace.
+Success or failure messages will be displayed along with the list of
+errors in case of a failure" 
+	scenario "MENU4" 
+	description "The user can generate Latex files for all files in
+the workspace. Success or failure messages will be displayed along
+with the list of errors in case of a failure" 
+\end{verbatim}
+
 
 % Events
 %
