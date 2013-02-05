@@ -172,9 +172,6 @@ six steps are: \emph{domain modeling}, \emph{user interface},
 \emph{events}, \emph{components}, \emph{components communication} and
 \emph{code generation}.
 
-\note{What happened to the domain modeling you did? I added in a
-  mention of it here. -jrk}
-
 The methodology is illustrated on  a case study taken from a real project
 in which an Eclipse environment for the RAISE formal method's tool suite is being developed.
 Due to space restrictions, the entire project's
@@ -224,9 +221,7 @@ and presented in the same UI, for consistency and simplicity.
 \end{figure}
 
 \note{These figures will have to span both columns to be viewable, I
-  suspect. Also note that figure-like things in Latex should always
-  appear before their first reference in the source Latex. Also note
-  the use of the autoref command. -jrk}
+  suspect. -jrk}
 
 \autoref{UIMenu} illustrates the graphical user interface for the
 \emph{RSL} menu item.  This illustration was created by taking a
@@ -235,7 +230,7 @@ just a few minutes.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
-caption={Scenario chart for typechecking features.},
+caption={Scenario chart for RSL menu.},
 captionpos=b]{scenario_example.bon}
 
 While the user interface is being drawn, product requirements are
@@ -244,8 +239,9 @@ part about using EBON from the beginning is that it allows the
 requirements specification to be captured using natural language.
 Therefore no intermediate step is required between identifying the
 requirements and documenting them.  
-For the case study, the requirements associated with the user interface in \autoref{UIMenu} are captured in  the \emph{scenario\_charts}
-in \autoref{example:scenario_chart}. 
+For the case study, the requirements associated with the user
+interface in \autoref{UIMenu} are captured in the
+\emph{scenario\_charts} in \autoref{example:scenario_chart}.
 
 % Events
 %
@@ -262,21 +258,22 @@ change its state. For example it can be a user clicking a button or
 another system sending a request. An outgoing internal event is the
 response the system sends to the one that initiated the incoming
 external event. The system outgoing event for the action of pressing
-the button could e.g.\ be the display of a new window or closing a window.
+the button could e.g.be the display of a new window or writing a
+message to the standard output.
 
 Looking back at the scenario presented in
 \autoref{sec:user-interface}, the user has the possibility to type
 check all RSL files. This is illustrated in \autoref{UIMenu} by the
 presence of a sub-menu item named \emph{Type check all}. Therefore,
 the incoming external action in this case is: \emph{the user selects
-the Type check all menu item}. And this external event has been determined
+the Type check all sub-menu item}. And this external event has been determined
 just by looking at the scenarios previously identified. However there
 is another user event that triggers the same system reaction and that
 is using the shortcuts: \emph{The user presses Ctrl+Alt+T}.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:event_chart},
-caption={Event chart for typechecking features.},
+caption={Incoming event chart for typechecking features.},
 captionpos=b]{external_event_example.bon}
 
 Once established, the user actions can be captured in EBON using
@@ -286,23 +283,48 @@ incoming events that have just been identified aims for the same
 functionality, they are grouped under the same name and captured in
 \autoref{example:event_chart}.
 
-\note{How to add here the internal outgoing events? Since they are: 
-Console update and so on. -mvf} 
-\emph{Outgoing} events meant to inform the
-user.
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
+caption={Outgoing event chart for typechecking features.},
+captionpos=b]{internal_event_example.bon}
+
+
+All incoming actions trigger changes in the system state. And the
+next task is to decide how should the system notify the one triggering the
+action, about the changes that have taken place. For the RAISE case
+study it was decided that after the user selects the \emph{Type check
+all} sub-menu item, a message should be displayed on the standard output.
+The message informs the user about how the typechecking evolved and
+since the case study GUI is Eclipse based, the standard output is considered by
+default the Eclipse Console view. However in some cases the
+typechecking may not be successful due to some errors in the input
+files. In this case it would be nice to know what caused the problem
+and where can it be found. Therefore the system will present the
+necessary information in the Eclipse Problem view. To sum up, after the
+user selects the \emph{Type check all} sub-menu item, the system updates the
+Console and Problem views with appropriate information.
+\autoref{example:event_chart_in} presents the two events captured in
+an outgoing \emph{event\_chart} under the names of
+\emph{CONSOLEUPDATE} respectively \emph{PROBLEMSUPDATE}.
+
 
 % Components
 %
 \subsection{Components}
 \label{sec:components}
 
-Major components captured in BON \emph{static\_diagram}s using
-\emph{cluster\_chart} and \emph{class}.
+Major components captured in BON \emph{static\_diagram}s obtained from
+\emph{cluster\_chart}, \emph{cluster\_chart} and \emph{class\_chart}.
+
+-High level classifiers into concrete data types in language
+independent fashion.
 
 % Components communication
 %
 \subsection{Components communication}
 \label{sec:comp-comm}
+
+How components are arranged.
 
 Component interfaces added to the interface diagram using
 \emph{feature}, \emph{require} and \emph{ensure}. This will later
@@ -331,7 +353,8 @@ In conclusion
 \section*{Acknowledgment}
 \label{sec:acknowledgment}
 
-The authors would like to thank...
+The authors would like to thank themselves by buying tons of chocolate
+and beer.
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
