@@ -175,15 +175,11 @@ six steps are: \emph{domain modeling}, \emph{user interface},
 \note{What happened to the domain modeling you did? I added in a
   mention of it here. -jrk}
 
-The methodology is illustrated via a case study whose focus is an
-Eclipse environment for the RAISE formal method's tool suite.  This
-case study is a real project, meant to be used in an academic
-environment, and it will be used to illustrate how the methodology is
-applied in practice. Due to space restrictions, the entire project's
+The methodology is illustrated on  a case study taken from a real project
+in which an Eclipse environment for the RAISE formal method's tool suite is being developed.
+Due to space restrictions, the entire project's
 analysis and design phases are not presented here; instead, only one
-scenario of the plug-in is shown from beginning to end.  This way, the
-reader sees the evolution step by step, and can then apply the method
-themselves.
+scenario of the plug-in is shown from beginning to end.  
 
 \subsection{Domain Modeling}
 \label{sec:domain-modeling}
@@ -199,7 +195,7 @@ all the things a user can do from the plugin's user interface (UI).
 This UI feature set consequently derives the requirements for the
 product (the plugin) and designs the UI in the same time.  Therefore,
 for each user action that is relevant and important for the plug-in, a
-mock-up user interface is created.  Of course, if many user actions
+mock-up user interface is created.  If many user actions
 are similar, they can be grouped under a single user interface.  It is
 up to the plug-in developer to determine what are the most important
 features and how, or if, she wants to prioritize them.
@@ -214,7 +210,7 @@ should have the possibility to typecheck all RAISE Specification
 Language (RSL) files (the primary file type of the RAISE tool suite).
 Also, the user should have the possibility to translate all files to
 SML, to run all test cases existing in all files, and to generate
-\LaTeX documents for them.  Therefore, it was decided that these four
+\LaTeX\ documents for them.  Therefore, it was decided that these four
 actions should be grouped under a menu item which is called \emph{RSL}
 and presented in the same UI, for consistency and simplicity.  
 
@@ -237,18 +233,19 @@ and presented in the same UI, for consistency and simplicity.
 screenshot of Eclipse and then hand-editing the resulting image in
 just a few minutes.
 
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
+caption={Scenario chart for typechecking features.},
+captionpos=b]{scenario_example.bon}
+
 While the user interface is being drawn, product requirements are
 documented using EBON \emph{scenario\_chart} elements.  The beautiful
 part about using EBON from the beginning is that it allows the
 requirements specification to be captured using natural language.
 Therefore no intermediate step is required between identifying the
-requirements and documenting them.  To demonstrate requirements, this
-is how the \emph{scenario\_charts} for the requirements presented in
-\autoref{UIMenu} look:
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
-caption={Scenario chart for typechecking features.},
-captionpos=b]{scenario_example.bon}
+requirements and documenting them.  
+For the case study, the requirements associated with the user interface in \autoref{UIMenu} are captured in  the \emph{scenario\_charts}
+in \autoref{example:scenario_chart}. 
 
 % Events
 %
@@ -265,7 +262,7 @@ change its state. For example it can be a user clicking a button or
 another system sending a request. An outgoing internal event is the
 response the system sends to the one that initiated the incoming
 external event. The system outgoing event for the action of pressing
-the button could be the display of a new window or closing a window.
+the button could e.g.\ be the display of a new window or closing a window.
 
 Looking back at the scenario presented in
 \autoref{sec:user-interface}, the user has the possibility to type
