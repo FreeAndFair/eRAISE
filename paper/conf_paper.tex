@@ -367,13 +367,39 @@ an outgoing \emph{event\_chart} under the names of
 \subsection{Components}
 \label{sec:components}
 
-Major components captured in BON \emph{static\_diagram}s obtained from
-\emph{cluster\_chart}, \emph{cluster\_chart} and \emph{class\_chart}.
+This subsection, in contrast with the previous one, looks inside the
+system, at the components that form its architecture. This components
+can be referring to concrete elements like \emph{Zoom in button} or
+they can be abstract concepts like \emph{User authentication} which
+covers everything in the system that is responsible for authenticating
+a user. Also multiple components can be grouped under a bigger
+component.
 
--High level classifiers into concrete data types in language
-independent fashion.
+The place to start identifying the system architecture components is
+the domain model presented in \autoref{sec:domain-modeling}. The high
+level classifiers captured there must be transformed into concrete
+data types in order to bring the system development closer to the
+implementation phase. The advantage of using EBON is that it
+simplifies the transit between the domain model and architecture
+and manages to capture the concrete data types in language
+independent fashion. This is done by taking the entities captured in
+\emph{system charts}, \emph{cluster charts} and \emph{class charts} and
+transfer them in \emph{static diagrams}. An EBON \emph{static\_diagram}
+contains multiple \emph{components} which can be \emph{clusters} or
+\emph{classes} and which have the same meaning as the ones composing the
+\emph{system\_chart} in \autoref{sec:domain-modeling}.
 
--"fully typed class interfaces and formal specification of software contracts"
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:system_architecture},
+caption={System architecture caption},
+captionpos=b]{system_architecture_example.bon}
+
+Applying this step on the case study, the \emph{static\_diagram
+SystemArchitecture} presented in \autoref{example:system_architecture}
+is obtained. Please observe the correlation between
+\autoref{example:system_architecture} and
+\autoref{example:system_chart} and how all clusters and classes from
+domain modeling remain the same in the static diagram.
 
 % Components communication
 %
@@ -381,10 +407,12 @@ independent fashion.
 \label{sec:comp-comm}
 
 How components are arranged.
+-"fully typed class interfaces and formal specification of software contracts"
 
 Component interfaces added to the interface diagram using
 \emph{feature}, \emph{require} and \emph{ensure}. This will later
 result in plug-in extensions and extension points.
+
 
 Update scenarios with events.
 
@@ -401,7 +429,7 @@ Beetlz generates the Java code from BON specification.
 \section{Conclusion}
 \label{sec:conclusion}
 
-In conclusion
+The methodology presented in this paper has been successfully on.. 
 
 % conference papers do not normally have an appendix
 
