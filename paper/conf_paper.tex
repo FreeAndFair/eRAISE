@@ -172,30 +172,73 @@ six steps are: \emph{domain modeling}, \emph{user interface},
 \emph{events}, \emph{components}, \emph{components communication} and
 \emph{code generation}.
 
-The methodology is illustrated on  a case study taken from a real project
-in which an Eclipse environment for the RAISE formal method's tool suite is being developed.
-Due to space restrictions, the entire project's
-analysis and design phases are not presented here; instead, only one
-scenario of the plug-in is shown from beginning to end.  
+The methodology is illustrated on a case study taken from a real
+project in which an Eclipse environment for the RAISE formal method's
+tool suite is being developed. Due to space restrictions, the entire
+project's analysis and design phases are not presented here; instead,
+only one scenario of the plug-in is shown from beginning to end.
 
+% Domain Modeling
+%
 \subsection{Domain Modeling}
 \label{sec:domain-modeling}
 
-\note{To be written.}
+The first step when analyzing and designing a system is to establish
+its domain model. This is done in order to create a common vocabulary
+between those involved in the project and to identify the concepts
+used in the product development process. This means that the most
+important entities and terminology related to the system domain must
+be identified, explained documented from the very beginning so they
+can be unanimous understood and used throughout the entire product
+life cycle.
 
+\note{-Should we write that is "at a very high level" and "also meant
+for non technical people"? Because in our case we are a little
+technical -Also where do we describe the case study? -mvf}
+
+Looking at the case study name and description, the domain model is
+constructed by analyzing areas like Eclipse, RAISE and graphical user
+interface (GUI). The result is a list of terminologies along with
+their explanation, essentially describing entities and elements from a
+high level point of view. Some examples from the list are notions
+like \emph{editor, console, typechecker, translator, SML translator,
+\LaTeX\ generator, SML compiler, RSL Perspective} and so on. Some of
+these items can be grouped in a bigger entity, while others are
+big enough to covers multiple notions. For example \emph{SML translator}
+and \emph{\LaTeX\ generator} can be grouped under the
+\emph{translator} notion, since both are referring to the process of
+transforming a RSL specification into another type of specification.
+Likewise \emph{RSL Perspective} can be seen as a notion that comprises
+all other items since inside Eclipse all RAISE elements can be grouped
+under a single perspective.
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:system_chart},
+caption={System chart describing the RAISE system.},
+captionpos=b]{system_chart_example.bon}
+
+All those described before can easily be captured in EBON using
+\emph{system\_chart}, \emph{cluster\_chart} and \emph{class\_chart}
+elements. The notions that have been identified are documented as
+classes, which can be grouped under clusters and all these are
+composing a big and unique system. \autoref{example:system_chart}
+illustrates a caption of the RAISE System.
+
+% User Interface
+%
 \subsection{User interface}
 \label{sec:user-interface}
 
-The purpose of the first step is to determine the plug-in
-functionality from the user's point of view.  This means identifying
-all the things a user can do from the plugin's user interface (UI).
-This UI feature set consequently derives the requirements for the
-product (the plugin) and designs the UI in the same time.  Therefore,
-for each user action that is relevant and important for the plug-in, a
-mock-up user interface is created.  If many user actions
-are similar, they can be grouped under a single user interface.  It is
-up to the plug-in developer to determine what are the most important
-features and how, or if, she wants to prioritize them.
+The purpose of this step is to determine the plug-in functionality from the
+user's point of view. This means identifying all the things a user can
+do from the plugin's user interface (UI). This UI feature set
+consequently derives the requirements for the product (the plugin) and
+designs the UI in the same time. Therefore, for each user action that
+is relevant and important for the plug-in, a mock-up user interface is
+created. If many user actions are similar, they can be grouped under a
+single user interface. It is up to the plug-in developer to determine
+what are the most important features and how, or if, she wants to
+prioritize them.
 
 The mock-up user interface can be a vague handmade sketch or a
 precise drawing made with an advanced graphical editing program.  The
@@ -258,7 +301,7 @@ change its state. For example it can be a user clicking a button or
 another system sending a request. An outgoing internal event is the
 response the system sends to the one that initiated the incoming
 external event. The system outgoing event for the action of pressing
-the button could e.g.be the display of a new window or writing a
+the button could e.g. be the display of a new window or writing a
 message to the standard output.
 
 Looking back at the scenario presented in
@@ -318,6 +361,8 @@ Major components captured in BON \emph{static\_diagram}s obtained from
 
 -High level classifiers into concrete data types in language
 independent fashion.
+
+-"fully typed class interfaces and formal specification of software contracts"
 
 % Components communication
 %

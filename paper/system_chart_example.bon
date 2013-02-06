@@ -1,0 +1,27 @@
+system_chart RAISESystem
+cluster RAISEPerspective 
+description "The Eclipse Rasie perspective. It contains all
+components and functionality
+relevant for a RAISE project "
+end
+
+cluster_chart RaisePerspective
+class Editor 
+description "The RSL text editor"
+class Console 
+description "Displays the output of different components
+e.g. TypeChecker, SMLTranslator etc"
+class TypeChecker 
+description "The RSL syntax and type checker"
+class SMLCompiler 
+cluster Translator 
+description "Contains all translators applicable for the RSL
+code"
+end
+
+cluster_chart Translator
+class SMLTranslator 
+description "Translates RSL code to SML code"
+class LatexGenerator 
+description "Integrates RSL specification in Latex"
+end
