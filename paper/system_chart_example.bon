@@ -1,4 +1,4 @@
-system_chart RAISESystem
+system_chart eRAISESystem
 cluster RSLPerspective 
 description "The Eclipse RAISE perspective. It contains all
 components and functionality relevant for a RAISE project"
