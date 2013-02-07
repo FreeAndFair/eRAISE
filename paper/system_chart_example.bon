@@ -1,8 +1,7 @@
 system_chart RAISESystem
 cluster RSLPerspective 
-description "The Eclipse Rasie perspective. It contains all
-components and functionality
-relevant for a RAISE project "
+description "The Eclipse RAISE perspective. It contains all
+components and functionality relevant for a RAISE project"
 end
 
 cluster_chart RSLPerspective
@@ -15,13 +14,13 @@ class TypeChecker
 description "The RSL syntax and type checker"
 class SMLCompiler 
 cluster Translator 
-description "Contains all translators applicable for the RSL
-code"
+description "Contains all translators applicable for RSL
+modules"
 end
 
 cluster_chart Translator
 class SMLTranslator 
-description "Translates RSL code to SML code"
+description "Translates RSL modules to SML code"
 class LatexGenerator 
 description "Integrates RSL specification in Latex"
 end

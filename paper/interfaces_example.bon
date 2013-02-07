@@ -1,6 +1,6 @@
 class Console
 	feature
-	update 	-> LIST[CHAR] 
+	update 	-> message: LIST[CHAR] 
 		-> channel: CHANNEL
 		require
 			channel = 1 or channel = 2 
