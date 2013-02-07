@@ -143,30 +143,88 @@ Email: jkin@imm.dtu.dk}}
 \section{Introduction}
 \label{sec:introduction}
 
-What is the paper about.
+Plugins, especially in the realm of plugins that wrap existing
+research command-line tools, are notoriously badly designed.
+Academics simply do not have the resources and expertise to execute on
+the design and implementation of a quality plugin.  Partly this is due
+to the fact that there are few examples of best practices in the area,
+and partly it is because plugin development is viewed as the dirtiest
+of the dirty-but-necessary jobs of ``selling'' systems technology.
+
+Typically, a researcher has developed a novel tool for Java
+programming, lets call it the \texttt{CommandLineWidget}.  They want
+others to use this tool, but few people these days want to mess about
+with downloading and building source code and, sadly, the barrier to
+entry for command-line tools is not insignificant these days.
+Instead, the researcher wants to ``sell'' their tool by wrapping it in
+the \texttt{CommandLineFeature} for Eclipse, since Eclipse has the
+mind-share of most Java developers.  But the researcher does not know
+how to think about the UI design of an Eclipse plugin, design and
+program the plugin, nor are the really interested in learning how to
+do these things.
 
 % Background
 %
 \subsection{Background}
 \label{sec:background}
 
-What problems do we run into when starting building an Eclipse plug-in.
+Eclipse plugin development is a tricky world.  Concepts like features,
+plugins, extension points, windows, views, etc. abound.  Enormous
+poorly documented APIs are prolific in the Eclipse ecosystem.  To
+implement even the most basic of features sometimes takes hours of
+digging to find the right three lines of code, and then those lines
+change when a new major version of Eclipse comes out.  This is a
+frustrating environment for researchers who want to package their
+demonstrable, useful tools for the Eclipse IDE.
 
-In this paper we suggest  ... to address these problems.
+This work is an attempt to help resolve these issues.  First, we
+provide a \emph{rigorous step-wise methodology through which one can
+  do the analysis, architecture design, and UI design of a plugin for
+  an arbitrary IDE}.  Second, we provide \emph{template example
+  plugins} that can be reused by a programmer with a good
+understanding of Java but a poor understanding of Eclipse plugin
+development to develop a new Eclipse plugin or feature.
 
-The  methodology is illustrated on a case study taken from a real
-project in which an Eclipse environment \emph{eRAISE} for the RAISE formal method~\cite{RMG95}
-and 
-specification language (RSL)~\cite{RLG92} is currently being developed. 
-Originally RAISE was supported by the \emph{eden} tool suite~\cite{edenReferenceManual} that was successfully applied in a range of industrial project.
-However, as this tool suite was only available for SUN workstations,  a new tool suite 
-\emph{rsltc}~\cite{rsltcUserGuide,RAISETools2003}, portable for any platform supporting the C language, was developed in 1998-2008. The \emph{rsltc} tool suite consists of a type checker and some extensions to it  supporting activities such as  pretty printing, extraction of module dependencies, translation to other languages, generation of proof obligations, formal verification, and generation and execution of test cases. It provides a command line interface with different capabilities selected by options, and can also be used from emacs, using a menu to select these capabilities.  \emph{rsltc} was succesfully applied in industrial projects. However, although it is easy to use, the provision of a modern Eclipse based development environment for  \emph{rsltc} would be a great addition. 
- 
+The methodology used is based upon the Business Object Notation, an
+analysis and design methodology promoted by Walden and Nerson in the
+mid-90s within the Eiffel community~\cite{BON}.  Ostroff, Paige, and
+Kiniry formalized parts of the BON language and reason about BON
+specifications~\cite{X,Y,Z}.  Fairmichael, Kiniry, and Darulova
+developed the BONc and Beetz tools for reasoning about BON
+specifications and their refinement to JML-annotated
+Java~\cite{X,Y,Z}.  Finally, Kiniry and Fairmichael have extended BON
+in a variety of ways to produce Extended BON (EBON), which permits one
+to add new domain-specific syntax and semantics to the core BON
+language~\cite{EBON1,EBON2}.
+
+The methodology is illustrated on a case study taken from a real
+project in which an Eclipse environment \emph{eRAISE} for the RAISE
+formal method~\cite{RMG95} and specification language
+(RSL)~\cite{RLG92} is currently being developed.  
+
+Originally RAISE was supported by the \emph{eden} tool
+suite~\cite{edenReferenceManual} that was successfully applied in a
+range of industrial project.  However, as this tool suite was only
+available for SUN workstations, a new tool suite
+\emph{rsltc}~\cite{rsltcUserGuide,RAISETools2003}, portable for any
+platform supporting the C language, was developed in 1998--2008. 
+
+The \emph{rsltc} tool suite consists of a type checker and some
+extensions to it supporting activities such as pretty printing,
+extraction of module dependencies, translation to other languages,
+generation of proof obligations, formal verification, and generation
+and execution of test cases. It provides a command-line interface with
+different capabilities selected by options, and can also be used from
+Emacs, using a menu to select these capabilities.  \emph{rsltc} was
+successfully applied in industrial projects. However, although it is
+easy to use, the provision of a modern Eclipse based development
+environment for \emph{rsltc} would be a great addition.
 
 % Related work
 %
 \subsection{Related work}
 \label{sec:related-work}
+
 
 What solutions have other papers brought
 
@@ -543,16 +601,47 @@ public /*@ nullable_by_default @*/ class Console  {
 \section{Conclusion}
 \label{sec:conclusion}
 
-The methodology presented in this paper has been successfully applied on.. 
+The full specification of our case study is available in a technical
+report version of this paper.  Its appendix contains all of the UI
+sketches for the various plugins in the eRAISE feature, the high-level
+concept/domain analysis, the specification of events, the architecture
+specification, the formal component interface design, and the code
+generated from that design.  The example plugins and feature are also
+available in our repository at GitHub.
+
+The student responsible for the design and development of this plugin
+(the first author), had to learn and apply this methodology in only a
+few short weeks.  That is evidence for its utility.  Only after
+completing the plugin will we be able to reflect upon how well the
+analysis and design match the final implementation, but if past
+projects using the EBON methodology are any indication, we expect to
+see no architectural drift and full feature compliance\footnote{Note
+  to the reviewers: we expect that development will be complete by the
+  time of the workshop so that we can demonstrate it in San Francisco.}
+
+There are several opportunities for next steps refining this work in
+the context of plugin development.  
+
+First, we would like to augment our advanced command-line options tool
+suite ``CLOPS'' for plugin development.  CLOPS permits one to
+declaratively specific the syntax and semantics of the command-line
+options of a tool.  CLOPS reasons about such specifications (it has a
+formal semantics) and generates a lexer, parser, well-formedness
+checker, and documentation.  Extending CLOPS to generate a set of
+Eclipse plugins and architecture documentation, like that we
+hand-write in this methodology, would be a valuable exercise and
+product.
+
+Second, the community should use this method to wrap several more 
 
 % conference papers do not normally have an appendix
 
 % use section* for acknowledgement
-\section*{Acknowledgment}
-\label{sec:acknowledgment}
+% \section*{Acknowledgment}
+% \label{sec:acknowledgment}
 
-The authors would like to thank themselves by buying tons of chocolate
-and beer. They really deserve it. 
+% The authors would like to thank themselves by buying tons of chocolate
+% and beer. They really deserve it. 
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
