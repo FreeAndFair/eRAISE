@@ -6,7 +6,7 @@ component
 		class Editor
 		class Console
 		class TypeChecker
-		class SMLCompiler
+		class Problems
 				
 		cluster Translator
 		component 

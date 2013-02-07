@@ -235,6 +235,9 @@ classes, which can be grouped under clusters and all these are
 composing a big and unique system. \autoref{example:system_chart}
 illustrates a caption of the RAISE System.
 
+\note{I haven't added class chart with queries and commands - mvf}
+
+
 % User Interface
 %
 \subsection{User interface}
@@ -326,7 +329,7 @@ is another user event that triggers the same system reaction and that
 is using the shortcuts: \emph{The user presses Ctrl+Alt+T}.
 
 \lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:event_chart},
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
 caption={Incoming event chart for typechecking features.},
 captionpos=b]{external_event_example.bon}
 
@@ -335,10 +338,10 @@ Once established, the user actions can be captured in EBON using
 or outgoing based on which events they capture. Since the two user
 incoming events that have just been identified aims for the same
 functionality, they are grouped under the same name and captured in
-\autoref{example:event_chart}.
+\autoref{example:event_chart_in}.
 
 \lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_out},
 caption={Outgoing event chart for typechecking features.},
 captionpos=b]{internal_event_example.bon}
 
@@ -357,7 +360,7 @@ and where can it be found. Therefore the system will present the
 necessary information in the Eclipse Problem view. To sum up, after the
 user selects the \emph{Type check all} sub-menu item, the system updates the
 Console and Problem views with appropriate information.
-\autoref{example:event_chart_in} presents the two events captured in
+\autoref{example:event_chart_out} presents the two events captured in
 an outgoing \emph{event\_chart} under the names of
 \emph{CONSOLEUPDATE} respectively \emph{PROBLEMSUPDATE}.
 
@@ -406,30 +409,95 @@ domain modeling remain the same in the static diagram.
 \subsection{Components communication}
 \label{sec:comp-comm}
 
-How components are arranged.
--"fully typed class interfaces and formal specification of software contracts"
+This section concern is how components interact with each other and
+what interfaces they present to the other components that want to
+communicate with them. The starting point is the list of incoming and
+their corresponding outgoing actions identified in
+\autoref{sec:events}. This helps identifying the components that react
+first to an external stimuli and the components responsible for the
+outgoing actions. Once the starting and ending point of the data flow
+is established, the other interacting components are determined by
+evaluating the scenarios in \autoref{sec:user-interface}. In EBON
+notation, the components communication is seen in terms of
+\emph{client, supplier} relationship. The component providing the
+interface is a \emph{supplier} and all components using it are \emph{clients}. In
+the Eclipse case study, one incoming event is \emph{TYPECHECKALL}
+presented in \autoref{example:event_chart_in} and its corespondent
+outgoing events are \emph{CONSOLEUPDATE} and \emph{PROBLEMSUPDATE} presented in
+\autoref{example:event_chart_out}. Thus the first component that
+reacts to user \emph{TYPECHECKALL} action is the \emph{TypeChecker}.
+The component responsible for the \emph{CONSOLEUPDATE} is the
+\emph{Console} and the one for \emph{PROBLEMSUPDATE} is
+\emph{Problems}. The \emph{TypeChecker} component typecheks the input
+and can directly inform the \emph{Console} about the status. Therefore
+the \emph{TypeChecker} is a client of \emph{Console} and this is
+expressed in EBON as: \emph{ TypeChecker client Console}. The client
+relations must be added in the \emph{static\_diagram} after the
+components declaration.
 
-Component interfaces added to the interface diagram using
-\emph{feature}, \emph{require} and \emph{ensure}. This will later
-result in plug-in extensions and extension points.
+\note{-Should I explain about PROBLEMSUPDATE being informed by
+ConsoleToProblems etc or just leave it like this and remove Problems
+also from outgoing events?- Where do I say about involves part in event\_chart? -mvf}
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:interfaces},
+caption={Console component interface},
+captionpos=b]{interfaces_example.bon}
 
 
-Update scenarios with events.
+Once it was decided what components are interacting, it must be
+established how do they accomplish that. This means establishing the
+contracts between components by identifying the information a client
+needs and the messages it sends to its supplier. EBON allows
+specifying fully typed interfaces in an language independent mode
+through the notion of \emph{feature}. Everything a component exposes
+to its clients is called a feature. For example the \emph{Console}
+component in the case study can have a feature called \emph{update}
+which allows the client components to sent it messages that will
+further be displayed to the user. This messages are just strings and
+they can be informative messages or errors. The situation is captured
+in \autoref{example:interfaces} where the fully typed feature
+signature can be noticed. When a client calls \emph{update} on the
+\emph{Console} it must send the message to be displayed to the user
+and the information about the message being an error message or not.
+The assertion \emph{require} is a precondition that makes sure that
+\emph{channel} is one of the values 1 or 2, where 1 is for the
+standard output and 2 is for the standard error output. EBON has also
+post condition assertions named \emph{ensure}.
+
+All these software contract will later on in the implementation phase
+result in plug-ins extensions and extension points.
+
 
 % Code generation
 %
 \subsection{Code generation}
 \label{sec:code-generation}
 
-Beetlz generates the Java code from BON specification.
+The analysis and design part are finished and the next step is moving
+to the implementation phase. This process is much simplified by the
+Beetlz tool which takes EBON specifications as input and converts them
+in Java code. Steps \emph{A} to \emph{E} have captured the system
+design and analysis in an EBON \emph{system\_chart} and an EBON
+\emph{static\_diagram}. With just one click, Beetlz converts this
+notation into Java classes.
 
+For example this is the class generated by Beetlz for the
+\emph{Console} component:
+
+\begin{lstlisting}
+public /*@ nullable_by_default @*/ class Console  {
+
+  //@ ensures channel == 1 || channel == 2;
+  public void update(List<Char> null, Channel channel){}
+\end{lstlisting}
 % =========================================================
 % Conclusion
 % =========================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
-The methodology presented in this paper has been successfully on.. 
+The methodology presented in this paper has been successfully applied on.. 
 
 % conference papers do not normally have an appendix
 
