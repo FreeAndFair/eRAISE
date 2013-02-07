@@ -198,8 +198,8 @@ The first step when analyzing and designing a system is to establish
 its domain model. This is done in order to create a common vocabulary
 between those involved in the project and to identify the concepts
 used in the product development process. This means that the most
-important entities and terminology related to the system domain must
-be identified, explained documented from the very beginning so they
+important entities and high level classifiers related to the system domain must
+be identified, explained and documented from the very beginning, so they
 can be unanimous understood and used throughout the entire product
 life cycle.
 
@@ -233,7 +233,9 @@ All those described before can easily be captured in EBON using
 elements. The notions that have been identified are documented as
 classes, which can be grouped under clusters and all these are
 composing a big and unique system. \autoref{example:system_chart}
-illustrates a caption of the RAISE System.
+illustrates a caption of the RAISE System. Please notice how easy it
+is to capture notions and their description in EBON by just using
+natural language.
 
 \note{I haven't added class chart with queries and commands - mvf}
 
@@ -335,9 +337,10 @@ captionpos=b]{external_event_example.bon}
 
 Once established, the user actions can be captured in EBON using
 \emph{event\_chart} elements. The \emph{event\_chart} can be ingoing
-or outgoing based on which events they capture. Since the two user
-incoming events that have just been identified aims for the same
-functionality, they are grouped under the same name and captured in
+or outgoing depending on the type of the events they capture. Since
+the two user incoming events that have just been identified aims for
+the same functionality, they are grouped under the same name
+(\emph{TYPECHECKALL}) and captured in
 \autoref{example:event_chart_in}.
 
 \lstset{style={bon}}
@@ -362,7 +365,7 @@ user selects the \emph{Type check all} sub-menu item, the system updates the
 Console and Problem views with appropriate information.
 \autoref{example:event_chart_out} presents the two events captured in
 an outgoing \emph{event\_chart} under the names of
-\emph{CONSOLEUPDATE} respectively \emph{PROBLEMSUPDATE}.
+\emph{CONSOLEUPDATE}, respectively \emph{PROBLEMSUPDATE}.
 
 
 % Components
@@ -371,12 +374,12 @@ an outgoing \emph{event\_chart} under the names of
 \label{sec:components}
 
 This subsection, in contrast with the previous one, looks inside the
-system, at the components that form its architecture. This components
-can be referring to concrete elements like \emph{Zoom in button} or
+system, at the components that form its architecture. These components
+can be referring to concrete elements like a \emph{Zoom in button} or
 they can be abstract concepts like \emph{User authentication} which
-covers everything in the system that is responsible for authenticating
-a user. Also multiple components can be grouped under a bigger
-component.
+covers everything in the system responsible for authenticating a user.
+Also multiple components can be grouped in a bigger component which
+can also be part of an even bigger component.
 
 The place to start identifying the system architecture components is
 the domain model presented in \autoref{sec:domain-modeling}. The high
@@ -454,9 +457,9 @@ through the notion of \emph{feature}. Everything a component exposes
 to its clients is called a feature. For example the \emph{Console}
 component in the case study can have a feature called \emph{update}
 which allows the client components to sent it messages that will
-further be displayed to the user. This messages are just strings and
+further be displayed to the user. These messages are just strings and
 they can be informative messages or errors. The situation is captured
-in \autoref{example:interfaces} where the fully typed feature
+in \autoref{example:interfaces}, where the fully typed feature
 signature can be noticed. When a client calls \emph{update} on the
 \emph{Console} it must send the message to be displayed to the user
 and the information about the message being an error message or not.
@@ -465,7 +468,7 @@ The assertion \emph{require} is a precondition that makes sure that
 standard output and 2 is for the standard error output. EBON has also
 post condition assertions named \emph{ensure}.
 
-All these software contract will later on in the implementation phase
+All these software contracts will later, on in the implementation phase,
 result in plug-ins extensions and extension points.
 
 
