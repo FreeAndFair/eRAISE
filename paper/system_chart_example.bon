@@ -25,3 +25,11 @@ description "Translates RSL code to SML code"
 class LatexGenerator 
 description "Integrates RSL specification in Latex"
 end
+
+class_chart Console
+indexing
+in_cluster: "RSLPerspective"
+explanation "Displays the output of different components 
+e.g. TypeChecker, SMLTranslator"
+command "Displays informative or error messages",
+constraint "Delete content before displaying a new message" 	

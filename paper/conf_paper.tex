@@ -237,8 +237,16 @@ illustrates a caption of the RAISE System. Please notice how easy it
 is to capture notions and their description in EBON by just using
 natural language.
 
-\note{I haven't added class chart with queries and commands - mvf}
-
+But the domain model comprises also terms describing what can be
+done with the notions already defined. In EBON this is
+translated using \emph{query} and \emph{command}. A
+\emph{command} is a service that a \emph{class} can provide,
+while the \emph{query} is a request for information from a
+specific class. Looking at the case study domain model presented
+in \autoref{example:system_chart}, \emph{Console} offers the
+service of displaying informative messages or error messages.
+And the \emph{command} is joined by a constraint stating that
+the console must be cleared before displaying a new message.
 
 % User Interface
 %
@@ -341,7 +349,10 @@ or outgoing depending on the type of the events they capture. Since
 the two user incoming events that have just been identified aims for
 the same functionality, they are grouped under the same name
 (\emph{TYPECHECKALL}) and captured in
-\autoref{example:event_chart_in}.
+\autoref{example:event_chart_in}. Please ignore for the moment the
+\emph{involves} part in \autoref{example:event_chart_in}, since next
+section, \autoref{sec:comp-comm} explains in detail how this part is
+obtained.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:event_chart_out},
@@ -366,6 +377,9 @@ Console and Problem views with appropriate information.
 \autoref{example:event_chart_out} presents the two events captured in
 an outgoing \emph{event\_chart} under the names of
 \emph{CONSOLEUPDATE}, respectively \emph{PROBLEMSUPDATE}.
+\autoref{example:event_chart_out} also contains an \emph{involves}
+part, but it will be explained in detail in next section,
+\autoref{sec:comp-comm}.
 
 
 % Components
@@ -416,31 +430,48 @@ This section concern is how components interact with each other and
 what interfaces they present to the other components that want to
 communicate with them. The starting point is the list of incoming and
 their corresponding outgoing actions identified in
-\autoref{sec:events}. This helps identifying the components that react
-first to an external stimuli and the components responsible for the
-outgoing actions. Once the starting and ending point of the data flow
+\autoref{sec:events}. This helps identifying the components that
+reactfirst to an external stimuli and the components responsible for
+the outgoing actions. Once the starting and ending point of the data
+flow
 is established, the other interacting components are determined by
 evaluating the scenarios in \autoref{sec:user-interface}. In EBON
 notation, the components communication is seen in terms of
 \emph{client, supplier} relationship. The component providing the
-interface is a \emph{supplier} and all components using it are \emph{clients}. In
-the Eclipse case study, one incoming event is \emph{TYPECHECKALL}
+interface is a \emph{supplier} and all components using it are
+\emph{clients}. In the Eclipse case study, one incoming event is
+\emph{TYPECHECKALL}
 presented in \autoref{example:event_chart_in} and its corespondent
-outgoing events are \emph{CONSOLEUPDATE} and \emph{PROBLEMSUPDATE} presented in
-\autoref{example:event_chart_out}. Thus the first component that
+outgoing events are \emph{CONSOLEUPDATE} and \emph{PROBLEMSUPDATE}
+presented in \autoref{example:event_chart_out}. Thus the first
+component that
 reacts to user \emph{TYPECHECKALL} action is the \emph{TypeChecker}.
 The component responsible for the \emph{CONSOLEUPDATE} is the
 \emph{Console} and the one for \emph{PROBLEMSUPDATE} is
 \emph{Problems}. The \emph{TypeChecker} component typecheks the input
-and can directly inform the \emph{Console} about the status. Therefore
-the \emph{TypeChecker} is a client of \emph{Console} and this is
-expressed in EBON as: \emph{ TypeChecker client Console}. The client
-relations must be added in the \emph{static\_diagram} after the
+and can directly inform the \emph{Console} about the status.
+Therefore the \emph{TypeChecker} is a client of \emph{Console} and
+this is expressed in EBON as: \emph{ TypeChecker client Console}. The
+client relations must be added in the \emph{static\_diagram} after the
 components declaration.
 
-\note{-Should I explain about PROBLEMSUPDATE being informed by
-ConsoleToProblems etc or just leave it like this and remove Problems
-also from outgoing events?- Where do I say about involves part in event\_chart? -mvf}
+\note{Should I make a new BON example comprising client relations? -mvf}
+
+Since \emph{TypeChecker} is directly stimulated by the
+\emph{TYPECHECKALL} event and it is a client of \emph{Console}
+which generates the outgoing response, it can be said that\emph{
+TYPECHECKALL} event involves the \emph{TypeChecker} and the
+\emph{Console} components. And this is how the \emph{involves} part
+in\autoref{example:event_chart_in} is constructed. The same method is
+applied to \emph{PROBLEMSUPDATE} event. This event is triggered if
+there are errors displayed in the console. Therefore
+\emph{TypeChecker} sends a message to \emph{Console} and if the
+message is an error, a third component called
+\emph{ConsoleToProblems} notifies the \emph{Problems} component.
+Therefor the \emph{PROBLEMSUPDATE} event involves the
+\emph{TypeChecker, Console, ConsoleToProblems} and \emph{Problems}
+components. This is captured in \autoref{example:event_chart_out}.
+
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:interfaces},
@@ -455,10 +486,12 @@ needs and the messages it sends to its supplier. EBON allows
 specifying fully typed interfaces in an language independent mode
 through the notion of \emph{feature}. Everything a component exposes
 to its clients is called a feature. For example the \emph{Console}
-component in the case study can have a feature called \emph{update}
+component in the case study has a feature called \emph{update}
 which allows the client components to sent it messages that will
-further be displayed to the user. These messages are just strings and
-they can be informative messages or errors. The situation is captured
+further be displayed to the user. Please refer to the Console command
+in \autoref{example:system_chart} for better understanding. These
+messages are just strings and can be informative messages or errors.
+The situation is captured
 in \autoref{example:interfaces}, where the fully typed feature
 signature can be noticed. When a client calls \emph{update} on the
 \emph{Console} it must send the message to be displayed to the user

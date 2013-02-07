@@ -3,6 +3,7 @@ outgoing
 explanation "Internal events triggering responses meant to
 inform the user."
 event "CONSOLEUPDATE: Successs or failure messages displayed
-in console" involves Console, TypeChecker, SMLTranslator
-event "PROBLEMSUPDATE: Problems view update" involves
-TypeChecker, Console, ConsoleToProblems, ProblemsView
+in console" 
+involves Console, TypeChecker
+event "PROBLEMSUPDATE: Problems view update" 
+involves TypeChecker, Console, ConsoleToProblems, Problems
