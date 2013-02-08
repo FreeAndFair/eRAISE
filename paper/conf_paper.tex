@@ -185,17 +185,20 @@ provide a \emph{rigorous step-wise methodology through which one can
 understanding of Java but a poor understanding of Eclipse plugin
 development, to develop a new Eclipse plugin or feature.
 
-The methodology used is based upon the Business Object Notation (BON), an
-analysis and design methodology promoted by Walden and Nerson in the
-mid-90s within the Eiffel community~\cite{BON}.  Ostroff, Paige, and
-Kiniry formalized parts of the BON language and reasoned about BON
-specifications~\cite{X,Y,Z}.  Fairmichael, Kiniry, and Darulova
-developed the BONc and Beetz tools for reasoning about BON
-specifications and their refinement to JML-annotated
-Java~\cite{X,Y,Z}.  Finally, Kiniry and Fairmichael have extended BON
-in a variety of ways to produce Extended BON (EBON), which permits one
-to add new domain-specific syntax and semantics to the core BON
-language~\cite{EBON1,EBON2}.
+The methodology used is based upon the Business Object Notation (BON),
+an analysis and design methodology promoted by Walden and Nerson in
+the mid-90s within the Eiffel community~\cite{WaldenNerson95}.
+Ostroff, Paige, and Kiniry formalized parts of the BON language and
+reasoned about BON
+specifications~\cite{LancaricOstroffPaige02,EBON01,PaigeEtal02,PaigeOstroff01b}.
+Fairmichael, Kiniry, and Darulova developed the BONc and Beetz tools
+for reasoning about BON specifications and their refinement to
+JML-annotated Java~\footnote{See
+  \url{http://kindsoftware.com/products/opensource/} for more
+  information.}.  Finally, Kiniry and Fairmichael have extended BON in
+a variety of ways to produce Extended BON (EBON), which permits one to
+add new domain-specific syntax and semantics to the core BON
+language~\cite{Kiniry02-PhDThesis}.
 
 The methodology is illustrated on a case study that develops an
 Eclipse environment for the RAISE formal method~\cite{RMG95} and
@@ -268,7 +271,7 @@ interface (GUI). The result is a list of terminologies along with
 their explanation, essentially describing entities and elements from a
 high level point of view. Some examples from the list are notions like
 \emph{editor, console, typechecker, translator, Standard ML
-(SML)~\cite{SML} translator, \LaTeX\ generator, SML compiler, RSL
+(SML) translator, \LaTeX\ generator, SML compiler, RSL
 Perspective} and so on. Some of these items can be grouped in a bigger
 entity, while others are big enough to covers multiple notions. For
 example \emph{SML translator} and \emph{\LaTeX\ generator} can be
@@ -278,7 +281,7 @@ of specification. Likewise \emph{RSL Perspective} can be seen as a
 notion that comprises all other items since inside Eclipse all RAISE
 elements can be grouped under a single perspective.
 
-\note{Reference required for SML -mvf}
+%\note{Reference required for SML -mvf}
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:system_chart},
@@ -510,7 +513,7 @@ client of \emph{Console} and this is expressed in EBON as: \emph{
 TypeChecker client Console}. The client relations must be added in the
 \emph{static\_diagram} after the components declaration.
 
-\note{Should I make a new BON example comprising client relations? -mvf}
+%\note{Should I make a new BON example comprising client relations? -mvf}
 
 Since \emph{TypeChecker} is directly stimulated by the
 \emph{TYPECHECKALL} event and it is a client of \emph{Console} which
@@ -564,19 +567,20 @@ result in plug-ins extensions and extension points.
 \subsection{Code generation}
 \label{sec:code-generation}
 
-Once the analysis and design parts are finished, the next step is
-to create the code skeleton. This part is done using a tool named
-Beetlz~\cite{Beetlz}, which automatically generates Java code from
-EBON specification. The input of this tool is the EBON
-\emph{system\_chart} and \emph{static\_diagram} that were obtained
-throughout the entire analysis and design. With just one click, Beetlz
-converts all EBON specification obtained in steps \emph{A} to \emph{E}
-into Java elements.
+Once the analysis and design parts are finished, the next step is to
+create the code skeleton. This part is done using a tool named
+Beetlz~\footnote{See the aforementioned website for more
+  information.}, which automatically generates Java code from EBON
+specification. The input of this tool is the EBON \emph{system\_chart}
+and \emph{static\_diagram} that were obtained throughout the entire
+analysis and design. With just one click, Beetlz converts all EBON
+specification obtained in steps \emph{A} to \emph{E} into Java
+elements.
 
-\note{-Joe, can you please add a bib item for the Beetlz tool? I used
-it the previous paragraph cite\{Beetlz\}. \\-And do we need a
-reference for Java?\\-And the code presented further down is not
-styled -mvf}
+% \note{-Joe, can you please add a bib item for the Beetlz tool? I used
+% it the previous paragraph cite\{Beetlz\}. \\-And do we need a
+% reference for Java?\\-And the code presented further down is not
+% styled -mvf}
 
 For example this is the Console class generated by Beetlz for the
 component with the same name captured in \emph{static\_diagram} in
@@ -661,7 +665,7 @@ Second, the community should use this method to wrap several more
 % (used to reserve space for the reference number labels box)
 %
 \bibliographystyle{IEEEtran}
-\bibliography{main-bib}
+\bibliography{abbrev,main-bib}
 %\begin{thebibliography}{1}
 
 %\bibitem{IEEEhowto:kopka}
@@ -672,5 +676,3 @@ Second, the community should use this method to wrap several more
 
 % that's all folks
 \end{document}
-
-

@@ -1,0 +1,427 @@
+system_chart RAISESystem
+	indexing 
+		author: "Marieta Vasilica Fasie"
+	cluster  RSLPerspective description "The Eclipse RAISE perspective. It contains all components and functionality relevant for a RAISE project "
+end
+
+cluster_chart RSLPerspective
+	class Editor 
+		description "The RSL text editor"
+	class Problems
+		description "Displays any problem existing in the current workspace"
+	class ConsoleToProblems 
+		description "Connects the Console and the Problems"
+	class Console 
+		description "Displays the output of different components e.g. TypeChecker, SMLTranslator etc"
+	class TypeChecker 
+		description "The RSL syntax and type checker"
+	class REPLView 
+		description "Read Evaluate Print Loop view. It evaluates expressions during a debug process, based on the current stack state.When the compiler reaches a breakpoint, the programmer can write expressions based on the currently active variables in the stack. The expressions will be evaluated based on their current value and the output will be displayed in the display view"
+	class RTestView 
+		description "Test view. Displays the RSL test results"
+	class SMLCompiler 
+		description "Compiles SML into code machine"
+	class FileHandler 
+		description "Handles the structure of the files existing in the Project Explorer view"
+	cluster Verification 
+		description "Contains all components that contribute to the verification process of an RSL project"
+	cluster Translator 
+		description "Contains all translators applicable for RSL modules"
+	cluster Structure 
+		description "Contains all components that are dealing with the project structure"
+end
+
+cluster_chart Verification
+	class PVSTranslator 
+		description "Translates RSL specification to PVS"
+	class ProofView 
+		description "Displays the results of theorems prooving"
+	class SALTranslator 
+		description "Translates RSL secification to SAL"
+end
+
+cluster_chart Translator
+	class SMLTranslator 
+		description "Translates RSL modules to SML code"
+	class LatexGenerator 
+		description "Integrates RSL specification in Latex"
+end
+
+cluster_chart Structure
+	class OutlineView 
+		description "Displays the structure of the RSL specification"
+	class ProjectExplorer 
+		description "Displays the structure of all projects in the current workspace"
+end 
+
+class_chart Editor
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"The RSL text editor"
+constraint
+	""
+end
+ 
+class_chart Problems
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"Displays any problem existing in the current workspace"
+command
+	"Display the set of problems"
+constraint
+	""
+end
+ 
+class_chart ConsoleToProblems
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"Connects the Console and the Problems"
+constraint
+	""
+end
+ 
+class_chart Console
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"Displays the output of different components e.g. TypeChecker, SMLTranslator"
+command
+	"Displays informative or error messages",
+	"Clear console content"
+constraint
+	"Delete content before displaying a new message" 	
+end
+ 
+class_chart TypeChecker
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+	"The RSL syntax and type checker"
+query
+	"Is this context and entity pair type correct?",
+	"Are there any signatures in this entity?",
+	"Are there any theorems in this context?"
+constraint
+	""
+end
+ 
+class_chart REPLView
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"Read Evaluate Print Loop view. It evaluates expressions during a debug process, based on the current stack state.When the compiler reaches a breakpoint, the programmer can write expressions based on the currently active variables in the stack. The expressions will be evaluated based on their current value and the output will be displayed in the display view"
+command
+	"Delete content" 	
+constraint
+	""
+end
+ 
+class_chart RTestView
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+	"Test view. Displays the RSL test results"
+command
+	"Display the set of test results"
+constraint
+	""
+end
+ 
+class_chart SMLCompiler
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"Compiles SML into code machine"
+query
+	"Is this context entity pair compilable?"
+constraint
+	""
+end
+ 
+class_chart FileHandler
+indexing
+	in_cluster: "RSLPerspective"
+explanation 
+ 	"Handles the structure of the files existing in the Project Explorer view"
+constraint
+	""
+end
+ 
+class_chart PVSTranslator
+indexing
+	in_cluster: "Verification"
+explanation 
+ 	"Translates RSL specification to PVS"
+constraint
+	"All RSL specification must be type checked first"
+end
+ 
+class_chart ProofView
+indexing
+	in_cluster: "Verification"
+explanation 
+ 	"Displays the results of theorems prooving"
+command
+	"Display the set of theorems" 	
+constraint
+	""
+end
+ 
+class_chart SALTranslator
+indexing
+	in_cluster: "Verification"
+explanation 
+ 	"Translates RSL secifications to SAL"
+constraint
+	"All RSL specification must be type checked first"
+end
+ 
+class_chart SMLTranslator
+indexing
+	in_cluster: "Translator"
+explanation 
+ 	"Translates RSL modules to SML code"
+command
+	"Translate this context into SML"
+constraint
+	"All RSL specification must be type checked first"
+end
+ 
+class_chart LatexGenerator
+indexing
+	in_cluster: "Translator"
+explanation 
+ 	"Integrates RSL specification in Latex"
+constraint
+	""
+end
+ 
+class_chart OutlineView
+indexing
+	in_cluster: "Structure"
+explanation 
+ 	"Displays the structure of the RSL specification"
+command
+	"Display the signature" 	
+constraint
+	""
+end
+ 
+class_chart ProjectExplorer
+indexing
+	in_cluster: "Structure"
+explanation 
+ 	"Displays the structure of all projects in the current workspace"
+query
+	"Are there any files in this project?"
+command
+	"Add this file to this project",
+	"Add this directory to this project",
+	"Delete this file",
+	"Delete this directory",
+	"Delete this project"
+constraint
+	""
+end
+
+scenario_chart requirements
+  	scenario "R1" 
+  		description "The user must be able to create a new RAISE project"
+  	scenario "R2" 
+  		description "The user must be able to IMPORT an existing RAISE project."
+  	scenario "R3" 
+  		description "When a new RAISE project is created, it contains a single folder named 'src'"
+  	scenario "R4" 
+  		description "The user must be able to add an existing RSL file to an existing RSL project"
+  	scenario "R5" 
+  		description "The user must be able to add a new RSL file to an existing RSL project"
+  	scenario "R6" 
+  		description "When a RAISE project is imported, it is automatically TYPECHECKPRJ"
+  	scenario "R7"
+  		description "A RAISE project can have associated one SML project that has the same name plus the suffix 'SML'. This project is created when the first SML file is created"
+  	scenario "R8"  			
+		description "A generated SML file is stored in the SML project associated to the RAISE project that contains the translated RSL file"
+	scenario "R9"
+  		description "A RAISE project can have associated one PVS project that has the same name plus the suffix 'PVS'. This project is created when the first PVS file is created"
+	scenario "R10"  			
+		description "A generated PVS file is stored in the PVS project associated to the RAISE project that contains the translated RSL file"
+	scenario "R11"
+  		description "A RAISE project can have associated one SAL project that has the same name plus the suffix 'SAL'. This project is created when the first SAL file is created"
+	scenario "R12"  			
+		description "A generated SAL file is stored in the SAL project associated to the RAISE project that contains the translated RSL file"
+	scenario "R13"
+  		description "A RAISE project can have associated one documentation project that has the same name plus the suffix 'DOC'. This project is created when the first documentation file is created"	
+	scenario "R14"  			
+		description "A generated Latex file is stored in the Documentation project associated to the RSL project that contains the translated RSL file"
+	scenario "R15"
+		description "The documentation project contains a 'main.tex' file that includes all the other tex files in the documentation project"  	
+	scenario "R16"
+		description "RSL keywords are written with a different colour in the editor" 		  		
+end
+
+scenario_chart PROJECT_EXPLORER_FILE
+	scenario "PRJF1"
+		description "The user can TYPECHECK one RSL file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "PRJF2"
+		description "The user can translate to SML one RSL file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"	
+	scenario "PRJF3"
+		description "The user can run all test cases existing in one RSL file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "PRJF4"
+		description "The user can generate a Latex file for one RSL single file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+end
+
+scenario_chart PROJECT_EXPLORER_PRJ
+	scenario "PRJ1"
+		description "The user can TYPECHECKPRJ RSL files in a project. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "PRJ2"
+		description "The user can SMLTRANSLATEPRJ RSL files in a project. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "PRJ3"
+		description "The user can RUNTESTSPRJ cases in a project. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "PRJ4"
+		description "The user can GENERATELATEXPRJ for all RSL files in a project. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+end
+
+scenario_chart MENU
+	scenario "MENU1"
+		description "The user can TYPECHECKALL RSL files in the workspace. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "MENU2"
+		description "The user can SMLTRANSLATEALL RSL files in the workspace. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "MENU3"
+		description "The user can RUNALLTESTS cases in the workspace. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "MENU4"
+		description "The user can GENERATELATEXALL for all files in the workspace. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+end
+
+
+scenario_chart REPL
+	scenario "REPL1"
+		description "The user can write ASCII characters in the REPL view"
+	scenario "REPL2"
+		description "The user can REPLEXECUTE"
+	scenario "REPL3"
+		description "The output of a user evaluation is REPLUPDATE"
+	scenario "REPL4"
+		description "The user can CHANGECONTEXT"
+	scenario "REPL5"
+		description "The user can clear the entire content of the  REPL"
+end
+
+scenario_chart TEST
+	scenario "TEST1"
+		description "The Evaluation of a context test cases results in CONSOLEUPDATE and EDITORUPDATE"
+	scenario "TEST2"
+		description "The failed tests are shown in the EDITORUPDATE using a red squiggly line"
+	scenario "TEST3"
+		description "The tests results are stored in a separate file"
+end
+
+scenario_chart OUTLINE
+	scenario "OTL1"
+		description "The user can see the signatures for the entire project in a dedicated window"
+end
+
+scenario_chart PROOF
+	scenario "PRF1"
+		description "The user can see the theorems evaluation in a console log"	
+	scenario "PRF2"
+		description "In order to prove the theorems the SAL assertions and PVS translators are used"
+end
+
+scenario_chart PROBLEMS
+	scenario "PRB1"
+		description "The user can see the problems existing in the workspace with PROBLEMSUPDATE"
+	scenario "PRB2"
+		description "For each problem the description, resource, path, location and type are specified"
+end
+
+scenario_chart CONSOLE
+	scenario "CNS1"
+		description "The user can see the success or failure messages with CONSOLEUPDATE"	
+end
+ 
+scenario_chart EDITOR	
+	scenario "EDT1"
+		description "The user can TYPECHECK the active file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "EDT2"
+		description "The user can SMLTRANSLATE the active RSL file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "EDT3"
+		description "The user can RUNTESTS cases in the active RSL file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "EDT4"
+		description "The user can GENERATELATEX files for the active RSL file. This implies PROBLEMSUPDATE, CONSOLEUPDATE and EDITORUPDATE"
+	scenario "EDT5"
+		description "The user SAVE the current RAISE file and the TYPECHECK is automatically run."
+	scenario "EDT6" 
+  		description "The user clicks on the typecheck button to TYPECHECK the currently active file."
+  	scenario "EDT7" 
+  		description "The user clicks on the run test cases button to RUNTESTS in the currently active file."
+  	scenario "EDT8" 
+  		description "The user clicks the Latex button to GENERATELATEX for the currently active file"
+end
+
+
+event_chart UserActions
+  	-- in between features and scenarios
+	incoming
+	explanation
+		"External events trigering representative system behaviour"
+	part "1/2"
+	
+	event "TYPECHECK: User clicks the type check button or user right clicks on a RSL file(or inside editor) and then clicks on Type Check option or user presses Alt+T" involves 
+		TypeChecker, Console, ConsoleToProblems, ProblemsView
+	event "SMLTRANSLATE: User presses translate to SML button or user right clicks on a RSL file(or inside editor) and then clicks Translate to SML option or user presses Alt+M" involves
+		SMLTranslator, TypeChecker, Console, ConsoleToProblems, ProblemsView, ProjectExplorer, RTestView
+	event "RUNTESTS: User clicks the run test cases button or user right clicks on RSL file(or inside editor) and then clicks on Run Test Cases option or presses Alt+F11" involves 
+		SMLCompiler, SMLTranslator, TypeChecker, Console, ConsoleToProblems, ProblemsView, ProjectExplorer, RTestView
+	event "GENERATELATEX: User clicks Latex button or user right clicks on a RSL file(or inside editor) and then clicks on Generate Latex or user presses Alt+L" involves
+		LatexGenerator, Console, ProjectExplorer	
+	event "TYPECHECKALL: User clicks RSL menu and then clicks on Type Check all option or presses Ctrl+Alt+T" involves
+		ProjectExplorer, TypeChecker, Console, ConsoleToProblems, ProblemsView
+	event "SMLTRANSLATEALL: User clicks RSL menu and then clicks on Translate all to SML option or presses Ctrl+Alt+M" involves
+		ProjectExplorer, SMLTranslator, TypeChecker, Console, ConsoleToProblems, ProblemsView, ProjectExplorer, RTestView
+	event "RUNALLTESTS: User clicks RSL menu and then clicks on Run all test cases option or presses Ctrl+Alt+F11" involves
+		ProjectExplorer, SMLTranslator, TypeChecker, Console, ConsoleToProblems, ProblemsView, ProjectExplorer, RTestView
+	event "GENERATELATEXALL: User clicks RSL menu and then clicks on Generate Latex for all option or presses Ctrl+Alt+L" involves
+		ProjectExplorer, LatexGenerator, Console
+	event "TYPECHECKPRJ: User right clicks on a RSL project and selects type check option" involves
+		ProjectExplorer, TypeChecker, Console, ConsoleToProblems, ProblemsView
+	event "SMLTRANSLATEPRJ: User right clicks on a RSL project and then clicks on translate to SML option" involves
+		ProjectExplorer, SMLTranslator, TypeChecker, Console, ConsoleToProblems, ProblemsView, ProjectExplorer, RTestView
+	event "RUNTESTSPRJ: User right clicks on a RSL project and then clicks on Run test cases option" involves
+		ProjectExplorer, SMLTranslator, TypeChecker, Console, ConsoleToProblems, ProblemsView, ProjectExplorer, RTestView
+	event "GENERATELATEXPRJ: User right clicks on a RSL project and then clicks on Generate Latex option" involves
+		ProjectExplorer, LatexGenerator, Console
+	event "REPLEXECUTE: User presses CTRL+Enter in REPL view" involves
+		REPLView, SMLCompiler, SMLTranslator, TypeChecker
+	event "CHANGECONTEXT: User writes the name of the context and presses enter to change context in REPL" involves
+		REPLView
+	event "SHOWONLYFAILURES: User presses the Show only failures in RTest View" involves
+		RTestView
+	event "IMPORT: User imports a RAISE project or a RSL file" involves
+		ProjectExplorer, TypeChecker, Console, ConsoleToProblems, ProblemsView
+	event "SAVE: User presses File and then Save option or Ctrl+s" involves
+		TypeChecker, Console, ConsoleToProblems, ProblemsView
+end
+
+event_chart UserMessages
+  	-- in between features and scenarios
+	outgoing
+	explanation
+		"Internal events trigerring responses meant to inform the user."
+	part "2/2"
+	
+	event "OUTLINEUPDATE: Outline view update" involves
+		Editor, OutlineView, TypeChecker
+	event "PROOFUPDATE: Proof view update" involves
+		PVSTranslator, SALTranslator, ProofView, TypeChecker
+	event "PROBLEMSUPDATE: Problems view update" involves
+		TypeChecker, Console, ConsoleToProblems, ProblemsView
+	event "CONSOLEUPDATE: Successs or failure messages displayed in console" involves
+		Console, TypeChecker, SMLTranslator
+	event "EDITORERRUPDATE: Display error message in editor" involves
+		Editor, TypeChecker
+	event "REPLUPDATE: Displays the evaluation result or an error in REPL vindow" involves
+		REPL, TypeChecker    
+end

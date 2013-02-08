@@ -1,0 +1,61 @@
+static_diagram SystemArchitecture
+--Shows the architecture of the eRAISE plugin system 
+component
+	cluster RSLPerspective
+	component
+		class Editor
+		class Problems
+		class ConsoleToProblems
+		class Console
+		class TypeChecker
+		class REPLView
+		class RTestView
+		class SMLCompiler
+		class FileHandler
+		
+		cluster Verification
+		component
+			class PVSTranslator
+			class ProofView
+			class SALTranslator
+			
+			PVSTranslator client ProofView
+			SALTranslator client ProofView
+		end 
+		
+		cluster Translator
+		component 
+			class SMLTranslator
+			class LatexGenerator
+		end	
+			
+		cluster Structure
+		component
+			class OutlineView 
+			class ProjectExplorer
+		end
+		 
+		
+		ConsoleToProblems client Editor
+		ConsoleToProblems client Problems
+		ConsoleToProblems client Console
+		TypeChecker client Console
+		Verification client Console
+		Translator client Console
+		SMLCompiler client RTestView 
+		REPLView client SMLCompiler
+		FileHandler client SMLTranslator
+		SMLCompiler client SMLTranslator
+		FileHandler client Structure
+		Verification client Structure
+		Translator client Structure
+		Editor client Structure
+		Editor client TypeChecker 
+		Verification client TypeChecker
+		FileHandler client TypeChecker 
+		Translator client TypeChecker 
+		FileHandler client SMLCompiler
+		Verification client SMLCompiler
+		Editor client SMLCompiler
+	end
+end
