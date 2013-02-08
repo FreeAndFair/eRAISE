@@ -143,12 +143,12 @@ Email: jkin@imm.dtu.dk}}
 \section{Introduction}
 \label{sec:introduction}
 
-Plugins, especially in the realm of plugins that wrap existing
+Plug-ins, especially in the realm of plug-ins that wrap existing
 research command-line tools, are notoriously badly designed.
 Academics simply do not have the resources and expertise to execute on
-the design and implementation of a quality plugin.  Partly this is due
+the design and implementation of a quality plug-in.  Partly this is due
 to the fact that there are few examples of best practices in the area,
-and partly it is because plugin development is viewed as the dirtiest
+and partly it is because plug-in development is viewed as the dirtiest
 of the dirty-but-necessary jobs of ``selling'' systems technology.
 
 Typically, a researcher has developed a novel tool for Java
@@ -159,8 +159,8 @@ entry for command-line tools is not insignificant these days.
 Instead, the researcher wants to ``sell'' their tool by wrapping it in
 the \texttt{CommandLineFeature} for Eclipse, since Eclipse has the
 mind-share of most Java developers.  But the researcher does not know
-how to think about the UI design of an Eclipse plugin, design and
-program the plugin, nor is she really interested in learning how to
+how to think about the UI design of an Eclipse plug-in, design and
+program the plug-in, nor is she really interested in learning how to
 do these things.
 
 % Background
@@ -168,8 +168,8 @@ do these things.
 \subsection{Background}
 \label{sec:background}
 
-Eclipse plugin development is a tricky world.  Concepts like features,
-plugins, extension points, windows, views, etc. abound.  Enormous
+Eclipse plug-in development is a tricky world.  Concepts like features,
+plug-ins, extension points, windows, views, etc. abound.  Enormous
 poorly documented APIs are prolific in the Eclipse ecosystem.  To
 implement even the most basic of features sometimes takes hours of
 digging to find the right three lines of code, and then those lines
@@ -179,11 +179,11 @@ demonstrable, useful tools for the Eclipse IDE.
 
 This work is an attempt to help resolve these issues.  First, we
 provide a \emph{rigorous step-wise methodology through which one can
-  do the analysis, architecture design, and user interface (UI) design of a plugin for
+  do the analysis, architecture design, and user interface (UI) design of a plug-in for
   an arbitrary integrated development environment (IDE)}.  Second, we provide \emph{template example
-  plugins} that can be reused by a programmer with a good
-understanding of Java but a poor understanding of Eclipse plugin
-development, to develop a new Eclipse plugin or feature.
+  plug-ins} that can be reused by a programmer with a good
+understanding of Java but a poor understanding of Eclipse plug-in
+development, to develop a new Eclipse plug-in or feature.
 
 The methodology used is based upon the Business Object Notation (BON),
 an analysis and design methodology promoted by Walden and Nerson in
@@ -193,9 +193,9 @@ reasoned about BON
 specifications~\cite{LancaricOstroffPaige02,EBON01,PaigeEtal02,PaigeOstroff01b}.
 Fairmichael, Kiniry, and Darulova developed the BONc and Beetz tools
 for reasoning about BON specifications and their refinement to
-JML-annotated Java~\footnote{See
+JML-annotated Java.\footnote{See
   \url{http://kindsoftware.com/products/opensource/} for more
-  information.}.  Finally, Kiniry and Fairmichael have extended BON in
+  information.}  Finally, Kiniry and Fairmichael have extended BON in
 a variety of ways to produce Extended BON (EBON), which permits one to
 add new domain-specific syntax and semantics to the core BON
 language~\cite{Kiniry02-PhDThesis}.
@@ -228,8 +228,15 @@ environment for \emph{rsltc} would be a great addition.
 \subsection{Related work}
 \label{sec:related-work}
 
+There is little published work that focuses on methodologies specific
+to plug-in development.  E.g., Lamprecht et al. reflect over some
+simplicity principles elicited by many years' experience in plug-in
+development~\cite{6229816}, but do not provide a methodology.
 
-What solutions have other papers brought
+% The EBON method has been applied to not only OO software systems, but
+% websites and business processes, thus in some sense it should be
+% unsurprising that it can be used for plug-in development.  We also
+% borrow the UI sketching principles of the 
 
 % =========================================================
 % Analysis and design method
@@ -316,8 +323,8 @@ the console must be cleared before displaying a new message.
 
 The purpose of this step is to determine the plug-in functionality
 from the user's point of view. This means identifying all the things a
-user can do from the plugin's UI. This UI feature set consequently
-derives the requirements for the product (the plugin) and designs the
+user can do from the plug-in's UI. This UI feature set consequently
+derives the requirements for the product (the plug-in) and designs the
 UI in the same time. Therefore, for each user action that is relevant
 and important for the plug-in, a mock-up user interface is created. If
 many user actions are similar, they can be grouped under a single user
@@ -556,11 +563,10 @@ displayed to the user and the information that specifies if it is an
 error message or not. The assertion \emph{require} is a precondition
 that makes sure that \emph{channel} is one of the values 1 or 2, where
 1 stands for standard output and 2 for the standard error output. EBON
-has also post condition assertions named \emph{ensure}.
+has also postcondition assertions named \emph{ensure}.
 
 All these software contracts will later on, in the implementation phase,
 result in plug-ins extensions and extension points.
-
 
 % Code generation
 %
@@ -568,14 +574,13 @@ result in plug-ins extensions and extension points.
 \label{sec:code-generation}
 
 Once the analysis and design parts are finished, the next step is to
-create the code skeleton. This part is done using a tool named
-Beetlz~\footnote{See the aforementioned website for more
-  information.}, which automatically generates Java code from EBON
-specification. The input of this tool is the EBON \emph{system\_chart}
-and \emph{static\_diagram} that were obtained throughout the entire
-analysis and design. With just one click, Beetlz converts all EBON
-specification obtained in steps \emph{A} to \emph{E} into Java
-elements.
+create the code skeleton. This part is done using a tool named Beetlz,
+which automatically generates Java code from EBON
+specification~\cite{Darulova09}.  The input of this tool is the EBON
+\emph{system\_chart} and \emph{static\_diagram} that were obtained
+throughout the entire analysis and design. With just one click, Beetlz
+converts all EBON specification obtained in steps \emph{A} to \emph{E}
+into Java elements.
 
 % \note{-Joe, can you please add a bib item for the Beetlz tool? I used
 % it the previous paragraph cite\{Beetlz\}. \\-And do we need a
@@ -601,36 +606,39 @@ public /*@ nullable_by_default @*/ class Console  {
 
 The full specification of our case study is available in a technical
 report version of this paper.  Its appendix contains all of the UI
-sketches for the various plugins in the eRAISE feature, the high-level
+sketches for the various plug-ins in the eRAISE feature, the high-level
 concept/domain analysis, the specification of events, the architecture
 specification, the formal component interface design, and the code
-generated from that design.  The example plugins and feature are also
-available in our repository at GitHub.
+generated from that design.  The example plug-ins and feature are also
+available in our repository at
+GitHub.\footnote{\url{https://github.com/kiniry/eRAISE}}
 
-The student responsible for the design and development of this plugin
+The student responsible for the design and development of this plug-in
 (the first author), had to learn and apply this methodology in only a
 few short weeks.  That is evidence for its utility.  Only after
-completing the plugin will we be able to reflect upon how well the
+completing the plug-in will we be able to reflect upon how well the
 analysis and design match the final implementation, but if past
 projects using the EBON methodology are any indication, we expect to
-see no architectural drift and full feature compliance\footnote{Note
+see no architectural drift and full feature compliance.\footnote{Note
   to the reviewers: we expect that development will be complete by the
   time of the workshop so that we can demonstrate it in San Francisco.}
 
 There are several opportunities for next steps refining this work in
-the context of plugin development.  
+the context of plug-in development.  
 
 First, we would like to augment our advanced command-line options tool
-suite ``CLOPS'' for plugin development.  CLOPS permits one to
+suite ``CLOPS'' for plug-in development.  CLOPS permits one to
 declaratively specific the syntax and semantics of the command-line
 options of a tool.  CLOPS reasons about such specifications (it has a
 formal semantics) and generates a lexer, parser, well-formedness
 checker, and documentation.  Extending CLOPS to generate a set of
-Eclipse plugins and architecture documentation, like that we
+Eclipse plug-ins and architecture documentation, like that we
 hand-write in this methodology, would be a valuable exercise and
 product.
 
-Second, the community should use this method to wrap several more 
+Second, the community should use this method to wrap several more
+plug-ins following our example so that we can collectively properly
+evaluate the methodology's utility.
 
 % conference papers do not normally have an appendix
 
