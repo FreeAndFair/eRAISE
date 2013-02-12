@@ -311,14 +311,16 @@ translated using \emph{query} and \emph{command}. A
 \emph{command} is a service that a \emph{class} can provide,
 while the \emph{query} is a request for information from a
 specific class. Looking at the case study domain model presented
-in \autoref{example:system_chart}, \emph{Console} offers the
-service of displaying informative messages or error messages.
-And the \emph{command} is joined by a constraint stating that
+in \autoref{example:system_chart}, \emph{ class\_chart Console} offers 
+the service of displaying informative messages or error messages.
+And the \emph{command} is joined by a \emph{constraint} stating that
 the console must be cleared before displaying a new message.
+
+
 
 % User Interface
 %
-\subsection{User interface}
+\subsection{User Interface}
 \label{sec:user-interface}
 
 The purpose of this step is to determine the plug-in functionality
@@ -363,16 +365,15 @@ UI, for consistency and simplicity.
 \label{UIMenu} 
 \end{figure*}
 
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
+caption={Scenario chart for RSL menu.},
+captionpos=b]{scenario_example.bon}
 
 \autoref{UIMenu} illustrates the graphical user interface for the
 \emph{RSL} menu item.  This illustration was created by taking a
 screenshot of Eclipse and then hand-editing the resulting image in
 just a few minutes.
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
-caption={Scenario chart for RSL menu.},
-captionpos=b]{scenario_example.bon}
 
 While the user interface is being drawn, product requirements are
 documented using EBON \emph{scenario\_chart} elements. The beautiful
@@ -440,7 +441,7 @@ study it was decided that after the user selects the \emph{Type check
 all} sub-menu item, a message should be displayed on the standard
 output. The message informs the user about how the typechecking
 evolved and since the case study GUI is Eclipse based, the standard
-output is considered by default the Eclipse Console view. However in
+output is considered by default the Eclipse \emph{Console view}. However in
 some cases the typechecking may not be successful due to some errors
 in the input files. In this case it would be nice to know what caused
 the problem and where can it be found. Therefore the system will
@@ -487,11 +488,14 @@ caption={System architecture caption},
 captionpos=b]{system_architecture_example.bon}
 
 Applying this step on the case study, the system chart presented in
-\autoref{example:system_chart} becomes the SystemArchitecture from
+\autoref{example:system_chart} becomes the \emph{static\_diagram
+SystemArchitecture} from
 \autoref{example:system_architecture}.
-% Components communication
+
+
+% Components Communication
 %
-\subsection{Components communication}
+\subsection{Components Communication}
 \label{sec:comp-comm}
 
 This section concern is how components interact with each other and
@@ -506,7 +510,9 @@ evaluating the scenarios in \autoref{sec:user-interface}. In EBON
 notation, the components communication is seen in terms of
 \emph{client, supplier} relationship. The component providing the
 interface is a \emph{supplier} and all components using it are
-\emph{clients}. In the eRAISE case study, one incoming event is
+\emph{clients}. 
+
+In the eRAISE case study, one incoming event is
 \emph{TYPECHECKALL} presented in \autoref{example:event_chart_in} and
 its corespondent outgoing events are \emph{CONSOLEUPDATE} and
 \emph{PROBLEMSUPDATE} presented in \autoref{example:event_chart_out}.
@@ -515,10 +521,10 @@ action is the \emph{TypeChecker}. The component responsible for the
 \emph{CONSOLEUPDATE} is the \emph{Console} and the one for
 \emph{PROBLEMSUPDATE} is \emph{Problems}. The \emph{TypeChecker}
 component typecheks the input and can directly inform the
-\emph{Console} about the status. Therefore the \emph{TypeChecker} is a
-client of \emph{Console} and this is expressed in EBON as: \emph{
-TypeChecker client Console}. The client relations must be added in the
-\emph{static\_diagram} after the components declaration.
+\emph{Console} about the status. Therefore the \emph{TypeChecker} is
+aclient of \emph{Console} and this is expressed in EBON as: \emph{
+TypeChecker client Console}. The client relations must be added in
+the\emph{static\_diagram} after the components declaration.
 
 %\note{Should I make a new BON example comprising client relations? -mvf}
 
@@ -568,9 +574,9 @@ has also postcondition assertions named \emph{ensure}.
 All these software contracts will later on, in the implementation phase,
 result in plug-ins extensions and extension points.
 
-% Code generation
+% Code Generation
 %
-\subsection{Code generation}
+\subsection{Code Generation}
 \label{sec:code-generation}
 
 Once the analysis and design parts are finished, the next step is to
@@ -580,18 +586,20 @@ specification~\cite{Darulova09}.  The input of this tool is the EBON
 \emph{system\_chart} and \emph{static\_diagram} that were obtained
 throughout the entire analysis and design. With just one click, Beetlz
 converts all EBON specification obtained in steps \emph{A} to \emph{E}
-into Java elements.
+into Java code.
 
 % \note{-Joe, can you please add a bib item for the Beetlz tool? I used
 % it the previous paragraph cite\{Beetlz\}. \\-And do we need a
 % reference for Java?\\-And the code presented further down is not
 % styled -mvf}
 
-For example this is the Console class generated by Beetlz for the
-component with the same name captured in \emph{static\_diagram} in
-\autoref{example:interfaces}:
+For example \autoref{example:generate-code} shows the Console class
+generated by Beetlz for the component with the same name captured in
+\emph{static\_diagram} in
+\autoref{example:interfaces}.
 
-\begin{lstlisting}
+\begin{lstlisting}[label={example:generate-code},
+caption={Java Console class generated by Beetlz}]
 public /*@ nullable_by_default @*/ class Console  {
    //@ ensures channel == 1 || channel == 2; public void
    update(List<Char> message, Channel channel){}
@@ -627,7 +635,7 @@ There are several opportunities for next steps refining this work in
 the context of plug-in development.  
 
 First, we would like to augment our advanced command-line options tool
-suite ``CLOPS'' for plug-in development.  CLOPS permits one to
+suite \emph{CLOPS} for plug-in development.  CLOPS permits one to
 declaratively specific the syntax and semantics of the command-line
 options of a tool.  CLOPS reasons about such specifications (it has a
 formal semantics) and generates a lexer, parser, well-formedness
