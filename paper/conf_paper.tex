@@ -367,22 +367,27 @@ UI, for consistency and simplicity.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
-caption={Scenario chart for RSL menu.},
+caption={Scenario chart for the RSL menu item.},
 captionpos=b]{scenario_example.bon}
 
 \autoref{UIMenu} illustrates the graphical user interface for the
-\emph{RSL} menu item.  This illustration was created by taking a
+\emph{RSL} menu item. This illustration was created by taking a
 screenshot of Eclipse and then hand-editing the resulting image in
-just a few minutes.
+just a few minutes. The RSL menu item has been added as part of the
+Eclipse IDE menubar and has four submenu items, each with an associated
+keyboard shortcut.
 
 While the user interface is being drawn, product requirements are
 documented using EBON \emph{scenario\_chart} elements. The beautiful
 part about using EBON is that it allows the requirements specification
 to be captured using natural language. Therefore no intermediate step
 is required between identifying the requirements and documenting them.
-For the case study, the requirements associated with the user
+For the eRAISE case study, the requirements associated with the user
 interface in \autoref{UIMenu} are captured in the
-\emph{scenario\_charts} in \autoref{example:scenario_chart}.
+\emph{scenario\_chart} in \autoref{example:scenario_chart}. For each
+submenu item there is a \emph{scenario} element defined by a name and a
+description. The four scenarios are grouped under a
+\emph{scenario\_chart} associated to the Eclipse RSL menu.
 
 % Events
 %
@@ -484,7 +489,7 @@ contains multiple \emph{components} which can be \emph{clusters} or
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:system_architecture},
-caption={System architecture caption},
+caption={eRAISE system architecture},
 captionpos=b]{system_architecture_example.bon}
 
 Applying this step on the case study, the system chart presented in
@@ -522,9 +527,9 @@ action is the \emph{TypeChecker}. The component responsible for the
 \emph{PROBLEMSUPDATE} is \emph{Problems}. The \emph{TypeChecker}
 component typecheks the input and can directly inform the
 \emph{Console} about the status. Therefore the \emph{TypeChecker} is
-aclient of \emph{Console} and this is expressed in EBON as: \emph{
+a client of \emph{Console} and this is expressed in EBON as: \emph{
 TypeChecker client Console}. The client relations must be added in
-the\emph{static\_diagram} after the components declaration.
+the \emph{static\_diagram} after the components declaration.
 
 %\note{Should I make a new BON example comprising client relations? -mvf}
 

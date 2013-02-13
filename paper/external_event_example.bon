@@ -4,4 +4,4 @@ explanation "External events triggering representative system
 behaviour"
 event "TYPECHECKALL: User clicks RSL menu and then clicks on
 Type Check all option or presses Ctrl+Alt+T"
-involves TypeChecker, Console, ConsoleToProblems, Problems
+involves TypeChecker, Console
