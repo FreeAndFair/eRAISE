@@ -222,7 +222,7 @@ specification language (RSL)~\cite{RLG92}. The project is called
 
 Originally RAISE was supported by the \emph{eden} tool
 suite~\cite{edenReferenceManual} which was successfully applied in a
-range of industrial project.  However, as this tool suite was only
+range of industrial projects.  However, as this tool suite was only
 available for SUN workstations, a new tool suite
 \emph{rsltc}~\cite{rsltcUserGuide,RAISETools2003}, portable for any
 platform supporting the C language, was developed between 1998--2008.
@@ -252,11 +252,11 @@ simplicity principles elicited by many years' experience in plug-in
 development~\cite{6229816}, but do not provide a methodology.
 
 We speculate that there is not much published work because plug-in
-development because it is not the focus of scientists until recently.
+development was not the focus of scientists until recently.
 Moreover, it is a fair question whether or not plug-in development is
 any different from normal systems development where a GUI is involved.
 We believe that plug-in development is different from normal GUI
-development as plug-ins must must integrate into the larger framework
+development as plug-ins must integrate into the larger framework
 of the IDE, deal with non-GUI events, and work in arbitrary
 compositions.
 
@@ -468,7 +468,7 @@ caption={Outgoing event chart for typechecking features.},
 captionpos=b]{internal_event_example.bon}
 
 If an incoming action triggers changes in the system state, the next
-task is to decide how the system should respond to the the action, and
+task is to decide how the system should respond to the action, and
 about the changes that have taken place.  For the eRAISE case study,
 it was decided that, after the user selects the \emph{Type check all}
 sub-menu item, a message should be displayed on the standard output.
@@ -484,6 +484,36 @@ system updates the \emph{Console} and \emph{Problem} views with
 appropriate information. \autoref{example:event_chart_out} presents
 the two events captured in an outgoing \emph{event\_chart} under the
 names of \emph{CONSOLEUPDATE}, respectively \emph{PROBLEMSUPDATE}.
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_event_chart},
+caption={Scenario chart comprising the events for the typechecking feature.},
+captionpos=b]{scenario_events_example.bon}
+
+
+Once the events have been identified and given a proper name, they
+can be used to rewrite the scenarios from
+\autoref{sec:user-interface}. The reason for doing this is to
+emphasize the actions a user takes
+during a scenario and the responses the system must provide. Only the
+event name is used inside the scenario description, making it
+shorter, less open to interpretation and conciser.
+
+\autoref{example:scenario_event_chart} illustrates how the
+\emph{MENU1} scenario description presented in
+\autoref{example:scenario_chart} changes once the events names are
+being added. The "user can type check all" description was
+replaced with "user can TYPECHECKALL", where
+\autoref{example:event_chart_in} describes exactly what the
+TYPECHECKALL event implies. The "Success or failure messages will
+be displayed along with the list of errors in case of a failure" has
+been replaced by "This implies PROBLEMSUPDATE, CONSOLEUPDATE and
+EDITORUPDATE", where PROBLEMSUPDATE and CONSOLEUPDATE events are
+presented in \autoref{example:event_chart_out}. EDITORUPDATE action
+has not been captured in any example in this paper, but it is
+basically an outgoing event that displays a red squiggly line in the editor
+in the place where an error has been discovered.
+
 
 % Components
 %
@@ -519,7 +549,13 @@ captionpos=b]{system_architecture_example.bon}
 Applying this step on the case study, the system chart presented in
 \autoref{example:system_chart} becomes the \emph{static\_diagram
 SystemArchitecture} from
-\autoref{example:system_architecture}.
+\autoref{example:system_architecture}. The system architecture is
+made of only one component, the RSL perspective cluster, which is
+further
+composed of multiple subcomponents. In 
+\autoref{example:system_architecture} only five of its subcomponents are
+captured; the four classes and the Translator cluster which is also
+including more subcomponents.
 
 
 % Components Communication
@@ -551,10 +587,10 @@ component that reacts to user \emph{TYPECHECKALL} action is the
 \emph{CONSOLEUPDATE} is the \emph{Console} and the one for
 \emph{PROBLEMSUPDATE} is \emph{Problems}. The \emph{TypeChecker}
 component typechecks the input and directly informs the \emph{Console}
-about the status.  Therefore, the \emph{TypeChecker} is aclient of
+about the status.  Therefore, the \emph{TypeChecker} is a client of
 \emph{Console} and this is expressed in EBON as: \emph{ TypeChecker
   client Console}. The client relations must be added in
-the\emph{static\_diagram} after the components declaration.
+the \emph{static\_diagram} after the components declaration.
 
 %\note{Should I make a new BON example comprising client relations? -mvf}
 
@@ -579,7 +615,7 @@ caption={Console component interface},
 captionpos=b]{interfaces_example.bon}
 
 Once it was decided what components are interacting, it must be
-established how do so.  This means establishing the contracts between
+established how to do so.  This means establishing the contracts between
 components by identifying the information a client needs and the
 messages it sends to its supplier.  EBON supports the formal
 specification of typed interfaces in an programming
@@ -604,9 +640,6 @@ is one of the values 1 or 2, where 1 stands for standard output and 2
 for the standard error output.  EBON also supports postconditions
 specified using the \emph{ensure} keyword.
 
-All these software contracts will later on, in the implementation
-phase, result in formally specified modules and plug-in extensions and
-extension points.
 
 % Code Generation
 %
@@ -630,13 +663,11 @@ For example, \autoref{example:generate-code} shows the
 same name described in the \emph{static\_diagram} in
 \autoref{example:interfaces}.
 
-\begin{lstlisting}[label={example:generate-code},
-caption={Java Console class generated by Beetlz}]
-public /*@ nullable_by_default @*/ class Console  {
-   //@ ensures channel == 1 || channel == 2; public void
-   update(List<Char> message, Channel channel){}
-}
-\end{lstlisting}
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:generate-code},
+caption={Java Console class generated by Beetlz},
+captionpos=b]{code_example.bon}
+
 
 % =========================================================
 % Conclusion

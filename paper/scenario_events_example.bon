@@ -1,0 +1,5 @@
+scenario_chart RSLMENU 
+scenario "MENU1" 
+description "The user can TYPECHECKALL RSL files in the
+workspace. This implies PROBLEMSUPDATE, CONSOLEUPDATE and
+EDITORUPDATE"
