@@ -1,4 +1,4 @@
-scenario_chart MENU 
+scenario_chart RSLMENU 
 scenario "MENU1" 
 description "The user can type check all RSL files in the 
 workspace. Success or failure messages will be displayed along 
