@@ -1,3 +1,5 @@
+% words to eliminate/reduce: therefore
+
 
 %% conf_paper.tex
 
@@ -78,21 +80,21 @@
 % use a multiple column layout for up to three different
 % affiliations
 \author{
-\IEEEauthorblockN{ Marieta V. Fasie}
+\IEEEauthorblockN{Marieta V. Fasie}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
 Email: marietafasie@gmail.com}
 
 \and
 
-\IEEEauthorblockN{ Anne E. Haxthausen}
+\IEEEauthorblockN{Anne E. Haxthausen}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
 Email: ah@imm.dtu.dk}
 
 \and
 
-\IEEEauthorblockN{Joseph Kiniry}
+\IEEEauthorblockN{Joseph R. Kiniry}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
 Email: jkin@imm.dtu.dk}}
@@ -103,6 +105,8 @@ Email: jkin@imm.dtu.dk}}
 
 % make the title area
 \maketitle
+\thispagestyle{plain}
+\pagestyle{plain}
 
 % =========================================================
 % Abstract
@@ -163,27 +167,23 @@ how to think about the UI design of an Eclipse plug-in, design and
 program the plug-in, nor is she really interested in learning how to
 do these things.
 
-% Background
-%
-\subsection{Background}
-\label{sec:background}
-
-Eclipse plug-in development is a tricky world.  Concepts like features,
-plug-ins, extension points, windows, views, \etc abound.  Enormous
-poorly documented APIs are prolific in the Eclipse ecosystem.  To
-implement even the most basic of features sometimes takes hours of
-digging to find the right three lines of code, and then those lines
-change when a new major version of Eclipse comes out.  This is a
-frustrating environment for researchers who want to package their
+Eclipse plug-in development is a tricky world.  Concepts like
+features, plug-ins, extension points, windows, views, \etc abound.
+Enormous, poorly documented APIs are prolific in the Eclipse
+ecosystem.  To implement even the most basic of features sometimes
+takes hours of digging to find the right three lines of code, and then
+those lines must change when a new major version of Eclipse comes out.
+This is a frustrating world for researchers who want to package their
 demonstrable, useful tools for the Eclipse IDE.
 
 This work is an attempt to help resolve these issues.  First, we
 provide a \emph{rigorous step-wise methodology through which one can
-  do the analysis, architecture design, and user interface (UI) design of a plug-in for
-  an arbitrary integrated development environment (IDE)}.  Second, we provide \emph{template example
-  plug-ins} that can be reused by a programmer with a good
-understanding of Java but a poor understanding of Eclipse plug-in
-development, to develop a new Eclipse plug-in or feature.
+  do the analysis, architecture design, and user interface (UI) design
+  of a plug-in for an arbitrary integrated development environment
+  (IDE)}.  Second, we provide \emph{template example plug-ins} that
+can be reused by a programmer with a good understanding of Java, but a
+poor understanding of Eclipse plug-in development, to develop a new
+Eclipse plug-in or feature.
 
 The methodology used is based upon the Business Object Notation (BON),
 an analysis and design methodology promoted by Walden and Nerson in
@@ -193,35 +193,53 @@ reasoned about BON
 specifications~\cite{LancaricOstroffPaige02,EBON01,PaigeEtal02,PaigeOstroff01b}.
 Fairmichael, Kiniry, and Darulova developed the BONc and Beetz tools
 for reasoning about BON specifications and their refinement to
-JML-annotated Java.\footnote{See
-  \url{http://kindsoftware.com/products/opensource/} for more
-  information.}  Finally, Kiniry and Fairmichael have extended BON in
-a variety of ways to produce Extended BON (EBON), which permits one to
-add new domain-specific syntax and semantics to the core BON
+JML-annotated Java.\footnote{See \url{http://tinyurl.com/brgcrzc} for
+  more information.}  Finally, Kiniry and Fairmichael have extended
+BON in a variety of ways to produce Extended BON (EBON), which permits
+one to add new domain-specific syntax and semantics to the core BON
 language~\cite{Kiniry02-PhDThesis}.
+
+For the reader who has never heard of EBON, think of it as the subset
+of UML that might actually have a clear, unambiguous semantics.
+EBON's core features are that it is \emph{seamless}, insofar as you
+use the same specification language for everything from domain
+analysis to formal architecture specification and its behavior,
+\emph{reversible} insofar as code generation and reverse engineering
+to and from code to EBON is straightforward and tool-supported, and
+\emph{contracted} as formal abstract state-based contracts
+(invariants, pre, and postconditions) are the fundamental notion used
+to specify system behavior.  EBON has both a textual and a graphical
+syntax, a formal semantics expressed in higher-order logic, a formal
+semantics of refinement to and from OO software, and tool support for
+reasoning about specifications, expressing specifications textually or
+graphically, generating code from models and models from code, and
+reasoning about refinement to code.
 
 The methodology is illustrated on a case study that develops an
 Eclipse environment for the RAISE formal method~\cite{RMG95} and
-specification language (RSL)~\cite{RLG92}. The project name is
-\emph{eRAISE} and it is currently being under development.
+specification language (RSL)~\cite{RLG92}. The project is called
+\emph{eRAISE} and it is currently under development at DTU.
 
 Originally RAISE was supported by the \emph{eden} tool
-suite~\cite{edenReferenceManual} that was successfully applied in a
-range of industrial project.  However, as this tool suite was only
+suite~\cite{edenReferenceManual} which was successfully applied in a
+range of industrial projects.  However, as this tool suite was only
 available for SUN workstations, a new tool suite
 \emph{rsltc}~\cite{rsltcUserGuide,RAISETools2003}, portable for any
-platform supporting the C language, was developed in 1998--2008. 
+platform supporting the C language, was developed between 1998--2008.
 
 The \emph{rsltc} tool suite consists of a type checker and some
 extensions to it supporting activities such as pretty printing,
 extraction of module dependencies, translation to other languages,
 generation of proof obligations, formal verification, and generation
-and execution of test cases. It provides a command-line interface with
-different capabilities selected by options, and can also be used from
-Emacs, using a menu to select these capabilities.  \emph{rsltc} was
-successfully applied in industrial projects. However, although it is
-easy to use, the provision of a modern Eclipse based development
-environment for \emph{rsltc} would be a great addition.
+and execution of test cases.  \emph{rsltc} has a command-line
+interface that exposes different capabilities selected via switches,
+but is also used from Emacs using menus and key-bindings.  \emph{rsltc}
+was also successfully applied in several industrial projects.
+However, although it is easy to use for the user comfortable with
+command-line tools or Emacs, we expect that the creation of a modern
+Eclipse-based development environment for \emph{rsltc} would broaden
+its appeal to mainstream software engineers and better enable its use
+for university-level pedagogy.
 
 % Related work
 %
@@ -233,6 +251,15 @@ to plug-in development.  E.g., Lamprecht et al. reflect over some
 simplicity principles elicited by many years' experience in plug-in
 development~\cite{6229816}, but do not provide a methodology.
 
+We speculate that there is not much published work because plug-in
+development was not the focus of scientists until recently.
+Moreover, it is a fair question whether or not plug-in development is
+any different from normal systems development where a GUI is involved.
+We believe that plug-in development is different from normal GUI
+development as plug-ins must integrate into the larger framework
+of the IDE, deal with non-GUI events, and work in arbitrary
+compositions.
+
 % The EBON method has been applied to not only OO software systems, but
 % websites and business processes, thus in some sense it should be
 % unsurprising that it can be used for plug-in development.  We also
@@ -241,21 +268,20 @@ development~\cite{6229816}, but do not provide a methodology.
 % =========================================================
 % Analysis and design method
 % =========================================================
-\section{Analysis and design method}
+\section{Analysis and Design Method}
 \label{sec:analys-design-meth}
 
-This section describes a methodology used to analyze and design
-plug-ins. The methodology has six stages, each described in a separate
-subsection and presented in the order in which they are applied. These
-six steps are: \emph{domain modeling}, \emph{user interface},
-\emph{events}, \emph{components}, \emph{components communication} and
-\emph{code generation}.
+The EBON methodology as applied to Eclipse plug-in development has six
+stages, each described in a separate subsection and presented in the
+order in which they are applied. These six steps are: \emph{domain
+  modeling}, \emph{user interface}, \emph{events}, \emph{components},
+\emph{components communication} and \emph{code generation}.
 
-The methodology is illustrated on eRAISE case study that has been
-described in \autoref{sec:background}. Due to space restrictions, the
-entire project's analysis and design phases are not presented here;
-instead, only one scenario of the plug-in is shown from beginning to
-end.
+The methodology is illustrated on the eRAISE case study.  Due to space
+restrictions, the entire project's analysis and design phases are not
+presented here; instead, only one scenario of the plug-in is shown
+from beginning to end.  A technical report version of this article,
+cited later, provides the entire case study.
 
 % Domain Modeling
 %
@@ -266,57 +292,58 @@ The first step when analyzing and designing a system is to establish
 its domain model. This is done in order to create a common vocabulary
 between those involved in the project and to identify the concepts
 used in the product development process. This means that the most
-important entities and high level classifiers related to the system domain must
-be identified, explained and documented from the very beginning, so they
-can be unanimous understood and used throughout the entire product
-life cycle.
-
+important entities and high level classifiers related to the system
+domain must be identified, explained and documented from the very
+beginning, so they can be unanimously understood and used throughout
+the entire product life cycle.
 
 Looking at the case study name and description, the domain model is
 constructed by analyzing areas like Eclipse, RAISE and graphical user
-interface (GUI). The result is a list of terminologies along with
+interface. The result is a list of terminologies along with
 their explanation, essentially describing entities and elements from a
 high level point of view. Some examples from the list are notions like
 \emph{editor, console, typechecker, translator, Standard ML
 (SML) translator, \LaTeX\ generator, SML compiler, RSL
-Perspective} and so on. Some of these items can be grouped in a bigger
-entity, while others are big enough to covers multiple notions. For
-example \emph{SML translator} and \emph{\LaTeX\ generator} can be
-grouped under the \emph{translator} notion, since both are referring
-to the process of transforming a RSL specification into another type
-of specification. Likewise \emph{RSL Perspective} can be seen as a
-notion that comprises all other items since inside Eclipse all RAISE
-elements can be grouped under a single perspective.
+Perspective} and so on. 
 
-%\note{Reference required for SML -mvf}
+When performing domain analysis we try to identify concepts that are
+redundant, which concepts relate to others, etc.  Some of these items
+can be grouped in a more general notion, while others are big enough
+to covers multiple notions.  For example, \emph{SML translator} and
+\emph{\LaTeX\ generator} can be grouped under the \emph{translator}
+notion, since both are referring to the process of transforming a RSL
+specification into another type of specification. Likewise \emph{RSL
+  Perspective} can be seen as a notion that comprises all other items
+since inside Eclipse all RAISE elements can be grouped under a single
+perspective.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:system_chart},
 caption={System chart describing the eRAISE system.},
 captionpos=b]{system_chart_example.bon}
 
-In the method described in this paper, such notions are captured using
-the EBON \emph{system\_chart}, \emph{cluster\_chart} and
-\emph{class\_chart} elements. The notions that have been identified
-are documented as classes, which can be grouped under clusters and all
-these are composing a big and unique system.
+Such notions are captured using the EBON \emph{system\_chart},
+\emph{cluster\_chart} and \emph{class\_chart} elements. The notions
+that have been identified are documented as classes, which can be
+grouped under clusters and all these make up a unique system.
 \autoref{example:system_chart} illustrates a caption of the eRAISE
 System specified in EBON notation. Please notice how easy it is to
 capture notions and their description in EBON by just using natural
 language.
 
-But the domain model comprises also terms describing what can be
-done with the notions already defined. In EBON this is
-translated using \emph{query} and \emph{command}. A
-\emph{command} is a service that a \emph{class} can provide,
-while the \emph{query} is a request for information from a
-specific class. Looking at the case study domain model presented
-in \autoref{example:system_chart}, \emph{ class\_chart Console} offers 
-the service of displaying informative messages or error messages.
-And the \emph{command} is joined by a \emph{constraint} stating that
-the console must be cleared before displaying a new message.
-
-
+The domain model also describes how concepts behave and how their
+behavior is constrained.  In EBON, behavior is specified by using two
+concepts called \emph{queries} and \emph{commands}, collectively known
+as \emph{features}.  Behavioral constraints are specified using an
+EBON concept called \emph{contraints}.  A \emph{command} is a service
+that a \emph{class} provides that changes the state of the object that
+implements the class, while a stateless \emph{query} is a request for
+information from a specific object.  Looking at the case study domain
+model presented in \autoref{example:system_chart}, \emph{class\_chart
+  Console} offers the service of displaying informative messages or
+error messages.  Within this class there is also a \emph{constraint}
+stating that the console must be cleared before displaying a new
+message.
 
 % User Interface
 %
@@ -394,18 +421,20 @@ description. The four scenarios are grouped under a
 \subsection{Events}
 \label{sec:events}
 
-In this section the entire system is seen as a black box. The focus is
-on the external actions that make the system react and on the system
-outgoing responses. However, not all systems outgoing events are of
-interest, but only the ones that are started by external stimuli. 
+In this stage of the method the entire system is seen as a black
+box. The focus is on the external actions that make the system react
+and on the system's outgoing responses.  Not all of the system's
+outgoing events are of interest, but only the ones that are started by
+external stimuli.  More formally, within EBON, scenarios are composed
+of events, thus there is a refinement relationship between scenarios
+and events.
 
 An incoming external event is any action that determines the system to
 change its state. For example it can be a user clicking a button or
-another system sending a request. An outgoing internal event is the
-response the system sends to the one that initiated the incoming
-external event. The system outgoing event for the action of pressing
-the button could, \eg be the display of a new window or writing a
-message to the standard output.
+another system sending a request.  An outgoing internal event is the
+response the system sends to an incoming external event. The system
+outgoing event for the action of pressing the button could, \eg be the
+display of a new window or writing a message to the standard output.
 
 Looking back at the scenario presented in
 \autoref{sec:user-interface}, the user has the possibility to type
@@ -423,41 +452,67 @@ Ctrl+Alt+T}.
 caption={Incoming event chart for typechecking features.},
 captionpos=b]{external_event_example.bon}
 
-Once established, the user actions can be captured in EBON using
-\emph{event\_chart} elements. The \emph{event\_chart} can be ingoing
-or outgoing depending on the type of the events they capture. Since
-the two user incoming events that have just been identified aims for
-the same functionality, they are grouped under the same name
-(\emph{TYPECHECKALL}) and captured in
-\autoref{example:event_chart_in}. Please ignore for the moment the
-\emph{involves} part in \autoref{example:event_chart_in}, since
-\autoref{sec:comp-comm} will explain it in detail.
+Once established, the user actions are captured in EBON using
+\emph{event\_chart} elements. The \emph{event\_chart} is either
+\emph{ingoing} or \emph{outgoing} depending on the type of the events
+they capture.  Since the two user incoming events that have just been
+identified aims for the same functionality, they are grouped under the
+same name (\emph{TYPECHECKALL}) and captured in
+\autoref{example:event_chart_in}.  The \emph{involves} part in
+\autoref{example:event_chart_in} is explained later in detail, as it
+denotes component communication patterns.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:event_chart_out},
 caption={Outgoing event chart for typechecking features.},
 captionpos=b]{internal_event_example.bon}
 
+If an incoming action triggers changes in the system state, the next
+task is to decide how the system should respond to the action, and
+about the changes that have taken place.  For the eRAISE case study,
+it was decided that, after the user selects the \emph{Type check all}
+sub-menu item, a message should be displayed on the standard output.
+The message informs the user about how the typechecking evolved and
+since the case study GUI is Eclipse based, the standard output is
+considered by default the Eclipse \emph{Console view}.  However, in
+some cases, the typechecking may not be successful due to errors in
+the input files.  In this case it would be nice to know what caused
+the problem and where it is found.  The system should present the
+necessary information in the Eclipse \emph{Problem} view.  To sum up,
+after the user selects the \emph{Type check all} sub-menu item, the
+system updates the \emph{Console} and \emph{Problem} views with
+appropriate information. \autoref{example:event_chart_out} presents
+the two events captured in an outgoing \emph{event\_chart} under the
+names of \emph{CONSOLEUPDATE}, respectively \emph{PROBLEMSUPDATE}.
 
-All incoming actions trigger changes in the system state. And the next
-task is to decide how should the system notify the one triggering the
-action, about the changes that have taken place. For the eRAISE case
-study it was decided that after the user selects the \emph{Type check
-all} sub-menu item, a message should be displayed on the standard
-output. The message informs the user about how the typechecking
-evolved and since the case study GUI is Eclipse based, the standard
-output is considered by default the Eclipse \emph{Console view}. However in
-some cases the typechecking may not be successful due to some errors
-in the input files. In this case it would be nice to know what caused
-the problem and where can it be found. Therefore the system will
-present the necessary information in the Eclipse Problem view. To sum
-up, after the user selects the \emph{Type check all} sub-menu item,
-the system updates the Console and Problem views with appropriate
-information. \autoref{example:event_chart_out} presents the two events
-captured in an outgoing \emph{event\_chart} under the names of
-\emph{CONSOLEUPDATE}, respectively \emph{PROBLEMSUPDATE}.
-\autoref{example:event_chart_out} also contains an \emph{involves}
-part, which will be explained in detail in \autoref{sec:comp-comm}.
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_event_chart},
+caption={Scenario chart comprising the events for the typechecking feature.},
+captionpos=b]{scenario_events_example.bon}
+
+
+Once the events have been identified and given a proper name, they
+can be used to rewrite the scenarios from
+\autoref{sec:user-interface}. The reason for doing this is to
+emphasize the actions a user takes
+during a scenario and the responses the system must provide. Only the
+event name is used inside the scenario description, making it
+shorter, less open to interpretation and conciser.
+
+\autoref{example:scenario_event_chart} illustrates how the
+\emph{MENU1} scenario description presented in
+\autoref{example:scenario_chart} changes once the events names are
+being added. The "user can type check all" description was
+replaced with "user can TYPECHECKALL", where
+\autoref{example:event_chart_in} describes exactly what the
+TYPECHECKALL event implies. The "Success or failure messages will
+be displayed along with the list of errors in case of a failure" has
+been replaced by "This implies PROBLEMSUPDATE, CONSOLEUPDATE and
+EDITORUPDATE", where PROBLEMSUPDATE and CONSOLEUPDATE events are
+presented in \autoref{example:event_chart_out}. EDITORUPDATE action
+has not been captured in any example in this paper, but it is
+basically an outgoing event that displays a red squiggly line in the editor
+in the place where an error has been discovered.
 
 
 % Components
@@ -465,13 +520,12 @@ part, which will be explained in detail in \autoref{sec:comp-comm}.
 \subsection{Components}
 \label{sec:components}
 
-This subsection, in contrast with the previous one, looks inside the
-system, at the components that form its architecture. These components
-can be referring to concrete elements like a \emph{Zoom in button} or
-they can be abstract concepts like \emph{User authentication} which
-covers everything in the system responsible for authenticating a user.
-Also multiple components can be grouped in a bigger component which
-can also be part of another component.
+At this stage in the methodology, in contrast with the previous one,
+one looks \emph{inside} the system at the components that constitute
+its architecture.  Components refer either to concrete elements, like a
+\emph{Zoom in button}, or abstract concepts, like \emph{User
+  authentication} which covers everything in the system responsible
+for authenticating a user.
 
 The place to start identifying the system architecture components is
 the domain model presented in \autoref{sec:domain-modeling}. The high
@@ -495,7 +549,13 @@ captionpos=b]{system_architecture_example.bon}
 Applying this step on the case study, the system chart presented in
 \autoref{example:system_chart} becomes the \emph{static\_diagram
 SystemArchitecture} from
-\autoref{example:system_architecture}.
+\autoref{example:system_architecture}. The system architecture is
+made of only one component, the RSL perspective cluster, which is
+further
+composed of multiple subcomponents. In 
+\autoref{example:system_architecture} only five of its subcomponents are
+captured; the four classes and the Translator cluster which is also
+including more subcomponents.
 
 
 % Components Communication
@@ -511,24 +571,25 @@ their corresponding outgoing actions identified in
 first to an external stimuli and the components responsible for the
 outgoing actions. Once the starting and ending point of the data flow
 is established, the other interacting components are determined by
-evaluating the scenarios in \autoref{sec:user-interface}. In EBON
-notation, the components communication is seen in terms of
-\emph{client, supplier} relationship. The component providing the
-interface is a \emph{supplier} and all components using it are
-\emph{clients}. 
+evaluating the scenarios in \autoref{sec:user-interface}. 
 
-In the eRAISE case study, one incoming event is
-\emph{TYPECHECKALL} presented in \autoref{example:event_chart_in} and
-its corespondent outgoing events are \emph{CONSOLEUPDATE} and
-\emph{PROBLEMSUPDATE} presented in \autoref{example:event_chart_out}.
-Thus the first component that reacts to user \emph{TYPECHECKALL}
-action is the \emph{TypeChecker}. The component responsible for the
+In EBON notation, the components communication is seen in terms of
+\emph{client, supplier} relationship.  The component providing the
+interface is a \emph{supplier} and all components using it are
+\emph{clients}.
+
+In the eRAISE case study, one incoming event is \emph{TYPECHECKALL}
+presented in \autoref{example:event_chart_in} and its corespondent
+outgoing events are \emph{CONSOLEUPDATE} and \emph{PROBLEMSUPDATE}
+presented in \autoref{example:event_chart_out}.  Thus, the first
+component that reacts to user \emph{TYPECHECKALL} action is the
+\emph{TypeChecker}. The component responsible for the
 \emph{CONSOLEUPDATE} is the \emph{Console} and the one for
 \emph{PROBLEMSUPDATE} is \emph{Problems}. The \emph{TypeChecker}
-component typecheks the input and can directly inform the
-\emph{Console} about the status. Therefore the \emph{TypeChecker} is
-a client of \emph{Console} and this is expressed in EBON as: \emph{
-TypeChecker client Console}. The client relations must be added in
+component typechecks the input and directly informs the \emph{Console}
+about the status.  Therefore, the \emph{TypeChecker} is a client of
+\emph{Console} and this is expressed in EBON as: \emph{ TypeChecker
+  client Console}. The client relations must be added in
 the \emph{static\_diagram} after the components declaration.
 
 %\note{Should I make a new BON example comprising client relations? -mvf}
@@ -544,40 +605,41 @@ there are errors displayed in the console. Therefore
 \emph{TypeChecker} sends a message to \emph{Console} and if the
 message is an error, a third component called \emph{ConsoleToProblems},
 that monitors the \emph{Console}, notifies the \emph{Problems}
-component. Therefor the \emph{PROBLEMSUPDATE} event involves the
+component. Therefore, the \emph{PROBLEMSUPDATE} event involves the
 \emph{TypeChecker, Console, ConsoleToProblems} and \emph{Problems}
 components. This is captured in \autoref{example:event_chart_out}.
-
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:interfaces},
 caption={Console component interface},
 captionpos=b]{interfaces_example.bon}
 
-
 Once it was decided what components are interacting, it must be
-established how do they accomplish that. This means establishing the
-contracts between components by identifying the information a client
-needs and the messages it sends to its supplier. EBON allows
-specifying fully typed interfaces in an language independent mode
-through the notion of \emph{feature}. Everything a component exposes
-to its clients is called a feature. For example the \emph{Console}
-component in the case study has a feature called \emph{update} which
-allows the client components to sent it messages that will further be
-displayed to the user. Please refer to the Console command in
-\autoref{example:system_chart} for better understanding. These
-messages are just strings and can be informative messages or errors.
-The situation is captured in \autoref{example:interfaces}, where the
-fully typed feature signature can be noticed. When a client calls
-\emph{update} on the \emph{Console} it must send the message to be
-displayed to the user and the information that specifies if it is an
-error message or not. The assertion \emph{require} is a precondition
-that makes sure that \emph{channel} is one of the values 1 or 2, where
-1 stands for standard output and 2 for the standard error output. EBON
-has also postcondition assertions named \emph{ensure}.
+established how to do so.  This means establishing the contracts between
+components by identifying the information a client needs and the
+messages it sends to its supplier.  EBON supports the formal
+specification of typed interfaces in an programming
+language-independent fashion.  Classes are parameterized and contain
+formally specified \emph{features}.  Each classifier in the domain
+model maps to exactly one class within the formal model, and each
+feature of each class within the domain model maps to one formally
+specified feature in that class's interface.
 
-All these software contracts will later on, in the implementation phase,
-result in plug-ins extensions and extension points.
+For example, the \emph{Console} component in the case study has a
+feature called \emph{update} which allows the client components to
+sent it messages that will further be displayed to the user. Please
+refer to the Console command in \autoref{example:system_chart} for
+better understanding.  These messages are just strings like
+informative messages or errors.  The situation is captured in
+\autoref{example:interfaces}, where the typed feature signatures are
+found.  When a client calls \emph{update} on the \emph{Console}, it
+must send the message to be displayed to the user and the information
+that specifies if it is an error message or not. The assertion
+\emph{require} is a precondition that makes sure that \emph{channel}
+is one of the values 1 or 2, where 1 stands for standard output and 2
+for the standard error output.  EBON also supports postconditions
+specified using the \emph{ensure} keyword.
+
 
 % Code Generation
 %
@@ -585,31 +647,27 @@ result in plug-ins extensions and extension points.
 \label{sec:code-generation}
 
 Once the analysis and design parts are finished, the next step is to
-create the code skeleton. This part is done using a tool named Beetlz,
-which automatically generates Java code from EBON
-specification~\cite{Darulova09}.  The input of this tool is the EBON
-\emph{system\_chart} and \emph{static\_diagram} that were obtained
-throughout the entire analysis and design. With just one click, Beetlz
-converts all EBON specification obtained in steps \emph{A} to \emph{E}
-into Java code.
+generate the formally specified code skeleton.  This step is
+accomplished using a tool named Beetlz, which automatically generates
+JML-annotated Java code from an EBON specification~\cite{Darulova09}.
+The input of this tool is the EBON \emph{system\_chart} and
+\emph{static\_diagram} that were obtained throughout the entire
+analysis and design.  With just one click, Beetlz converts all EBON
+specifications into JML-annotated, Javadoc documented Java code.
+Beetlz also performs refinement analysis so that architecture drift is
+automatically identified as the system evolves, either at the
+model-level in EBON, or within the implementation in Java.
 
-% \note{-Joe, can you please add a bib item for the Beetlz tool? I used
-% it the previous paragraph cite\{Beetlz\}. \\-And do we need a
-% reference for Java?\\-And the code presented further down is not
-% styled -mvf}
-
-For example \autoref{example:generate-code} shows the Console class
-generated by Beetlz for the component with the same name captured in
-\emph{static\_diagram} in
+For example, \autoref{example:generate-code} shows the
+\texttt{Console} class generated by Beetlz for the component with the
+same name described in the \emph{static\_diagram} in
 \autoref{example:interfaces}.
 
-\begin{lstlisting}[label={example:generate-code},
-caption={Java Console class generated by Beetlz}]
-public /*@ nullable_by_default @*/ class Console  {
-   //@ ensures channel == 1 || channel == 2; public void
-   update(List<Char> message, Channel channel){}
-}
-\end{lstlisting}
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:generate-code},
+caption={Java Console class generated by Beetlz},
+captionpos=b]{code_example.bon}
+
 
 % =========================================================
 % Conclusion
