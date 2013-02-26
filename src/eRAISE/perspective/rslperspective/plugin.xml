@@ -25,7 +25,6 @@
       </category>
       <command
             categoryId="rslperspective.category.allfiles"
-            defaultHandler="rslperspective.TypeCheckAllHandler"
             description="Type check all RSL files in the workspace"
             id="rslperspective.command.typecheckall"
             name="Type check all">
@@ -37,6 +36,7 @@
       </category>
       <command
             categoryId="rslperspective.category.activefile"
+            defaultHandler="rslperspective.TypeCheckHandler"
             description="Type checks the current active file in the editor"
             id="rslperspective.command.typecheck"
             name="TypeCheck">
