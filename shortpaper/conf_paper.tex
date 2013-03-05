@@ -265,24 +265,51 @@ compositions.
 \label{sec:analys-design-meth}
 
 The EBON methodology as applied to Eclipse plug-in development has six
-stages, each described in a separate subsection and presented in the
+stages, each described in a separate paragraph and presented in the
 order in which they are applied. These six steps are: \emph{domain
   modeling}, \emph{user interface}, \emph{events}, \emph{components},
 \emph{components communication} and \emph{code generation}.
 
-The methodology is illustrated on the eRAISE case study.  Due to space
-restrictions, the entire project's analysis and design phases are not
-presented here; instead, only one scenario of the plug-in is shown
-from beginning to end.  A technical report version of this article,
-cited later, provides the entire case study.
-
 % Domain Modeling
 %
 {\bf Step 1: Domain Modeling.} 
+In the first step the most
+important entities and high level classifiers related to the system
+domain are identified, explained and documented. The identified
+notions are documented as classes, which can be
+grouped under clusters and all these make up a unique system.
+\autoref{example:system_chart} illustrates a caption of the eRAISE
+System specified in EBON notation
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:system_chart},
+caption={System chart describing the eRAISE system.},
+captionpos=b]{system_chart_example.bon}
+
+The domain model also describes how concepts behave and how their
+behavior is constrained. In \autoref{example:system_chart}, \emph{class\_chart
+  Console} offers the service of displaying informative messages or
+error messages with the \emph{constraint}
+that it must be cleared before displaying a new
+message.
+
 
 % User Interface
 %
-{\bf Step 2: User Interface.} bla bla
+{\bf Step 2: User Interface.} 
+This step determines all the things a
+user can do from the plug-in's UI by creating a mock-up user interface
+for each user action that is relevant
+and important for the plug-in. While the user interface is being
+drawn, product requirements are
+documented using EBON \emph{scenario\_charts}.  
+\autoref{example:scenario_chart} presents the requirement for a 
+sub-menu item of RSL menu.
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
+caption={Scenario chart for the RSL menu item.},
+captionpos=b]{scenario_example.bon}
 
 % Events
 %
