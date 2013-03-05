@@ -156,11 +156,8 @@ and partly it is because plug-in development is viewed as the dirtiest
 of the dirty-but-necessary jobs of ``selling'' systems technology.
 
 Typically, a researcher has developed a novel tool for Java
-programming, lets call it the \texttt{CommandLineWidget}.  They want
-others to use this tool, but few people these days want to mess about
-with downloading and building source code and, sadly, the barrier to
-entry for command-line tools is not insignificant these days.
-Instead, the researcher wants to ``sell'' their tool by wrapping it in
+programming, lets call it the \texttt{CommandLineWidget}  
+and wants to ``sell'' it by wrapping it in
 the \texttt{CommandLineFeature} for Eclipse, since Eclipse has the
 mind-share of most Java developers.  But the researcher does not know
 how to think about the UI design of an Eclipse plug-in, design and
@@ -221,18 +218,18 @@ specification language (RSL)~\cite{RLG92}. The project is called
 \emph{eRAISE} and it is currently under development at DTU.
 
 
-The \emph{rsltc} tool suite~\cite{rsltcUserGuide,RAISETools2003} consists of a type checker and some
-extensions to it supporting activities such as pretty printing,
-extraction of module dependencies, translation to other languages,
-generation of proof obligations, formal verification, and generation
-and execution of test cases.  \emph{rsltc} has a command-line
-interface that exposes different capabilities selected via switches,
-but is also used from Emacs using menus and key-binding.
-However, although it is easy to use for the user comfortable with
-command-line tools or Emacs, we expect that the creation of a modern
-Eclipse-based development environment for \emph{rsltc} would broaden
-its appeal to mainstream software engineers and better enable its use
-for university-level pedagogy.
+RAISE tool suite (\emph{rsltc}) ~\cite{rsltcUserGuide,RAISETools2003}
+consists of a type checker and some extensions to it supporting
+activities such as pretty printing, extraction of module dependencies,
+translation to other languages, generation of proof obligations,
+formal verification, and generation and execution of test cases.
+\emph{rsltc} has a command-line interface that exposes different
+capabilities selected via switches, but is also used from Emacs using
+menus and key-binding. However, although it is easy to use for the
+user comfortable with command-line tools or Emacs, we expect that the
+creation of a modern Eclipse-based development environment for
+\emph{rsltc} would broaden its appeal to mainstream software engineers
+and better enable its use for university-level pedagogy.
 
 
 % Related work
@@ -307,18 +304,17 @@ captionpos=b]{scenario_example.bon}
 % Events
 %
 {\bf Step 3: Events.}
-In this stage, the system is seen as a black
-box. The focus is on the external actions that make the system react
-and on the system's outgoing responses. An incoming external event is
-any action that determines the system to
-change its state while an outgoing internal event is the
-response the system sends as a reaction to an incoming external event.
-\autoref{example:event_chart_in} illustrates an incoming external
+This step identifies the external actions that make the system react
+and the system's outgoing responses. Incoming external events are
+actions that determine the system to
+change its state while outgoing internal events are the
+responses the system sends as a reaction to incoming external events.
+\autoref{example:event_chart_in} illustrates an incoming
 event named
 \emph{TYPECHECKALL}, triggered by a user action. The system response
 to
-this action is captured in an EBON \emph{outgoing event} in
-\autoref{example:event_chart_out} .
+this action is captured in an \emph{outgoing event} in
+\autoref{example:event_chart_out}.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
@@ -333,15 +329,14 @@ captionpos=b]{internal_event_example.bon}
 % Components
 %
 {\bf Step 4: Components.}
-This stage looks \emph{inside} the system at the components that constitute
-its architecture. The place to start identifying the system architecture components is
-the domain model created in Step 1. The high
-level classifiers captured there must be transformed into concrete
-data types in order to bring the system development closer to the
-implementation phase. Thus the system chart presented in
+This step looks \emph{inside} the system at the components that constitute
+its architecture. Therefore the high
+level classifiers described in
+the system domain model  are transformed into concrete
+data types. By applying the transformation, the \emph{system\_chart} presented in
 \autoref{example:system_chart} becomes the \emph{static\_diagram
 SystemArchitecture} from
-\autoref{example:system_architecture}
+\autoref{example:system_architecture}.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:system_architecture},
@@ -351,14 +346,12 @@ captionpos=b]{system_architecture_example.bon}
 % Components Communication
 %
 {\bf Step 5: Components Communication.}
-This step captures how components interact with each other and
-what interfaces they present to the other components that want to
-communicate with them. The events identified in Step 3 help
+This step captures the components interaction and
+the interfaces the components present to each other. The events identified in Step 3 help
 determine the components that react
 first to external stimuli and the ones responsible for the
-outgoing actions. Once the starting and ending point of the data flow
-is established, the other interacting components are determined by
-evaluating the scenarios in Step 2. \autoref{example:event_chart_in} 
+outgoing actions. Then, the other interacting components are determined by
+evaluating the scenarios from Step 2. \autoref{example:event_chart_in} 
 presents through the \emph{involves} part, the components interacting
 after the incoming event was triggered.  
 Components contracts are described using parameterized classes that contain
@@ -375,8 +368,7 @@ captionpos=b]{interfaces_example.bon}
 {\bf Step 6: Code Generation.}
 In the last step a tool named Beetlz~\cite{Darulova09} is applied to 
 automatically generate JML-annotated, Javadoc documented Java code 
-from the EBON \emph{system\_chart} and
-\emph{static\_diagrams} created in previous steps. 
+from the EBON specifications created in the previous steps. 
 Beetlz also performs refinement analysis so that architecture drift is
 automatically identified as the system evolves, either at the
 model-level in EBON, or within the implementation in Java.
@@ -385,9 +377,14 @@ model-level in EBON, or within the implementation in Java.
 \bibliographystyle{IEEEtran}
 \bibliography{abbrev,main-bib}
 
-\note{mention the fact that the method has been used for 20 years on dozens of projects
-Questions from the reviewer 1:
+\note{1) Mention the fact that the method has been used for 20 years on dozens of projects
+
+2) Questions from the reviewer 1:
 Are these steps performed in sequence (waterfall model) or in some iterative manner (e.g., spiral)?
-Also, I do not understand what about this methodology is plug-in development specific? The authors should make it clearer in the paper}
+Also, I do not understand what about this methodology is plug-in development specific? 
+The authors should make it clearer in the paper 
+
+3) Reference eRAISE master thesis which is in the bib file ~\cite{Fasie13}}
+
 
 \end{document}

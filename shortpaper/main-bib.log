@@ -1,0 +1,15 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdftex 2013.3.5)  5 MAR 2013 20:30
+entering extended mode
+**D:/eRAISE/shortpaper/main-bib.bib
+(D:/eRAISE/shortpaper/main-bib.bib
+! Undefined control sequence.
+l.7 note         = "Available by ftp from \url
+                                              {ftp://ftp.iist.unu.edu/pub/RA...
+
+? 
+! Emergency stop.
+l.7 note         = "Available by ftp from \url
+                                              {ftp://ftp.iist.unu.edu/pub/RA...
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!
