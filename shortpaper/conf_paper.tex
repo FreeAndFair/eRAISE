@@ -314,10 +314,34 @@ captionpos=b]{scenario_example.bon}
 % Events
 %
 {\bf Step 3: Events.}
+In this stage, the system is seen as a black
+box. The focus is on the external actions that make the system react
+and on the system's outgoing responses. An incoming external event is
+any action that determines the system to
+change its state while an outgoing internal event is the
+response the system sends as a reaction to an incoming external event.
+\autoref{example:event_chart_in} illustrates an incoming external
+event named
+\emph{TYPECHECKALL}, triggered by a user action. The system response
+to
+this action is captured in an EBON \emph{outgoing event} in
+\autoref{example:event_chart_out} .
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
+caption={Incoming event chart for typechecking features.},
+captionpos=b]{external_event_example.bon}
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_out},
+caption={Outgoing event chart for typechecking features.},
+captionpos=b]{internal_event_example.bon}
 
 % Components
 %
 {\bf Step 4: Components.}
+This stage looks \emph{inside} the system at the components that constitute
+its architecture. 
 
 % Components Communication
 %
