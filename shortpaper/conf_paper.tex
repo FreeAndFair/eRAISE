@@ -234,10 +234,6 @@ Eclipse-based development environment for \emph{rsltc} would broaden
 its appeal to mainstream software engineers and better enable its use
 for university-level pedagogy.
 
-\note{mention the fact that the method has been used for 20 years on dozens of projects
-Questions from the reviewer 1:
-Are these steps performed in sequence (waterfall model) or in some iterative manner (e.g., spiral)?
-Also, I do not understand what about this methodology is plug-in development specific? The authors should make it clearer in the paper}
 
 % Related work
 %
@@ -248,7 +244,6 @@ There is little published work that focuses on methodologies specific
 to plug-in development.  E.g., Lamprecht et al. reflect over some
 simplicity principles elicited by many years' experience in plug-in
 development~\cite{6229816}, but do not provide a methodology.
-
 We speculate that there is not much published work because plug-in
 development was not the focus of scientists until recently.
 Moreover, it is a fair question whether or not plug-in development is
@@ -270,10 +265,7 @@ compositions.
 \label{sec:analys-design-meth}
 
 The EBON methodology as applied to Eclipse plug-in development has six
-stages, each described in a separate paragraph and presented in the
-order in which they are applied. These six steps are: \emph{domain
-  modeling}, \emph{user interface}, \emph{events}, \emph{components},
-\emph{components communication} and \emph{code generation}.
+steps described in the following.
 
 % Domain Modeling
 %
@@ -284,36 +276,32 @@ domain are identified, explained and documented. The identified
 notions are documented as classes, which can be
 grouped under clusters and all these make up a unique system.
 \autoref{example:system_chart} illustrates a caption of the eRAISE
-System specified in EBON notation
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:system_chart},
-caption={System chart describing the eRAISE system.},
-captionpos=b]{system_chart_example.bon}
-
+System specified in EBON notation.
 The domain model also describes how concepts behave and how their
 behavior is constrained. In \autoref{example:system_chart}, \emph{class\_chart
   Console} offers the service of displaying informative messages or
 error messages with the \emph{constraint}
 that it must be cleared before displaying a new
 message.
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:system_chart},
+caption={System chart describing the eRAISE system.},
+captionpos=b]{system_chart_example.bon}
+
 
 
 % User Interface
 %
 {\bf Step 2: User Interface.} 
-This step determines all the things a
-user can do from the plug-in's UI by creating a mock-up user interface
-for each user action that is relevant
-and important for the plug-in. While the user interface is being
-drawn, product requirements are
-documented using EBON \emph{scenario\_charts}.  
-\autoref{example:scenario_chart} presents the requirement for a 
-sub-menu item of RSL menu.
+In this step, for each user action that is relevant for the plug-in, 
+a mock-up user interface is drawn, and the requirements for the actions are
+documented in EBON \emph{scenario\_chart} elements.
+As an example, \autoref{example:scenario_chart} presents the requirements for  
+one of the menus in the eRAISE case study.
 
 \lstset{style={bon}}
 \lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
-caption={Scenario chart for the RSL menu item.},
+caption={Scenario for a menu in eRAISE.},
 captionpos=b]{scenario_example.bon}
 
 % Events
@@ -396,5 +384,10 @@ model-level in EBON, or within the implementation in Java.
 
 \bibliographystyle{IEEEtran}
 \bibliography{abbrev,main-bib}
+
+\note{mention the fact that the method has been used for 20 years on dozens of projects
+Questions from the reviewer 1:
+Are these steps performed in sequence (waterfall model) or in some iterative manner (e.g., spiral)?
+Also, I do not understand what about this methodology is plug-in development specific? The authors should make it clearer in the paper}
 
 \end{document}
