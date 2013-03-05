@@ -3,13 +3,5 @@ static_diagram SystemArchitecture
 component
 	cluster RSLPerspective
 	component
-		class Editor
 		class Console
-		class TypeChecker
-		class Problems
-				
-		cluster Translator
-		component 
-			class SMLTranslator
-			class LatexGenerator
 			

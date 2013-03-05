@@ -234,6 +234,11 @@ Eclipse-based development environment for \emph{rsltc} would broaden
 its appeal to mainstream software engineers and better enable its use
 for university-level pedagogy.
 
+\note{mention the fact that the method has been used for 20 years on dozens of projects
+Questions from the reviewer 1:
+Are these steps performed in sequence (waterfall model) or in some iterative manner (e.g., spiral)?
+Also, I do not understand what about this methodology is plug-in development specific? The authors should make it clearer in the paper}
+
 % Related work
 %
 \section{Related work}
@@ -341,11 +346,41 @@ captionpos=b]{internal_event_example.bon}
 %
 {\bf Step 4: Components.}
 This stage looks \emph{inside} the system at the components that constitute
-its architecture. 
+its architecture. The place to start identifying the system architecture components is
+the domain model created in Step 1. The high
+level classifiers captured there must be transformed into concrete
+data types in order to bring the system development closer to the
+implementation phase. Thus the system chart presented in
+\autoref{example:system_chart} becomes the \emph{static\_diagram
+SystemArchitecture} from
+\autoref{example:system_architecture}
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:system_architecture},
+caption={eRAISE system architecture},
+captionpos=b]{system_architecture_example.bon}
 
 % Components Communication
 %
 {\bf Step 5: Components Communication.}
+This step captures how components interact with each other and
+what interfaces they present to the other components that want to
+communicate with them. The events identified in Step 3 help
+determine the components that react
+first to external stimuli and the ones responsible for the
+outgoing actions. Once the starting and ending point of the data flow
+is established, the other interacting components are determined by
+evaluating the scenarios in Step 2. \autoref{example:event_chart_in} 
+presents through the \emph{involves} part, the components interacting
+after the incoming event was triggered.  
+Components contracts are described using parameterized classes that contain
+formally specified \emph{features}. \autoref{example:interfaces}  
+presents the interface of the \emph{Console} class.
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:interfaces},
+caption={Console component interface},
+captionpos=b]{interfaces_example.bon}
 
 % Code Generation
 %
