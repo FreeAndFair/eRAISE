@@ -1,0 +1,7 @@
+class Console
+	feature
+	update 	-> message: LIST[CHAR] 
+		-> channel: CHANNEL
+		require
+			channel = 1 or channel = 2 
+			-- 1-stdout 2-stderr

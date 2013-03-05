@@ -1,0 +1,314 @@
+% words to eliminate/reduce: therefore
+
+
+%% conf_paper.tex
+
+\documentclass[conference]{IEEEtran}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+   \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+   \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+   \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+   \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+   \DeclareGraphicsExtensions{.eps}
+\fi
+
+%=========================================================
+% Latex Packages
+%=========================================================
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[colorinlistoftodos,textwidth=2.5cm,shadow]{todonotes}
+
+%=========================================================
+% Other
+%=========================================================
+
+\include{style/bon}
+\lstset{style=bon, columns=fullflexible, keepspaces=true, 
+        frame=topline, captionpos=b}
+
+%=========================================================
+% Generic Macros
+%=========================================================
+
+\newcommand{\lstbon}[1]{\lstinline[style=boninline]{#1}} 
+\newcommand{\lstjava}[1]{\lstinline[style=jml2inline]{#1}} 
+
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\xspace}
+\newcommand{\vs}{vs.\xspace}
+\newcommand{\etal}{et.~al.\xspace}
+
+% Todos
+\newcommand{\note}[1]{\todo[inline,color=red!40]{#1}}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+% =========================================================
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{A Rigorous Methodology for Analyzing and Designing Plug-ins}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{
+\IEEEauthorblockN{Marieta V. Fasie}
+\IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
+DK-2800 Lyngby, Denmark\\
+Email: marietafasie@gmail.com}
+
+\and
+
+\IEEEauthorblockN{Anne E. Haxthausen}
+\IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
+DK-2800 Lyngby, Denmark\\
+Email: ah@imm.dtu.dk}
+
+\and
+
+\IEEEauthorblockN{Joseph R. Kiniry}
+\IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
+DK-2800 Lyngby, Denmark\\
+Email: jkin@imm.dtu.dk}}
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+% make the title area
+\maketitle
+\thispagestyle{plain}
+\pagestyle{plain}
+
+% =========================================================
+% Abstract
+% =========================================================
+
+\begin{abstract}
+%\boldmath
+  Today, GUI plug-ins development is typically done in a very ad-hoc
+  way, where developers dive directly into implementation.  Without
+  any prior analysis and design, plug-ins are often flaky, unreliable,
+  difficult to maintain and extend with new functionality, and have
+  inconsistent user interfaces.  This paper addresses these problems
+  by describing a rigorous methodology for analyzing and designing
+  plug-ins.  The methodology is grounded in the Extended Business
+  Object Notation (EBON) and covers informal analysis and design of
+  features, GUI, actions, and scenarios, formal architecture design,
+  including behavioral semantics, and validation.  The methodology is
+  illustrated via a case study whose focus is an Eclipse environment
+  for the RAISE formal method's tool suite.
+\end{abstract}
+
+% no keywords
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+% =========================================================
+% Introduction
+% =========================================================
+\section{Introduction}
+\label{sec:introduction}
+
+Plug-ins, especially in the realm of plug-ins that wrap existing
+research command-line tools, are notoriously badly designed.
+Academics simply do not have the resources and expertise to execute on
+the design and implementation of a quality plug-in.  Partly this is due
+to the fact that there are few examples of best practices in the area,
+and partly it is because plug-in development is viewed as the dirtiest
+of the dirty-but-necessary jobs of ``selling'' systems technology.
+
+Typically, a researcher has developed a novel tool for Java
+programming, lets call it the \texttt{CommandLineWidget}.  They want
+others to use this tool, but few people these days want to mess about
+with downloading and building source code and, sadly, the barrier to
+entry for command-line tools is not insignificant these days.
+Instead, the researcher wants to ``sell'' their tool by wrapping it in
+the \texttt{CommandLineFeature} for Eclipse, since Eclipse has the
+mind-share of most Java developers.  But the researcher does not know
+how to think about the UI design of an Eclipse plug-in, design and
+program the plug-in, nor is she really interested in learning how to
+do these things.
+
+Eclipse plug-in development is a tricky world.  Concepts like
+features, plug-ins, extension points, windows, views, \etc abound.
+Enormous, poorly documented APIs are prolific in the Eclipse
+ecosystem.  To implement even the most basic of features sometimes
+takes hours of digging to find the right three lines of code, and then
+those lines must change when a new major version of Eclipse comes out.
+This is a frustrating world for researchers who want to package their
+demonstrable, useful tools for the Eclipse IDE.
+
+This work is an attempt to help resolve these issues.  First, we
+provide a \emph{rigorous step-wise methodology through which one can
+  do the analysis, architecture design, and user interface (UI) design
+  of a plug-in for an arbitrary integrated development environment
+  (IDE)}.  Second, we provide \emph{template example plug-ins} that
+can be reused by a programmer with a good understanding of Java, but a
+poor understanding of Eclipse plug-in development, to develop a new
+Eclipse plug-in or feature.
+
+The methodology used is based upon the Business Object Notation (BON),
+an analysis and design methodology promoted by Walden and Nerson in
+the mid-90s within the Eiffel community~\cite{WaldenNerson95}.
+Ostroff, Paige, and Kiniry formalized parts of the BON language and
+reasoned about BON
+specifications~\cite{LancaricOstroffPaige02,EBON01,PaigeEtal02,PaigeOstroff01b}.
+Fairmichael, Kiniry, and Darulova developed the BONc and Beetz tools
+for reasoning about BON specifications and their refinement to
+JML-annotated Java.\footnote{See \url{http://tinyurl.com/brgcrzc} for
+  more information.}  Finally, Kiniry and Fairmichael have extended
+BON in a variety of ways to produce Extended BON (EBON), which permits
+one to add new domain-specific syntax and semantics to the core BON
+language~\cite{Kiniry02-PhDThesis}.
+
+For the reader who has never heard of EBON, think of it as the subset
+of UML that might actually have a clear, unambiguous semantics.
+EBON's core features are that it is \emph{seamless}, insofar as you
+use the same specification language for everything from domain
+analysis to formal architecture specification and its behavior,
+\emph{reversible} insofar as code generation and reverse engineering
+to and from code to EBON is straightforward and tool-supported, and
+\emph{contracted} as formal abstract state-based contracts
+(invariants, pre, and postconditions) are the fundamental notion used
+to specify system behavior.  EBON has both a textual and a graphical
+syntax, a formal semantics expressed in higher-order logic, a formal
+semantics of refinement to and from OO software, and tool support for
+reasoning about specifications, expressing specifications textually or
+graphically, generating code from models and models from code, and
+reasoning about refinement to code.
+
+The methodology is illustrated on a case study that develops an
+Eclipse environment for the RAISE formal method~\cite{RMG95} and
+specification language (RSL)~\cite{RLG92}. The project is called
+\emph{eRAISE} and it is currently under development at DTU.
+
+
+The \emph{rsltc} tool suite~\cite{rsltcUserGuide,RAISETools2003} consists of a type checker and some
+extensions to it supporting activities such as pretty printing,
+extraction of module dependencies, translation to other languages,
+generation of proof obligations, formal verification, and generation
+and execution of test cases.  \emph{rsltc} has a command-line
+interface that exposes different capabilities selected via switches,
+but is also used from Emacs using menus and key-binding.
+However, although it is easy to use for the user comfortable with
+command-line tools or Emacs, we expect that the creation of a modern
+Eclipse-based development environment for \emph{rsltc} would broaden
+its appeal to mainstream software engineers and better enable its use
+for university-level pedagogy.
+
+% Related work
+%
+\section{Related work}
+\label{sec:related-work}
+
+There is little published work that focuses on methodologies specific
+to plug-in development.  E.g., Lamprecht et al. reflect over some
+simplicity principles elicited by many years' experience in plug-in
+development~\cite{6229816}, but do not provide a methodology.
+
+We speculate that there is not much published work because plug-in
+development was not the focus of scientists until recently.
+Moreover, it is a fair question whether or not plug-in development is
+any different from normal systems development where a GUI is involved.
+We believe that plug-in development is different from normal GUI
+development as plug-ins must integrate into the larger framework
+of the IDE, deal with non-GUI events, and work in arbitrary
+compositions.
+
+% The EBON method has been applied to not only OO software systems, but
+% websites and business processes, thus in some sense it should be
+% unsurprising that it can be used for plug-in development.  We also
+% borrow the UI sketching principles of the 
+
+% =========================================================
+% Analysis and design method
+% =========================================================
+\section{Analysis and Design Method}
+\label{sec:analys-design-meth}
+
+The EBON methodology as applied to Eclipse plug-in development has six
+stages, each described in a separate subsection and presented in the
+order in which they are applied. These six steps are: \emph{domain
+  modeling}, \emph{user interface}, \emph{events}, \emph{components},
+\emph{components communication} and \emph{code generation}.
+
+The methodology is illustrated on the eRAISE case study.  Due to space
+restrictions, the entire project's analysis and design phases are not
+presented here; instead, only one scenario of the plug-in is shown
+from beginning to end.  A technical report version of this article,
+cited later, provides the entire case study.
+
+% Domain Modeling
+%
+{\bf Step 1: Domain Modeling.} 
+
+% User Interface
+%
+{\bf Step 2: User Interface.} bla bla
+
+% Events
+%
+{\bf Step 3: Events.}
+
+% Components
+%
+{\bf Step 4: Components.}
+
+% Components Communication
+%
+{\bf Step 5: Components Communication.}
+
+% Code Generation
+%
+{\bf Step 6: Code Generation.}
+In the last step a tool named Beetlz~\cite{Darulova09} is applied to 
+automatically generate JML-annotated, Javadoc documented Java code 
+from the EBON \emph{system\_chart} and
+\emph{static\_diagrams} created in previous steps. 
+Beetlz also performs refinement analysis so that architecture drift is
+automatically identified as the system evolves, either at the
+model-level in EBON, or within the implementation in Java.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{abbrev,main-bib}
+
+\end{document}

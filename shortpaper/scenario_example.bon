@@ -1,0 +1,17 @@
+scenario_chart RSLMENU 
+scenario "MENU1" 
+description "The user can type check all RSL files in the 
+workspace. Success or failure messages will be displayed along 
+with the list of errors in case of a failure" 
+scenario "MENU2" 
+description "The user can translate to SML all RSL files in 
+the workspace. Success or failure messages will be displayed 
+along with the list of errors in case of a failure" 
+scenario "MENU3" 
+description "The user can run all test cases in the workspace.
+Success or failure messages will be displayed along with the 
+list of errors in case of a failure" 
+scenario "MENU4" 
+description "The user can generate Latex files for all files 
+in the workspace. Success or failure messages will be 
+displayed along with the list of errors in case of a failure" 

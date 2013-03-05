@@ -1,0 +1,123 @@
+//***********  package Rslperspective  ***********
+
+public /*@ nullable_by_default @*/ class Smltranslator  {
+
+  public void translate(/*@ non_null @*/ Context context){}
+}
+
+public /*@ nullable_by_default @*/ class Typechecker  {
+
+  public /*@ pure @*/ Signature getSignature(/*@ non_null @*/ Entity entity){}
+
+  public /*@ pure @*/ Set<Theorem> getTheorems(/*@ non_null @*/ Context context){}
+
+  public /*@ pure @*/ Set<Error> typeCheck(Entity entity, /*@ non_null @*/ Context context){}
+}
+
+public /*@ nullable_by_default @*/ class Problems  {
+
+  public void update(Set<Problem> problems){}
+}
+
+public /*@ nullable_by_default @*/ class Outlineview  {
+
+  public void update(Signature signature){}
+}
+
+public /*@ nullable_by_default @*/ class Projectexplorer  {
+
+  public /*@ pure @*/ Set<File> getRSLfiles(/*@ non_null @*/ Project project){}
+
+  public void add(/*@ non_null @*/ Directory directory, /*@ non_null @*/ File file){}
+
+  public void addDir(/*@ non_null @*/ Project project, /*@ non_null @*/ Directory directory){}
+
+  //@ ensures file == null;
+  public void delete(File file){}
+
+  //@ ensures dir == null;
+  public void deleteDir(Dir dir){}
+
+  //@ ensures project == null;
+  public void deletePrj(Project project){}
+}
+
+public /*@ nullable_by_default @*/ class Proofview  {
+
+  public void update(Set<Theorem> theorems){}
+}
+
+public /*@ nullable_by_default @*/ class Console  {
+
+  public void clear(){}
+
+  //@ ensures channel == 1 || channel == 2;
+  public void update(List<Char> message, Channel channel){}
+}
+
+public /*@ nullable_by_default @*/ class Replview  {
+
+  public void clear(){}
+}
+
+public /*@ nullable_by_default @*/ class Smlcompiler  {
+
+  public /*@ pure @*/ List<Char> compile(Entity entity, /*@ non_null @*/ Context context){}
+}
+
+public /*@ nullable_by_default @*/ class Rtestview  {
+
+  public void update(Set<Testresult> restResults){}
+}
+
+//***********  package Kernel  ***********
+
+public /*@ nullable_by_default @*/ class Value  {
+}
+
+public /*@ nullable_by_default @*/ class Any  {
+}
+
+public /*@ nullable_by_default @*/ class String  {
+}
+
+public /*@ nullable_by_default @*/ class File  {
+}
+
+public /*@ nullable_by_default @*/ class None  {
+}
+
+public /*@ nullable_by_default @*/ class Boolean  {
+}
+
+//***********  package Numbers  ***********
+
+public /*@ nullable_by_default @*/ class Float implements Number {
+}
+
+public /*@ nullable_by_default @*/ class Number implements int {
+}
+
+public /*@ nullable_by_default @*/ class Integer implements Number {
+}
+
+//***********  package Structures  ***********
+
+public /*@ nullable_by_default @*/ class Tuple  {
+}
+
+public /*@ nullable_by_default @*/ class Tree  {
+}
+
+public /*@ nullable_by_default @*/ class Array  {
+}
+
+public /*@ nullable_by_default @*/ class Table  {
+}
+
+public /*@ nullable_by_default @*/ class Set  {
+}
+
+public /*@ nullable_by_default @*/ class List < T >  {
+}
+

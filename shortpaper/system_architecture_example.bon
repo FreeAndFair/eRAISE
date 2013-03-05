@@ -1,0 +1,15 @@
+static_diagram SystemArchitecture
+--eRAISE system architecture
+component
+	cluster RSLPerspective
+	component
+		class Editor
+		class Console
+		class TypeChecker
+		class Problems
+				
+		cluster Translator
+		component 
+			class SMLTranslator
+			class LatexGenerator
+			
