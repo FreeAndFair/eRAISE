@@ -1,7 +1,6 @@
-static_diagram SystemArchitecture
---eRAISE system architecture
+static_diagram SystemArchitecture --eRAISE system architecture
 component
 	cluster RSLPerspective
 	component
 		class Console
-			
+		...	

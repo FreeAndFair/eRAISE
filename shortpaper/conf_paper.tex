@@ -90,14 +90,14 @@ Email: marietafasie@gmail.com}
 \IEEEauthorblockN{Anne E. Haxthausen}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
-Email: ah@imm.dtu.dk}
+Email: aeha@dtu.dk}
 
 \and
 
 \IEEEauthorblockN{Joseph R. Kiniry}
 \IEEEauthorblockA{DTU Compute\\Technical University of Denmark\\
 DK-2800 Lyngby, Denmark\\
-Email: jkin@imm.dtu.dk}}
+Email: jkin@dtu.dk}}
 
 % use for special paper notices
 %\IEEEspecialpapernotice{(Invited Paper)}
@@ -155,14 +155,14 @@ to the fact that there are few examples of best practices in the area,
 and partly it is because plug-in development is viewed as the dirtiest
 of the dirty-but-necessary jobs of ``selling'' systems technology.
 
-Typically, a researcher has developed a novel tool for Java
-programming, lets call it the \texttt{CommandLineWidget}  
-and wants to ``sell'' it by wrapping it in
-the \texttt{CommandLineFeature} for Eclipse, since Eclipse has the
-mind-share of most Java developers.  But the researcher does not know
-how to think about the UI design of an Eclipse plug-in, design and
-program the plug-in, nor is she really interested in learning how to
-do these things.
+%Typically, a researcher has developed a novel tool for Java
+%programming, lets call it the \texttt{CommandLineWidget}  
+%and wants to ``sell'' it by wrapping it in
+%the \texttt{CommandLineFeature} for Eclipse, since Eclipse has the
+%mind-share of most Java developers.  But the researcher does not know
+%how to think about the UI design of an Eclipse plug-in, design and
+%program the plug-in, nor is she really interested in learning how to
+%do these things.
 
 Eclipse plug-in development is a tricky world.  Concepts like
 features, plug-ins, extension points, windows, views, \etc abound.
@@ -173,14 +173,17 @@ those lines must change when a new major version of Eclipse comes out.
 This is a frustrating world for researchers who want to package their
 demonstrable, useful tools for the Eclipse IDE.
 
-This work is an attempt to help resolve these issues.  First, we
+This work is an attempt to help resolve these issues.  
+%First, we
+We
 provide a \emph{rigorous step-wise methodology through which one can
   do the analysis, architecture design, and user interface (UI) design
   of a plug-in for an arbitrary integrated development environment
-  (IDE)}.  Second, we provide \emph{template example plug-ins} that
-can be reused by a programmer with a good understanding of Java, but a
-poor understanding of Eclipse plug-in development, to develop a new
-Eclipse plug-in or feature.
+  (IDE)}.  
+%Second, we provide \emph{template example plug-ins} that
+%can be reused by a programmer with a good understanding of Java, but a
+%poor understanding of Eclipse plug-in development, to develop a new
+%Eclipse plug-in or feature.
 
 The methodology used is based upon the Business Object Notation (BON),
 an analysis and design methodology promoted by Walden and Nerson in
@@ -213,16 +216,15 @@ graphically, generating code from models and models from code, and
 reasoning about refinement to code.
 
 The methodology is illustrated on a case study that develops an
-Eclipse environment for the RAISE formal method~\cite{RMG95} and
-specification language (RSL)~\cite{RLG92}. The project is called
+Eclipse environment for the RAISE formal method%~\cite{RMG95} 
+and specification language (RSL)~\cite{RLG92}. The project is called
 \emph{eRAISE} and it is currently under development at DTU.
-
-
 RAISE tool suite (\emph{rsltc}) ~\cite{rsltcUserGuide,RAISETools2003}
 consists of a type checker and some extensions to it supporting
-activities such as pretty printing, extraction of module dependencies,
+activities such as pretty printing, %extraction of module dependencies,
 translation to other languages, generation of proof obligations,
-formal verification, and generation and execution of test cases.
+%formal verification, and generation 
+and execution of test cases.
 \emph{rsltc} has a command-line interface that exposes different
 capabilities selected via switches, but is also used from Emacs using
 menus and key-binding. However, although it is easy to use for the
@@ -234,6 +236,135 @@ and better enable its use for university-level pedagogy.
 
 % Related work
 %
+
+% =========================================================
+% Analysis and design method
+% =========================================================
+\section{Analysis and Design Method}
+\label{sec:analys-design-meth}
+
+The EBON methodology as applied to Eclipse plug-in development has six
+steps described shortly in the following.
+These steps can either be performed in sequence or in 
+some iterative manner. More details on the steps
+and the full specification of our case study will 
+be available in a technical report~\cite{Fasie13}.
+
+
+% Domain Modeling
+%
+{\bf Step 1: Domain Modeling.} 
+In the first step the most
+important entities and high level classifiers related to the system
+domain are identified, explained and documented. The identified
+notions are documented as classes, which can be
+grouped under clusters and all these make up a unique system.
+\autoref{example:system_chart} illustrates a caption of the eRAISE
+System specified in EBON notation.
+The domain model also describes how concepts behave and how their
+behavior is constrained. 
+%E.g.\ in \autoref{example:system_chart}, \emph{class\_chart Console} offers the service of displaying informative messages or error messages with the \emph{constraint} that it must be cleared before displaying a newmessage.
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:system_chart},
+caption={Excerpts of a system chart describing the eRAISE system.},
+captionpos=b]{system_chart_example.bon}
+
+
+
+% User Interface
+%
+{\bf Step 2: User Interface.} 
+In this step, for each user action relevant for the plug-in, 
+a mock-up user interface is drawn, and the requirements for the actions are
+documented in EBON \emph{scenario\_chart} elements.
+As an example, \autoref{example:scenario_chart} presents the requirements for  
+one of the menus in the eRAISE case study.
+
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
+caption={Scenario for a menu in eRAISE.},
+captionpos=b]{scenario_example.bon}
+
+% Events
+%
+{\bf Step 3: Events.}
+This step identifies the external actions that make the system react
+and the system's outgoing responses. 
+The external actions are captured as \emph{incoming events} and the possible responses as \emph{outgoing events} in EBON \emph{event charts}.
+For the eRAISE case study, one of incoming
+events is shown in
+\autoref{example:event_chart_in}.  One of the possible system responses
+to this action is captured  in
+\autoref{example:event_chart_out}.
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
+caption={An incoming event in eRAISE.},
+captionpos=b]{external_event_example.bon}
+\lstset{style={bon}}
+\lstinputlisting[style=bon, float=tp,label={example:event_chart_out},
+caption={An outgoing event in eRAISE.},
+captionpos=b]{internal_event_example.bon}
+
+% Components
+%
+{\bf Step 4: Components.}
+This step looks \emph{inside} the system at the components that constitute
+its architecture. The high
+level classifiers described in
+the system domain model captured in step 1 are transformed into concrete
+data types. 
+%In the case study, the \emph{system\_chart} in
+%\autoref{example:system_chart} is transformed into the \emph{static\_diagram
+%SystemArchitecture} in
+%\autoref{example:system_architecture}.
+%\lstset{style={bon}}
+%\lstinputlisting[style=bon, float=tp,label={example:system_architecture},
+%caption={eRAISE system architecture},
+%captionpos=b]{system_architecture_example.bon}
+
+% Components Communication
+%
+{\bf Step 5: Components Communication.}
+%This step concerns the communication between components. 
+First, by inspecting the events from step 3 and the scenarios from step 2,
+it is identified which components interact with each other. 
+%The events identified in Step 3 help
+%determine the components that react
+%first to external stimuli and the ones responsible for the
+%outgoing actions. Then, the other interacting components are determined by
+%evaluating the scenarios from Step 2. 
+%\autoref{example:event_chart_in} presents through the \emph{involves} part, the components interacting after the incoming event was triggered.  
+%Then typed interfaces describing how these components may interact are created. 
+Then component interfaces are described using parameterized classes that 
+contain formally specified features. 
+%EBON supports the formal specification of 
+%in an programming language-independent fashion. 
+%
+%Each classifier in the domain model maps to exactly one class within
+%the formal model, and each feature of each class within the
+%domain model maps to one formally specified feature in that
+%class’s interface.
+
+%\autoref{example:interfaces}  presents the interface of the \emph{Console} class.
+
+%\lstset{style={bon}}
+%\lstinputlisting[style=bon, float=tp,label={example:interfaces},
+%caption={Console component interface},
+%captionpos=b]{interfaces_example.bon}
+
+% Code Generation
+%
+{\bf Step 6: Code Generation.}
+In the last step a tool named Beetlz~\cite{Darulova09} is applied to 
+automatically generate JML-annotated, Javadoc documented Java code 
+from the EBON specifications created in the previous steps. 
+%Beetlz also performs refinement analysis so that architecture drift is
+%automatically identified as the system evolves, either at the
+%model-level in EBON, or within the implementation in Java.
+
+
+% Related Work
+
 \section{Related work}
 \label{sec:related-work}
 
@@ -255,136 +386,11 @@ compositions.
 % unsurprising that it can be used for plug-in development.  We also
 % borrow the UI sketching principles of the 
 
-% =========================================================
-% Analysis and design method
-% =========================================================
-\section{Analysis and Design Method}
-\label{sec:analys-design-meth}
-
-The EBON methodology as applied to Eclipse plug-in development has six
-steps described in the following.
-
-% Domain Modeling
-%
-{\bf Step 1: Domain Modeling.} 
-In the first step the most
-important entities and high level classifiers related to the system
-domain are identified, explained and documented. The identified
-notions are documented as classes, which can be
-grouped under clusters and all these make up a unique system.
-\autoref{example:system_chart} illustrates a caption of the eRAISE
-System specified in EBON notation.
-The domain model also describes how concepts behave and how their
-behavior is constrained. In \autoref{example:system_chart}, \emph{class\_chart
-  Console} offers the service of displaying informative messages or
-error messages with the \emph{constraint}
-that it must be cleared before displaying a new
-message.
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:system_chart},
-caption={System chart describing the eRAISE system.},
-captionpos=b]{system_chart_example.bon}
-
-
-
-% User Interface
-%
-{\bf Step 2: User Interface.} 
-In this step, for each user action that is relevant for the plug-in, 
-a mock-up user interface is drawn, and the requirements for the actions are
-documented in EBON \emph{scenario\_chart} elements.
-As an example, \autoref{example:scenario_chart} presents the requirements for  
-one of the menus in the eRAISE case study.
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:scenario_chart},
-caption={Scenario for a menu in eRAISE.},
-captionpos=b]{scenario_example.bon}
-
-% Events
-%
-{\bf Step 3: Events.}
-This step identifies the external actions that make the system react
-and the system's outgoing responses. Incoming external events are
-actions that determine the system to
-change its state while outgoing internal events are the
-responses the system sends as a reaction to incoming external events.
-\autoref{example:event_chart_in} illustrates an incoming
-event named
-\emph{TYPECHECKALL}, triggered by a user action. The system response
-to
-this action is captured in an \emph{outgoing event} in
-\autoref{example:event_chart_out}.
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:event_chart_in},
-caption={Incoming event chart for typechecking features.},
-captionpos=b]{external_event_example.bon}
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:event_chart_out},
-caption={Outgoing event chart for typechecking features.},
-captionpos=b]{internal_event_example.bon}
-
-% Components
-%
-{\bf Step 4: Components.}
-This step looks \emph{inside} the system at the components that constitute
-its architecture. Therefore the high
-level classifiers described in
-the system domain model  are transformed into concrete
-data types. By applying the transformation, the \emph{system\_chart} presented in
-\autoref{example:system_chart} becomes the \emph{static\_diagram
-SystemArchitecture} from
-\autoref{example:system_architecture}.
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:system_architecture},
-caption={eRAISE system architecture},
-captionpos=b]{system_architecture_example.bon}
-
-% Components Communication
-%
-{\bf Step 5: Components Communication.}
-This step captures the components interaction and
-the interfaces the components present to each other. The events identified in Step 3 help
-determine the components that react
-first to external stimuli and the ones responsible for the
-outgoing actions. Then, the other interacting components are determined by
-evaluating the scenarios from Step 2. \autoref{example:event_chart_in} 
-presents through the \emph{involves} part, the components interacting
-after the incoming event was triggered.  
-Components contracts are described using parameterized classes that contain
-formally specified \emph{features}. \autoref{example:interfaces}  
-presents the interface of the \emph{Console} class.
-
-\lstset{style={bon}}
-\lstinputlisting[style=bon, float=tp,label={example:interfaces},
-caption={Console component interface},
-captionpos=b]{interfaces_example.bon}
-
-% Code Generation
-%
-{\bf Step 6: Code Generation.}
-In the last step a tool named Beetlz~\cite{Darulova09} is applied to 
-automatically generate JML-annotated, Javadoc documented Java code 
-from the EBON specifications created in the previous steps. 
-Beetlz also performs refinement analysis so that architecture drift is
-automatically identified as the system evolves, either at the
-model-level in EBON, or within the implementation in Java.
-
-
+% References
 \bibliographystyle{IEEEtran}
 \bibliography{abbrev,main-bib}
 
-\note{1) Mention the fact that the method has been used for 20 years on dozens of projects
-
-2) Questions from the reviewer 1:
-Are these steps performed in sequence (waterfall model) or in some iterative manner (e.g., spiral)?
-Also, I do not understand what about this methodology is plug-in development specific? 
-The authors should make it clearer in the paper 
-
-3) Reference eRAISE master thesis which is in the bib file ~\cite{Fasie13}}
+%\note{ Mention the fact that the method has been used for 20 years on dozens of projects}
 
 
 \end{document}

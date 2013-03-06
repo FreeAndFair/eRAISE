@@ -2,10 +2,13 @@ system_chart eRAISESystem
 cluster RSLPerspective 
 description "The Eclipse RAISE perspective. It contains all
 components and functionality relevant for a RAISE project"
+
 cluster_chart RSLPerspective
-class Console 
-description "Displays the output of different components
-e.g. TypeChecker, SMLTranslator etc"
+class Console description "Displays the output of components"
+... 
+
 class_chart Console
-command "Displays informative or error messages",
-constraint "Delete content before displaying a new message" 	
+  command "Displays informative or error messages",
+  constraint "Delete content before displaying a new message" 	
+
+  

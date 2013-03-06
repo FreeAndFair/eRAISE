@@ -53,12 +53,6 @@ R.~F. Paige and J.~Ostroff, ``Metamodelling and conformance checking with
 J.~R. Kiniry, ``Kind theory,'' Ph.D. dissertation, Department of Computer
   Science, California Institute of Technology, 2002.
 
-\bibitem{RMG95}
-{The RAISE Method Group}, \emph{{The RAISE Development Method}}, ser. BCS
-  Practitioner Series.\hskip 1em plus 0.5em minus 0.4em\relax Prentice Hall,
-  1995, available by ftp from
-  \url{ftp://ftp.iist.unu.edu/pub/RAISE/method_book}.
-
 \bibitem{RLG92}
 {The RAISE Language Group}, \emph{{The RAISE Specification Language}}, ser. BCS
   Practitioner Series.\hskip 1em plus 0.5em minus 0.4em\relax Prentice Hall,
@@ -67,7 +61,8 @@ J.~R. Kiniry, ``Kind theory,'' Ph.D. dissertation, Department of Computer
 \bibitem{rsltcUserGuide}
 \BIBentryALTinterwordspacing
 ``{RAISE Tool User Guide},'' 2008. [Online]. Available:
-  \url{http://www.iist.unu.edu/newrh/III/3/1/docs/rsltc/user_guide/html/ug.html}
+  \url{http://www.iist.unu.edu/newrh/III/3/1/docs/rsltc/user_guide/html/ug.htm%
+l}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RAISETools2003}
@@ -85,12 +80,12 @@ S.~Naujokat, A.~Lamprecht, B.~Steffen, S.~Jorges, and T.~Margaria, ``Simplicity
   principles for plug-in development: The jabc approach,'' in \emph{Developing
   Tools as Plug-ins (TOPI), 2012 2nd Workshop on}, june 2012, pp. 7 --12.
 
+\bibitem{Fasie13}
+M.~V. Fasie, ``{An Eclipse based Development Environment for RAISE},'' Master's
+  thesis, DTU Compute, Technical University of Denmark, to appear May 2013.
+
 \bibitem{Darulova09}
 E.~Darulov{\'{a}}, ``{Beetlz} - {BON} software model consistency checker for
   {Eclipse},'' Master's thesis, University College Dublin, 2009.
-
-\bibitem{Fasie13}
-M.~V. Fasie, ``An eclipse based development environment for raise,'' Master's
-  thesis, Technical University of Denmark, 2013.
 
 \end{thebibliography}

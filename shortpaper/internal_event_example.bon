@@ -1,7 +1,3 @@
-event_chart UserMessages
-outgoing
-explanation "Internal events triggering responses meant to
-inform the user."
 event "CONSOLEUPDATE: Successs or failure messages displayed
 in console" 
 involves Console, TypeChecker
