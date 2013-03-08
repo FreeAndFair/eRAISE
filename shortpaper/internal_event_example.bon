@@ -1,3 +1,3 @@
-event "CONSOLEUPDATE: Successs or failure messages displayed
+event "CONSOLEUPDATE: Success or failure messages displayed
 in console" 
 involves Console, TypeChecker
