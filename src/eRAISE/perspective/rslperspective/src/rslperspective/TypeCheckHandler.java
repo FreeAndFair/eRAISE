@@ -1,3 +1,7 @@
+/**
+ * code inspired from http://wiki.eclipse.org/FAQ_How_do_I_write_to_the_console_from_a_plug-in%3F
+ * and 
+ */
 package rslperspective;
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,10 +16,26 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleConstants;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IConsoleView;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.part.*;
 import org.osgi.framework.Bundle;
 
 /**
@@ -45,18 +65,25 @@ public class TypeCheckHandler extends AbstractHandler implements IHandler {
 		//get the absolute paths to the rsltc and a rsl file
 		String programPath = accessRuntimeResource("resources/rsltc.exe");
 		//String parameter = accessRuntimeResource("resources/SET_DATABASE.rsl");
-		String parameter = accessRuntimeResource("resources/COUNTER.rsl");
+		//String parameter = accessRuntimeResource("resources/COUNTER.rsl");
 		
-		//String[] commands={"notepad"};
-		//String[] commands={"java","-version"};	
-		//String commands[] = {"rsltc.exe", "SET_DATABASE.rsl"};
+		IEditorPart editorPart = HandlerUtil.getActiveEditor(event);
+		IPath ipath = null;
+		
+		IEditorInput input = editorPart.getEditorInput();
+		if (input instanceof FileEditorInput) {
+		    IFile file = ((FileEditorInput) input).getFile();
+		    ipath = file.getLocation();
+		}
+
+		String parameter = ipath.toString();
 		
 		/*
 		 * to execute a DOS command from a Java program, you need to prepend
-		 * the command to run the Windows command shell cmd /c to the command
+		 * the Windows command shell cmd /c to the command
 		 *  you want to execute
 		 * The '/c' switch terminates the command shell after the command completes
-		 */ 
+		 */
 		String commands[] = {"cmd","/C", programPath, parameter};
 		
 		ProcessBuilder builder = new ProcessBuilder(commands);
@@ -86,9 +113,10 @@ public class TypeCheckHandler extends AbstractHandler implements IHandler {
 			e.printStackTrace();
 		}
 		
+		int exitValue = 1;
 		//wait to see if program exited successfully or not
 		try {
-            int exitValue = process.waitFor();
+            exitValue = process.waitFor();
             infomessage +="\nThe type check was: " + (exitValue == 0 ? "successful": "unsuccessful");
             
         } catch (InterruptedException e) {
@@ -96,9 +124,68 @@ public class TypeCheckHandler extends AbstractHandler implements IHandler {
         }
 		
 		//display the result in a info view
-		MessageDialog.openInformation(null, "Info", infomessage);
+		//MessageDialog.openInformation(null, "Info", infomessage+"\nThe type check was: " + (exitValue == 0 ? "successful": "unsuccessful"));
+		
+		RSLConsoleDisplay(infomessage, exitValue);
 		
 		return null;
+	}
+
+	/**
+	 * Displays output to plugin Console
+	 * @param infomessage
+	 * @param exitValue
+	 */
+	private void RSLConsoleDisplay(String infomessage, int exitValue) {
+		//make the console visible
+		//IConsole myConsole = ...;// your console instance
+		
+		// obtain the active page
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+		IWorkbenchPage page = win.getActivePage();
+		
+		String id = IConsoleConstants.ID_CONSOLE_VIEW;
+		IConsoleView view=null;
+		
+		try {
+			view = (IConsoleView) page.showView(id);
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		MessageConsole rslConsole = findConsole(IConsoleConstants.ID_CONSOLE_VIEW);
+		
+		if(view != null){
+			view.display(rslConsole);
+			rslConsole.clearConsole();
+			MessageConsoleStream out = rslConsole.newMessageStream();
+			out.println(infomessage);
+		}
+		
+	}
+
+	/**
+	 * Identifies a console by its id
+	 *  
+	 * @param idConsoleView
+	 * @return
+	 */
+	private MessageConsole findConsole(String name) {
+		
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+	    IConsoleManager conMan = plugin.getConsoleManager();
+	    IConsole[] existing = conMan.getConsoles();
+	    //search for the console
+	    for (int i = 0; i < existing.length; i++)
+	         if (name.equals(existing[i].getName()))
+	            return (MessageConsole) existing[i];
+	    
+	    //create a new console 
+	    MessageConsole tcConsole = new MessageConsole(name, null);
+	    conMan.addConsoles(new IConsole[]{tcConsole});
+	    return tcConsole;
 	}
 
 	/**
