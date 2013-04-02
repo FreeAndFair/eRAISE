@@ -9,6 +9,8 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 
 /**
+ * Creates the perspective layout
+ * 
  * @author Marieta V. Fasie
  * 	marietafasie at gmail dot com
  *
