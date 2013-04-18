@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="rsleditor.editor.RSLEditor"
+            default="true"
+            extensions="rsl"
+            id="RSLEditor.editor.rsleditor"
+            name="RSL Editor">
+      </editor>
+   </extension>
+   <extension
+		id="rslmarker"
+        name="RSL Problem Marker"
+        point="org.eclipse.core.resources.markers">
+      	<super
+            type="org.eclipse.core.resources.problemmarker">
+      	</super>
+      	<super
+            type="org.eclipse.core.resources.textmarker">
+      	</super>
+      	<persistent
+            value="true">
+      	</persistent>
+   </extension>
+   <extension
+         point="rsl.core">
+      <itemType
+            class="rsleditor.TypeCheck"
+            id="RSLEditor.itemType">
+      </itemType>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <viewerContribution
+            id="RSLEditor.RSLEditorPopup"
+            targetID="RSLEditor.editor.rsleditor.EditorContext">
+         <menu
+               id="RSLEditor.typecheckmenu"
+               label="TypeCheck">
+         </menu>
+         <action
+               class="rsleditor.TypeCheckHandler"
+               id="RSLEditor.typecheck.action"
+               label="TypeCheck"
+               menubarPath="RSLEditor.typecheckmenu">
+         </action>
+      </viewerContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="RSLEditor.rsleditor.actions"
+            targetID="RSLEditor.editor.rsleditor">
+         <action
+               class="rsleditor.TypeCheckHandler"
+               id="RSLEditor.typecheck.action"
+               label="TC"
+               style="push"
+               toolbarPath="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         </action>
+      </editorContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consolePatternMatchListeners">
+      <consolePatternMatchListener
+            class="rsleditor.problems.PatternMatchListenerDelegate"
+            id="RSLEditor.consolePatternMatchListener"
+            regex="(.*):(\d+):(\d+):(\s*)(.*)">
+         <enablement></enablement>
+      </consolePatternMatchListener>
+   </extension>
+   
+
+</plugin>
