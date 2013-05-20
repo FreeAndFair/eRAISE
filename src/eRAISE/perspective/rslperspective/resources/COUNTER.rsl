@@ -1,7 +1,0 @@
-scheme COUNTER = 
-  class 
-    variable counter : Nat := 0   	 
-    value 
-      increase : Unit -> write counter Nat 
-    axiom increase() is counter := counter + 1 ; counter 
-  end
