@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="editor.RSLEditor"
+            default="true"
+            extensions="rsl"
+            id="RSLEditor.editor.rsleditor"
+            name="RSL Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consolePatternMatchListeners">
+      <consolePatternMatchListener
+            class="editor.ConsoleToProblems"
+            id="rsl.editor.consolePatternMatchListener"
+            regex="(.*):(\d+):(\d+):(\s*)(.*)">
+         <enablement></enablement>
+      </consolePatternMatchListener>
+   </extension>
+   
+
+</plugin>
