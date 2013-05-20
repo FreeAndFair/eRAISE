@@ -1,0 +1,25 @@
+1366127309806	Delete element
+1366191281352	Delete element
+1366191461077	Delete element
+1366192334406	Delete element
+1366203473392	Delete element
+1366204816980	Rename type 'TypeCheckerTest'
+1366204847689	Delete element
+1366276119504	Delete element
+1366285224732	Delete element
+1366285282124	Delete element
+1366292910662	Move compilation unit
+1366300382023	Rename compilation unit 'SMLTranslator.java'
+1366310647602	Move compilation unit
+1366310651956	Delete element
+1366398552131	Encapsulate field 'lastTranslatedFile'
+1366401150092	Rename type 'Util'
+1366401165581	Rename type 'Help'
+1366403457926	Rename local variable 'workspacePath'
+1366408450532	Rename local variable 'projectPath'
+1366440095059	Rename local variable 'SMLProjectName'
+1366443734359	Rename local variable 'smlProject'
+1366444377845	Rename local variable 'desc'
+1366453852510	Rename local variable 'smlFileName1'
+1366453878004	Rename local variable 'rslProjectName'
+1366453892100	Rename local variable 'smlProjectName'

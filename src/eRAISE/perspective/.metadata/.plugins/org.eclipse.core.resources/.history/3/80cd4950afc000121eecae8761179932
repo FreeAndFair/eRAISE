@@ -1,0 +1,85 @@
+/**
+ * 
+ */
+package core;
+
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class PluginLog {
+	
+	private PluginLog instance;
+	
+	private ILog logger;
+	
+	private String pluginName;
+	
+	private static final boolean DEBUG = 
+			Activator.getDefault().isDebugging() &&
+			"true".equalsIgnoreCase( Platform.getDebugOption( "rsl.core/debug/debugmsg") );
+	
+	public PluginLog(){
+		
+		logger = Activator.getDefault().getLog();
+		
+		pluginName = logger.getBundle().getSymbolicName();
+		
+	}
+	
+	/**
+	 * Method for Singleton
+	 * 
+	 * @return Instance of the PluginLog 
+	 */
+	public PluginLog getInstance(){
+		if(instance == null){
+			instance = new PluginLog();
+		}
+		return instance;			
+	}
+	
+	/**
+	 * Adds error to the system error log
+	 * 
+	 * @param msg Error message
+	 * @param e Exception
+	 */
+	public void error(String msg, Exception e) {
+		logger.log(new Status(Status.ERROR, pluginName, Status.OK, msg, e));
+	}
+	
+	/**
+	 * Adds warning to the system log
+	 * @param msg Warning message
+	 */
+	public void warning(String msg){
+		logger.log(new Status(Status.WARNING, pluginName, msg));
+	}
+	
+	/**
+	 * Info messages added to the system log
+	 * 
+	 * @param msg Info message
+	 */
+	public void info(String msg){
+			logger.log(new Status(Status.INFO, pluginName, msg));
+	}
+	
+	/**
+	 * Debug messages are displayed to the Console
+	 * but only if debugLevel is true
+	 * 
+	 * @param msg Debug message
+	 */
+	public void debug(String msg){
+		if(DEBUG == true){
+			Console.getInstance().print(msg);
+		}
+	}
+}

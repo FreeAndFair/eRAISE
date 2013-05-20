@@ -1,0 +1,65 @@
+/**
+ * 
+ */
+package rslperspective;
+
+import java.io.IOException;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class TypeCheckAllHandler extends AbstractHandler{
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		String message = null;
+		Process process=null;
+		
+		//String[] commands ={"rsltc.exe","SET_DATABSE.rsl"};
+		
+		ProcessBuilder builder = new ProcessBuilder("notepad");
+		builder.redirectErrorStream(true);
+		
+		try {
+			process = builder.start();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+			
+		/*
+		InputStream is = process.getInputStream();
+		setUpStreamGobbler(is, System.out);
+		
+		/*
+		BufferedReader br = new BufferedReader(isr);
+		String line= br.readLine();
+		
+		System.out.printf("Output of running %s is:", Arrays.toString(args));
+		
+		while (line != null && ! line.trim().equals("--EOF--")) {
+	        System.out.println ("Stdout: " + line);
+	        line = br.readLine();
+	    }
+		
+		*/
+		try {
+            int exitValue = process.waitFor();
+            System.out.println("\nExit Value is " + exitValue);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+		
+		MessageDialog.openInformation(null, "Info", message);
+		return null;
+	}
+
+}

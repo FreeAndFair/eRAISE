@@ -1,0 +1,29 @@
+/**
+ * 
+ */
+package editor.config;
+
+import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class RSLContentOutlinePage extends ContentOutlinePage {
+	
+	public Object getAdapter(Class required)
+	{
+		
+	    if (IContentOutlinePage.class.equals(required))
+	    {
+	        if (outlinePage == null)
+	        {
+	            outlinePage = new RSLContentOutlinePage(this);
+	            ...
+	        }
+	        return outlinePage;
+	    }
+	    return super.getAdapter(required);
+	}
+}

@@ -1,0 +1,297 @@
+package core;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Map;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
+
+
+
+/**
+ * Executes the SML files
+ * 
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class TestRunner{
+	private static int count = 0;
+	
+	private static PluginLog log = PluginLog.getInstance();
+
+	public String execute(IFile ifile){
+		log.debug("----Enter test execute");
+
+		if(count == 0){
+			//Activator.getDefault().setBinariesPath();
+			count++;
+		}
+			
+		
+		String infomessage = "";
+		Process process = null;
+		ProcessBuilder builder = null;
+		
+		//path of the file opened in the editor
+		IPath ipath = ifile.getLocation();
+		String smlfilePath = ipath.toString();
+
+		String os = System.getProperty("os.name");
+		
+		if( os.indexOf("win") >= 0 || os.indexOf("Win")>=0){
+			Console.getInstance().print("os: Windows");
+
+			/*
+			 * to execute a DOS command from a Java program, you need to prepend
+			 * the Windows command shell cmd /c to the command
+			 * you want to execute. In other words the type checker
+			 * needs to be wrapped in the cmd.
+			 * The '/c' switch terminates the command shell after the command completes
+			 */
+			
+			//String smlArgument ="\"filePath\""; //name of the file must be between ""
+			
+			//System.out.println("Setting parameters");
+			
+			//String commands[] = {"cmd","/C", "sml", smlfilePath};
+			
+			log.debug("Building process: cmd c/ sml "+"\n   "+smlfilePath);
+			builder = new ProcessBuilder("cmd","/C", "sml", smlfilePath);
+			
+			
+			Map<String, String> env = builder.environment();
+			//String pathVal = accessRuntimeResource("resources\\sml");
+			String pathVal = findPluginResource("rsl.core", "resources/sml");
+			//System.out.println("full path: "+pathVal);
+			log.debug("Setting environment variable: ");
+			if (! env.containsKey("Path")) {
+		    	//System.out.println("Path is NULL");
+		    	env.put("Path", pathVal+"\\bin\\");
+		    	log.debug("New variable: path= "+ pathVal+"\\bin\\");
+		    }
+			else{
+				String path = env.get("Path");
+				if(!path.contains(pathVal+"\\bin\\")){
+					path = path.concat(";"+pathVal+"\\bin\\");
+					env.put("Path", path);
+					log.debug("Add to path: ;"+ pathVal+"\\bin\\");
+				}
+				log.debug("Path already exists and contains: "+pathVal);
+			}
+			
+		    if (! env.containsKey("SMLNJ_PATH")) {
+		    	//System.out.println("SMLNJ_PATH is NULL");
+		    	env.put("SMLNJ_HOME", pathVal);
+		    	log.debug("New variable: SMLNJ_HOME= "+ pathVal);
+		    	
+		    }
+		    
+		    //String rslPathVal = accessRuntimeResource("resources\\raise\\sml");
+		    String rslPathVal = findPluginResource("rsl.core", "resources/raise/sml");
+		    if (! env.containsKey("RSLML_PATH")) {
+		    	//System.out.println("RSLML_PATH is NULL");
+		    	env.put("RSLML_HOME", rslPathVal);
+		    	log.debug("New variable: RSLML_HOME= "+ rslPathVal);
+		    }
+		    
+		    /*
+		    Map<String, String> env1 = builder.environment();
+			for (String envName : env1.keySet()) {
+				System.out.format("%s=%s%n",envName, env1.get(envName));
+			}
+			*/
+		}
+		
+		else
+			if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0 ){
+				log.debug("Running SML on "+os);
+				//String programPath = System.getProperty("smlLinux");
+				String programPath = findPluginResource("rsl.core", "resources/linux/sml/bin/sml");
+				log.debug("sml path: "+programPath);
+				//give rights
+				ProcessBuilder giveRights = new ProcessBuilder("chmod", "777",programPath);
+				log.debug("Rights given");
+				try {
+					giveRights.start();
+				} catch (IOException e) {
+					log.error(e.getMessage(), e);
+				}
+				
+				String commands[] = {programPath, smlfilePath};
+			
+				log.debug("building builder");
+				builder = new ProcessBuilder(programPath, smlfilePath);
+				
+
+				Map<String, String> env = builder.environment();
+				String pathVal = findPluginResource("rsl.core", "resources/linux/sml");
+				log.debug("sml full path: "+pathVal);
+				
+				if (! env.containsKey("Path")) {			    	
+			    	env.put("Path", pathVal+"/bin/");
+			    	log.debug("Adding path: "+pathVal+"/bin/");
+			    }
+				else{
+					String path = env.get("Path");
+					if(!path.contains(pathVal+"/bin/")){
+						path = path.concat(";"+pathVal+"/bin/");
+						env.put("Path", path);
+						log.debug("Adding path: ;"+pathVal+"/bin/");
+					}
+				}
+				
+			    if (! env.containsKey("SMLNJ_HOME")) {
+			    	env.put("SMLNJ_HOME", pathVal);
+			    	log.debug("Adding variable SMLNJ_HOME: "+pathVal);
+			    }
+			    
+			    String rslPathVal = findPluginResource("rsl.core", "resources/raise/sml");
+			    if (! env.containsKey("RSLML_HOME")) {			
+			    	env.put("RSLML_HOME", rslPathVal);
+			    	log.debug("Adding variable RSLML_HOME: "+rslPathVal);
+			    }
+			    
+				
+			}
+	
+		//correlate the error messages with the output messages
+		builder.redirectErrorStream(true);
+	    
+		try {
+			//start the program
+			log.debug("Process starts....");
+			process = builder.start();
+		
+			//get the input stream
+		
+			OutputStream stdin = process.getOutputStream ();
+			InputStream stdout = process.getInputStream ();
+			
+			BufferedReader reader = new BufferedReader (new InputStreamReader(stdout));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+			
+			//read the program output line by line
+			String line = reader.readLine();
+			
+			//apparently bash receives EOF on its stdin and exits when close its called 
+			writer.close();
+			
+			while (line != null && ! line.trim().equals("--EOF--")) {
+		        infomessage += line+"\n";
+		        line = reader.readLine();
+		    }
+			log.debug("Process ends");
+		
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
+		
+		//return test case execution message
+		log.debug("----Returning message: \n");
+		return infomessage;
+				
+	}
+
+	
+	/**
+	 * This method takes a relative path of a file and
+	 * returns the absolute path of the file according
+	 * to the runtime workspace
+	 * 
+	 * @param relativePath
+	 * @return the absolute path  
+	 */
+	private static String accessRuntimeResource(String relativePath) {
+		File setupFile = null;
+		
+		//get access to bundle
+		Bundle bundle = Activator.getDefault().getBundle();
+		
+		//get the runtime path to the resources/rsltc program
+		IPath path = new Path(relativePath);				
+		URL setupUrl = FileLocator.find(bundle, path, Collections.EMPTY_MAP);
+		
+		//get the file with the absolute path 
+		try {
+			setupFile = new File(FileLocator.toFileURL(setupUrl).toURI());	
+		
+		} catch (URISyntaxException | IOException e) {	
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		return setupFile.getAbsolutePath();
+	}
+
+	
+	 /**
+	   * Returns the absolute file system location of a file inside a plugin.
+	   * @param pluginName  The name of the plugin
+	   * @param path  The path (as a String) of the file within the plugin
+	   * @return The absolute file system location of the target file
+	   * @throws IOException
+	   */
+	  public static String findPluginResource(final String pluginName, 
+	                                          final String path){
+		  log.debug("----Enter findPLuginresource");
+	    // This is the 'official' way to find something that
+	    // is in the install location of the plugin, cf.
+	    // Official Eclipse Faq #103.
+	    // It is stated that this code will only work if the 
+	    // install location is on the local file system.
+	    final Bundle bundle = Platform.getBundle(pluginName);
+	    
+	    log.debug("Getting bundle");
+	    IPath p = new Path(path);
+	    final URL url = FileLocator.find(bundle, p, null);
+	    log.debug("Getting url: "+url);
+	    // The substring call is to remove an initial /
+	    // FIXME do we remove the / on all platforms?
+	    // FIXME - do we need to do these back-and-forth conversions of will this do:
+	    // return Platform.resolve(url).getPath().substring(1);
+	    URL resolvedURL=null;
+		try {
+			resolvedURL = FileLocator.resolve(url);
+			log.debug("Resolved url: "+resolvedURL);
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
+	    final String filePath = resolvedURL.getPath();
+	    Console.getInstance().print("resolved filePath: "+filePath);
+	    
+	    final Path resourcePath = new Path(filePath);
+	    Console.getInstance().print("resourcePath: "+resourcePath);
+	    p = resourcePath.makeAbsolute();
+	    
+	    Console.getInstance().print(" p: "+p);
+	    String s = p.toOSString();
+	    
+	    if(s.startsWith("file:/") || s.startsWith("file:\\"))
+	    	s = s.substring(6);
+	   
+	    /*
+	    if(s.contains("!")){
+	    	int position = s.indexOf("!");
+	    	s = s.substring(0,position) + s.substring(position+1,s.length());
+	    }
+	    */
+	    Console.getInstance().print("----Returning "+s);
+	    return s;
+	  }
+	
+}

@@ -1,0 +1,35 @@
+/**
+ * 
+ */
+package core;
+
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.Status;
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class PluginLog {
+	
+	private PluginLog instance;
+	
+	private ILog logger;
+	
+	public PluginLog(){
+		logger = Activator.getDefault().getLog();
+	}
+	
+	public PluginLog getInstance(){
+		if(instance == null){
+			instance = new PluginLog();
+		}
+		return instance;
+			
+	}
+	
+	public void error(String msg, Exception e) {
+		logger.log(new Status(Status.INFO, logger.getBundle().getSymbolicName(), Status.OK, msg, e));
+	}
+}

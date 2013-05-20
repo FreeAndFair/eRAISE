@@ -1,0 +1,193 @@
+/**
+ * 
+ */
+package core;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
+
+
+
+
+/**
+ * Translates RSL specifications to SML code
+ * 
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class SMLTranslator {
+	private static int count;
+
+	/**
+	 * Translates to SML an RSL file
+	 * 
+	 * @param context an RSL file
+	 */
+	public String translate(IFile ifile){
+		Console.getInstance().print("----inside SML translate");
+		if(count == 0){
+			//Activator.getDefault().setBinariesPath();
+			count++;
+		}
+		
+		String infomessage = "";
+		Process process = null;
+		
+		//path of the file 
+		IPath ipath = ifile.getLocation();
+		String filePath = ipath.toString();
+		
+		//get the absolute path to the rsltc 
+		//String programPath = accessRuntimeResource("resources/raise/rsl/rsltc.exe");
+		//String programPath = System.getProperty("rsltc");
+		
+		ProcessBuilder builder = null;
+		
+		String os = System.getProperty("os.name");
+		
+		if( os.indexOf("win") >= 0 || os.indexOf("Win")>=0){
+			//System.out.println(os);
+			Console.getInstance().print("os: Windows");
+			/*
+			 * to execute a DOS command from a Java program, you need to prepend
+			 * the Windows command shell cmd /c to the command
+			 * you want to execute. In other words the type checker
+			 * needs to be wrapped in the cmd.
+			 * The '/c' switch terminates the command shell after the command completes
+			 */
+			//String commands[] = {"cmd","/C", programPath, "-m", filePath};
+
+			String resPath = findPluginResource("rsl.core", "rsltc.exe");
+			
+			Console.getInstance().print("********Building program: cmd /c \n    "+ resPath+ "-m" +" \n   "+filePath);
+			Console.getInstance().print("....running resource........."+resPath);
+		
+	
+			builder = new ProcessBuilder("cmd", "/C", resPath, "-m", filePath);
+	
+		}
+		else
+			if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0 ){
+				
+			String programPath = findPluginResource("rsl.core", "resources/linux/raise/rsltc");
+			Console.getInstance().print(" rsltc path: "+programPath);
+			
+			//give rights
+			ProcessBuilder giveRights = new ProcessBuilder("chmod", "777",programPath);
+			Console.getInstance().print("rights given");
+			try {
+				giveRights.start();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//String commands[] = {programPath, "-m", filePath};
+			
+			Console.getInstance().print(" new process builder ");
+			builder = new ProcessBuilder(programPath, "-m", filePath);
+		}
+		
+		//correlate the error messages with the output messages
+		builder.redirectErrorStream(true);
+		
+		try {
+			//start the program
+			Console.getInstance().print("process starts...");
+			process = builder.start();
+		
+			//get the input stream
+			InputStream is = process.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			
+			//read the program output line by line
+			String line = br.readLine();
+						
+			while (line != null && ! line.trim().equals("--EOF--")) {
+		        infomessage += line+"\n";
+		        line = br.readLine();
+		    }
+			Console.getInstance().print("process ends");
+		
+		} catch (IOException e) {
+			infomessage += e.getMessage();
+			e.printStackTrace();
+		}
+		
+		Console.getInstance().print("----returning message: " +infomessage);
+		//return sml translator message
+		return infomessage;
+	
+				
+	}
+	
+	 /**
+	   * Returns the absolute file system location of a file inside a plugin.
+	   * @param pluginName  The name of the plugin
+	   * @param path  The path (as a String) of the file within the plugin
+	   * @return The absolute file system location of the target file
+	   * @throws IOException
+	   */
+	  public static String findPluginResource(final String pluginName, 
+	                                          final String path){
+		 Console.getInstance().print("---enter findPLuginresource");
+	    // This is the 'official' way to find something that
+	    // is in the install location of the plugin, cf.
+	    // Official Eclipse Faq #103.
+	    // It is stated that this code will only work if the 
+	    // install location is on the local file system.
+	    final Bundle bundle = Platform.getBundle(pluginName);
+	    
+	    Console.getInstance().print("getting bundle");
+	    IPath p = new Path(path);
+	    final URL url = FileLocator.find(bundle, p, null);
+	    Console.getInstance().print("getting url: "+url);
+	    // The substring call is to remove an initial /
+	    // FIXME do we remove the / on all platforms?
+	    // FIXME - do we need to do these back-and-forth conversions of will this do:
+	    // return Platform.resolve(url).getPath().substring(1);
+	    URL resolvedURL=null;
+		try {
+			resolvedURL = FileLocator.resolve(url);
+			Console.getInstance().print("resolved url: "+resolvedURL);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    final String filePath = resolvedURL.getPath();
+	    Console.getInstance().print("resolved filePath: "+filePath);
+	    
+	    final Path resourcePath = new Path(filePath);
+	    Console.getInstance().print("resourcePath: "+resourcePath);
+	    p = resourcePath.makeAbsolute();
+	    
+	    Console.getInstance().print(" p: "+p);
+	    String s = p.toOSString();
+	    
+	    if(s.startsWith("file:/") || s.startsWith("file:\\"))
+	    	s = s.substring(6);
+	   
+	    /*
+	    if(s.contains("!")){
+	    	int position = s.indexOf("!");
+	    	s = s.substring(0,position) + s.substring(position+1,s.length());
+	    }
+	    */
+	    Console.getInstance().print("----Returning "+s);
+	    return s;
+	  }
+	
+	
+}

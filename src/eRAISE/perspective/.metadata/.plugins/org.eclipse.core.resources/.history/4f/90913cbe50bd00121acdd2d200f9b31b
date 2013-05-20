@@ -1,0 +1,51 @@
+//***********  package Kernel  ***********
+
+public /*@ nullable_by_default @*/ class Value  {
+}
+
+public /*@ nullable_by_default @*/ class Any  {
+}
+
+public /*@ nullable_by_default @*/ class String  {
+}
+
+public /*@ nullable_by_default @*/ class File  {
+}
+
+public /*@ nullable_by_default @*/ class None  {
+}
+
+public /*@ nullable_by_default @*/ class Boolean  {
+}
+
+//***********  package Numbers  ***********
+
+public /*@ nullable_by_default @*/ class Float implements Number {
+}
+
+public /*@ nullable_by_default @*/ class Number implements int {
+}
+
+public /*@ nullable_by_default @*/ class Integer implements Number {
+}
+
+//***********  package Structures  ***********
+
+public /*@ nullable_by_default @*/ class Tuple  {
+}
+
+public /*@ nullable_by_default @*/ class Tree  {
+}
+
+public /*@ nullable_by_default @*/ class Array  {
+}
+
+public /*@ nullable_by_default @*/ class Table  {
+}
+
+public /*@ nullable_by_default @*/ class Set  {
+}
+
+public /*@ nullable_by_default @*/ class List < T >  {
+}
+

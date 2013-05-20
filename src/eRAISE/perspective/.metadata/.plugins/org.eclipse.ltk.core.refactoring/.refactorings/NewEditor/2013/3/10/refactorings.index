@@ -1,0 +1,13 @@
+1362326538502	Delete element
+1362334537324	Delete element
+1362334666745	Delete element
+1362425652879	Rename field 'NEW_SCHEME'
+1362425676559	Rename local variable 'scheme'
+1362426193535	Rename field 'NEW_KEY_WORD'
+1362426217588	Rename local variable 'newKeyWord'
+1362656421678	Rename type 'SchemeRule'
+1362656459742	Rename local variable 'newScheme'
+1362656484329	Rename local variable 'newComment'
+1362656498190	Rename local variable 'rsl_keyword'
+1362656520102	Rename field 'NEW_SCHEME'
+1362656532987	Rename field 'NEW_COMMENT'

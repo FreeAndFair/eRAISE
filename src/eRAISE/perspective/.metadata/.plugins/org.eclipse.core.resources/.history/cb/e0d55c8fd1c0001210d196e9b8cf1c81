@@ -1,0 +1,376 @@
+/**
+ * 
+ */
+package core;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Scanner;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class ResourceHandler {
+	
+	private static String RSLML_CM = "resources/raise/sml/rslml.cm";
+	
+	private static PluginLog log = PluginLog.getInstance();
+
+	public static void move(IProject srcProject,IProject destProject, String filename1, String filename2, IPath path){
+		//check if an SML project exists
+		log.debug("----Moving files: "+filename1+" and "+ filename2);
+		log.debug(" from "+srcProject.getName()+" to "+destProject.getName());
+		
+		try {
+			if (destProject.exists()){
+				if( !destProject.isOpen() ){
+					destProject.open(null);
+				}
+			}
+			else{//sml project does not exist
+				log.debug("Project does not exist, thus we create it");
+				addProject(destProject);
+			}
+		} catch (CoreException e) {
+			log.error(e.getMessage(), e);
+		}
+		 
+		//at this point an SML project exists
+	
+	    //move files from rsl project to sml project
+		log.debug("Calling moveFile method");
+		
+	    moveFile(filename1,srcProject,destProject,path);
+	    moveFile(filename2,srcProject,destProject,path);
+	    log.debug("----Moving files finished");
+	}
+
+	private static void moveFile(String fileName, IProject srcProject,
+			IProject destProject, IPath path) {
+		
+		log.debug("----Enter moveFile");
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = workspace.getRoot();
+		
+		if(!destProject.exists() || !srcProject.exists()){
+			return;
+		}
+		 //refresh something after creation
+        try {
+			srcProject.refreshLocal(IResource.DEPTH_INFINITE, null);
+			destProject.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e1) {
+			log.error(e1.getMessage(), e1);
+		}
+		
+		String fullPath="";
+		
+		//create the entire folder structure
+		for(int i = 0; i < path.segmentCount(); i++){	
+			String pathSeg = path.segment(i);
+			fullPath += IPath.SEPARATOR + pathSeg;
+			IFolder folder = destProject.getFolder(fullPath);
+			if( !folder.exists() ){
+				try {
+					folder.create(false, true, null);
+				} catch (CoreException e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
+		
+		
+		//move the file
+		IPath destFilePath = (destProject.getFullPath().append(path)).append(fileName);
+		IFile ifile = srcProject.getFile(path.toString()+IPath.SEPARATOR+fileName);
+		
+		//check if the file already exists there
+		//due to older versions
+		
+		IFile olderifile = root.getFile(destFilePath);
+		if(olderifile.exists()){
+			//delete file
+			try {
+				olderifile.delete(false, null);
+			} catch (CoreException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		
+		log.debug("Move file");
+		try {
+			ifile.move(destFilePath, false, null);
+			destProject.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			log.error(e.getMessage(), e);
+		}
+		
+		 //refresh something after creation
+        try {
+			srcProject.refreshLocal(IResource.DEPTH_INFINITE, null);
+			destProject.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e1) {
+			log.error(e1.getMessage(), e1);
+		}
+		
+        log.debug("----Exit moveFile");
+	}
+
+	/**
+	 * Adds a project to the workspace with a 
+	 * 'src' subfolder
+	 * 
+	 * @param project The handler to the projects that needs to be creates
+	 */
+	public static void addProject(IProject project) {
+		log.debug("----Enter addProject");
+		
+		if(project.exists())
+			return;
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = workspace.getRoot();
+		String projectName = project.getName();
+		
+		//create project
+		log.debug("Create project at "+project.getFullPath());
+		URI projectLocation;
+		
+		try {
+    	   projectLocation = new URI(root.getLocationURI().toString()+IPath.SEPARATOR+projectName);
+		} catch (URISyntaxException e1) {
+			log.error(e1.getLocalizedMessage(), e1);
+			return;
+		}
+		
+		log.debug("Workspace uri: "+root.getLocationURI());
+		//if projectLocation is the same as
+		 if (projectLocation != null && root.getLocationURI().equals(projectLocation)) {
+             projectLocation = null;
+         }
+		
+		IProjectDescription description = workspace.newProjectDescription(projectName);	
+		description.setLocationURI(project.getLocationURI());
+				
+		try {
+			log.debug("Create project");
+			//project.create(description, new ProgressMonitor(null, "Creating associated SML project", null, 0, 100));
+			project.create(description, null);
+			
+			if (!project.isOpen()) {
+				project.open(null);
+			}
+			
+			//create src folder
+			Console.getInstance().print("create src folder");
+			final IFolder srcFolder = project.getFolder(new Path("src"));
+            srcFolder.create(true, true, null);
+            
+            //refresh something after creation
+            project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		Console.getInstance().print("---exit addProject");
+	}
+
+	public static void editFile(IFile smlIFile, IPath absolutePath) {
+		Console.getInstance().print("---- entered editFile");
+		//System.out.println("Adding path: "+absolutePath +" to "+smlIFile);
+		InputStream rslIS;
+		Console.getInstance().print("editing file: "+smlIFile.getName()+" with absolutePath: "+absolutePath);
+		try {
+			rslIS = smlIFile.getContents();
+			
+			Console.getInstance().print("reading from content");
+			Scanner scanneraux = new Scanner(rslIS, "UTF-8");
+			Console.getInstance().print("setting delimiter as \n");
+			Scanner scanner = scanneraux.useDelimiter("\n"); 
+			
+			String completeContent = ""; 
+			
+			while (scanner.hasNext()){
+				String line = scanner.next()+"\n";
+				Console.getInstance().print("read one line: "+line);
+				if(line.contains("use ")){
+					Console.getInstance().print("line contains use");
+					//add path instead of old file name ex "X_.sml" will become "D:/somelocation/X_.sml"
+					int indx1 = line.indexOf("\"");
+					int indx2 = line.indexOf("\"", indx1+1);
+					Console.getInstance().print(" character \" is at positions"+ indx1+" "+indx2);
+					int end = line.length();
+					String newline = (line.substring(0, indx1+1)).concat(absolutePath.toString()).concat(line.substring(indx2, end));
+					
+					Console.getInstance().print("new line " + newline);
+					completeContent += newline;
+				}
+				else
+					if(line.contains("CM.autoload ") && !line.contains("$")){ //   "/usr/share/rsltc/sml/rslml.cm";
+						Console.getInstance().print("Line contains \"CM.autoload\" and no $");
+						int indx1 = line.indexOf("\"");
+						int indx2 = line.indexOf("\"", indx1+1);
+						Console.getInstance().print("\" Positions"+ indx1+" "+indx2);
+						int end = line.length();
+						
+						// get rslml.cm location
+						
+						String rslmlLocation = findPluginResource("rsl.core",RSLML_CM);
+						String rslmlUnixLoca = rslmlLocation.replace("\\", "/");
+						String newline = (line.substring(0, indx1+1)).concat(rslmlUnixLoca).concat(line.substring(indx2, end));
+						
+						Console.getInstance().print("new line " + newline);
+						
+						completeContent += newline;
+						
+					}
+					else
+						completeContent += line;
+				
+				}
+			
+			Console.getInstance().print("Closing scanners");
+			scanneraux.close();
+			scanner.close();
+			
+			
+			Console.getInstance().print("New sml file content ");
+			FileWriter fw = new FileWriter(smlIFile.getLocation().toString());
+			fw.write(completeContent);
+			
+			Console.getInstance().print("----Writing complete ");
+			fw.close();
+			rslIS.close();
+			
+		} catch (CoreException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Console.getInstance().print("---exit editFile");
+	}
+
+	public static void addFile(String fileName, Path path) {
+		Console.getInstance().print("---enter addFile");
+		 IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path.append(fileName));
+		 if(file.exists())
+			 return;
+		 
+		 Bundle bundle = FrameworkUtil.getBundle(ResourceHandler.class);
+		 URL url = FileLocator.find(bundle, new Path("resources/latex_content.txt"), null);
+		 Console.getInstance().print("URL: "+url);
+		 File setupFile=null;
+		 
+		//get the file with the absolute path 
+		try {
+			setupFile = new File(FileLocator.toFileURL(url).toURI());	
+
+			InputStream input = new FileInputStream(setupFile);
+			
+			//TODO add progress bar
+			file.create(input, false, null);
+			
+			
+			
+		} catch (CoreException | URISyntaxException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Console.getInstance().print("---exit addFile");
+		
+	}
+	
+	public static void clearMarkers(IFile file){
+		//delete all markers of a file
+		try {
+			file.deleteMarkers(null, true, IResource.DEPTH_INFINITE);
+			//System.out.println("delete markers for file"+file.getName());
+		} catch (CoreException e) {
+			//System.out.println("Error when deleting a file markers "+e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+		
+	 /**
+	   * Returns the absolute file system location of a file inside a plugin.
+	   * @param pluginName  The name of the plugin
+	   * @param path  The path (as a String) of the file within the plugin
+	   * @return The absolute file system location of the target file
+	   * @throws IOException
+	   */
+	  public static String findPluginResource(final String pluginName, 
+	                                          final String path){
+		 Console.getInstance().print("---enter findPLuginresource");
+	    // This is the 'official' way to find something that
+	    // is in the install location of the plugin, cf.
+	    // Official Eclipse Faq #103.
+	    // It is stated that this code will only work if the 
+	    // install location is on the local file system.
+	    final Bundle bundle = Platform.getBundle(pluginName);
+	    
+	    Console.getInstance().print("getting bundle");
+	    IPath p = new Path(path);
+	    final URL url = FileLocator.find(bundle, p, null);
+	    Console.getInstance().print("getting url: "+url);
+	    // The substring call is to remove an initial /
+	    // FIXME do we remove the / on all platforms?
+	    // FIXME - do we need to do these back-and-forth conversions of will this do:
+	    // return Platform.resolve(url).getPath().substring(1);
+	    URL resolvedURL=null;
+		try {
+			resolvedURL = FileLocator.resolve(url);
+			Console.getInstance().print("resolved url: "+resolvedURL);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    final String filePath = resolvedURL.getPath();
+	    Console.getInstance().print("resolved filePath: "+filePath);
+	    
+	    final Path resourcePath = new Path(filePath);
+	    Console.getInstance().print("resourcePath: "+resourcePath);
+	    p = resourcePath.makeAbsolute();
+	    
+	    Console.getInstance().print(" p: "+p);
+	    String s = p.toOSString();
+	    
+	    if(s.startsWith("file:/") || s.startsWith("file:\\"))
+	    	s = s.substring(6);
+	   
+	    /*
+	    if(s.contains("!")){
+	    	int position = s.indexOf("!");
+	    	s = s.substring(0,position) + s.substring(position+1,s.length());
+	    }
+	    */
+	    Console.getInstance().print("----Returning "+s);
+	    return s;
+	  }
+
+
+}

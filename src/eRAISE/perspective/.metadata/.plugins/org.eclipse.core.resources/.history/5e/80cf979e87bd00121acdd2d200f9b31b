@@ -1,0 +1,144 @@
+static_diagram Interfaces
+--Shows the interfaces provided by the components 
+component
+	cluster RSLPerspective
+	component
+		cluster core
+	component
+		class Console
+			feature
+				update 
+					-> LIST[CHAR] 
+				clear
+		end	
+		class ResourceHandler
+			feature
+				getRSLfiles: SET[FILE]
+					->project: PROJECT
+					require
+						project /= Void
+					end
+				addFile 
+					->file: FILE 
+					->directory: DIRECTORY
+					require
+						file /= Void;
+						directory /= Void
+					ensure
+						file member_of directory						
+					end
+				addProject 
+					->directory: DIRECTORY 
+					->project: PROJECT
+					require
+						directory /= Void;
+						project /= Void
+					ensure
+						directory member_of project
+					end
+				moveFile 
+					->scrProject: PROJECT
+					->destProject: PROJECT
+					->file: FILE
+					ensure 
+						file /= Void;
+						file member_of destProject;
+						file not member_of srcProject						
+					end
+		end	
+		class SMLTranslator
+			feature
+				translate 
+					->context: CONTEXT
+					require
+						context /= Void
+					end
+		end	
+		class LatexGenerator
+			feature	
+				integrate
+					->context: CONTEXT
+				require
+					context /= Void
+				end
+		end		
+		class TestRunner
+			feature	
+				execute
+					->context: CONTEXT
+				require
+					context /= Void
+				end
+		end
+		class TypeChecker
+			feature
+            	typeCheck: SET[CHAR]
+                	->context: CONTEXT
+                	require
+                		context /= Void       
+                	end
+        end		
+		cluster guihandlers
+		component
+			class TCHandler
+			class SMLHandler
+			class RTHandler 
+		end	
+			
+	end	
+	
+	cluster editor
+	component
+		class ConsoleToProblems		
+		class Problems
+		class ProblemsView
+			feature
+				update 
+					-> problems: SET[PROBLEM]
+		end
+		class RSLEditor
+	end	
+	cluster testcases
+	component
+	 	cluster ui
+		component
+			class RTestView
+			feature
+				update 
+					-> restResults: SET[TESTRESULT]
+			end
+		end	
+		
+		cluster model
+		component
+			class RSLTestCaseModel
+			class TestCasesListener
+			
+		end
+	end 
+	cluster wizard
+	component
+		class RSLProjectPage		
+		class NewRSLProjectWizard
+		class RSLPerspective
+	end 
+	
+	cluster other
+	component
+		class REPLView
+			feature
+					clear
+			end
+			class OutlineView
+				feature
+					update 
+						-> SIGNATURE
+			end
+			class ProofView
+				feature
+					update 
+						-> SET[THEOREM]
+			end
+		end
+	end
+end

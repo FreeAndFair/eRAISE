@@ -1,0 +1,15 @@
+/**
+ * 
+ */
+package core;
+
+import org.eclipse.core.runtime.Status;
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class PluginLog {
+
+}

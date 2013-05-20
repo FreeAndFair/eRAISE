@@ -1,0 +1,12 @@
+source.. = src/
+output.. = bin/
+bin.includes = plugin.xml,\
+               .,\
+               icons/,\
+               .classpath,\
+               .settings/,\
+               META-INF/,\
+               build.properties,\
+               rsltc.exe,\
+               resources/,\
+               .options

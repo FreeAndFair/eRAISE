@@ -1,0 +1,5 @@
+scheme X =
+	class
+	test_case 
+	[t1] 1+2
+end

@@ -1,0 +1,29 @@
+1367910675175	Delete element
+1367910701574	Rename package 'rsltypechecker'
+1367910727954	Rename package 'tc'
+1367910745338	Move compilation unit
+1367910769792	Rename package 'handlers'
+1367910815539	Copy compilation units
+1367910829990	Delete element
+1367910833975	Delete element
+1367910839956	Delete element
+1367910842646	Delete element
+1367910852112	Move compilation units
+1367910855784	Delete element
+1368102912428	Delete element
+1368102920113	Delete elements
+1368213467663	Delete element
+1368213472864	Delete element
+1368258885583	Rename local variable 'filePath'
+1368288925340	Rename type 'SMLNJ'
+1368290299945	Move compilation unit
+1368290305381	Move compilation unit
+1368293379605	Rename package 'rsl.typechecker'
+1368293390990	Rename package 'rsl.typechecker.core'
+1368293402663	Rename package 'rsl.typechecker.handlers'
+1368293416671	Move compilation unit
+1368293421027	Move compilation unit
+1368293424913	Move compilation unit
+1368293429107	Move compilation unit
+1368293511859	Delete element
+1368293625255	Rename type 'FilesHandler'

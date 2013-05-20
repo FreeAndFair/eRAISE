@@ -1,0 +1,53 @@
+/**
+ * 
+ */
+package core.guihandlers;
+
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.runtime.Status;
+
+import core.Console;
+
+
+
+/**
+ * @author Marieta V. Fasie
+ * 	marietafasie at gmail dot com
+ *
+ */
+public class SMLAllHandler extends AbstractHandler {
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		//get all projects available in workspace
+		IWorkspaceRoot root = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot();
+		IProject[] projects = root.getProjects();
+		
+		SMLHandler smltr = new SMLHandler();
+		
+		//clear console
+		Console.getInstance().clear();
+				
+		for(int index = 0; index < projects.length; index++){
+			//for each project call type check project
+			smltr.translateObject(projects[index]);
+		}
+		
+		 monitor.done();
+         return Status.OK_STATUS;
+			}
+		};
+		job.setUser(true);
+		job.schedule();
+		return null;
+	}
+
+}

@@ -1,0 +1,114 @@
+static_diagram Interfaces
+--Shows the interfaces provided by the components 
+component
+	cluster core
+	component
+		class Console
+			feature
+				update 
+					-> LIST[CHAR] 
+				clear
+		end	
+		class ResourceHandler
+			feature
+				getRSLfiles: SET[FILE]
+					->project: PROJECT
+					require
+						project /= Void
+					end
+				addFile 
+					->file: FILE 
+					->directory: DIRECTORY
+					require
+						file /= Void;
+						directory /= Void
+					ensure
+						file member_of directory						
+					end
+				addProject 
+					->directory: DIRECTORY 
+					->project: PROJECT
+					require
+						directory /= Void;
+						project /= Void
+					ensure
+						directory member_of project
+					end
+				moveFile 
+					->scrProject: PROJECT
+					->destProject: PROJECT
+					->file: FILE
+					ensure 
+						file /= Void;
+						file member_of destProject;
+						file not member_of srcProject						
+					end
+		end	
+		class SMLTranslator
+			feature
+				translate 
+					->context: CONTEXT
+					require
+						context /= Void
+					end
+		end	
+		class LatexGenerator
+			feature	
+				integrate
+					->context: CONTEXT
+				require
+					context /= Void
+				end
+		end		
+		class TestRunner
+			feature	
+				execute
+					->context: CONTEXT
+				require
+					context /= Void
+				end
+		end
+		class TypeChecker
+			feature
+            	typeCheck: SET[ERROR]
+                	->context: CONTEXT
+                	require
+                		context /= Void       
+                	end
+        end
+		class RTestView
+			feature
+				update 
+					-> restResults: SET[TESTRESULT]
+		end
+		
+		class ProblemsView
+			feature
+				update 
+					-> problems: SET[PROBLEM]
+		end
+		class REPLView
+			feature
+				clear
+		end
+		class OutlineView
+			feature
+				update 
+					-> SIGNATURE
+		end
+		class ProofView
+			feature
+				update 
+					-> SET[THEOREM]
+		end
+		
+	end	
+	
+	cluster editor
+	component
+		class ConsoleToProblems		
+		class Problems
+		class ProblemsView
+		class RSLEditor
+	end	
+end
