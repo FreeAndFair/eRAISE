@@ -1,0 +1,35 @@
+Invalid integer literal 
+Division by zero
+Modulo zero
+Integer exponentiation with negative exponent 
+Cannot compute 0 ** 0
+Invalid real literal 
+Zero raised to non-positive power 
+Negative number x raised to non-integer power 
+hd applied to empty set
+Cannot select from empty set
+hd applied to empty list
+tl applied to empty list
+List applied to index outside index set
+Cannot select from empty list hd applied to empty map
+Map applied to value outside domain
+Nondeterministic enumerated map
+Maps do not compose
+Cannot select from empty map
+List x applied to non-index 
+Text x applied to non-index 
+Map x applied to non-domain value 
+x union x has non-disjoint domains
+Cannot compute function equality
+Destructor x applied to wrong variant
+Reconstructor x applied to wrong variant
+Argument of x(x) not in subtype
+Precondition of x(x) not satisfied
+Result x of x(x) not in subtype
+Case incomplete for value 
+Value x of x not in subtype
+Initial value x of x not in subtype
+Value x of x not in subtype
+chaos encountered
+stop encountered
+swap encountered

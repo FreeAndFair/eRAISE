@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="testcases.ui.RTestView"
+            icon="icons/13RT.png"
+            id="rsl.testcases.testview"
+            name="RTest"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="rsl.core.testcaseslisteners">
+      <listener
+            class="testcases.model.TestCasesListener">
+      </listener>
+   </extension>
+
+</plugin>
