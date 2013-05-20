@@ -1,0 +1,9 @@
+Group is
+# if defined(OPSYS_WIN32)
+  smlnj-lib.cm
+  /raise/sml/rslml.sml
+# else
+  $/basis.cm
+  $/smlnj-lib.cm 
+  rslml.sml
+# endif
