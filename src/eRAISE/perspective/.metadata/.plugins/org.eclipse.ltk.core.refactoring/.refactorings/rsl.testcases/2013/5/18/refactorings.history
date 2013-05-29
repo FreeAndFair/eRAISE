@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;sml_rt_errors.txt&apos; to &apos;resources&apos;&#x0D;&#x0A;- Original project: &apos;testcases&apos;&#x0D;&#x0A;- Destination element: &apos;resources&apos;&#x0D;&#x0A;- Original element: &apos;sml_rt_errors.txt&apos;" description="Copy file" element1="resources/sml_rt_errors.txt" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1367598283278" target="/core/resources" units="0" version="1.0"/>
-</session>

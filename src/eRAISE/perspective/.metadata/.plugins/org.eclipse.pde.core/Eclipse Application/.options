@@ -1,6 +1,0 @@
-#Master Tracing Options
-#Mon May 20 12:39:01 CEST 2013
-rsl.testcases/debug/debugmsg=true
-rsl.core/debug/debugmsg=true
-rsl.core/debug=true
-rsl.testcases/debug=true

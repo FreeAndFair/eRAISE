@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<map>
-	<bundle bundleID="500" class="testcases.Activator" localization="OSGI-INF/l10n/bundle" name="Testcases" project="rsl.testcases"/>
-	<bundle bundleID="498" class="core.Activator" localization="OSGI-INF/l10n/bundle" name="Core" project="rsl.core"/>
-	<bundle bundleID="499" class="editor.Activator" localization="OSGI-INF/l10n/bundle" name="RSLEditor" project="rsl.editor"/>
-	<bundle bundleID="501" class="wizard.Activator" localization="OSGI-INF/l10n/bundle" name="RSL Perspective" project="rsl.wizard"/>
-</map>
