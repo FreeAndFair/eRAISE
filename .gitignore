@@ -6,7 +6,4 @@
 *.blg
 *.synctex.gz
 *~
-*.jar
-*.war
-*.ear
 .metadata/
