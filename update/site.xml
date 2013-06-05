@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="eRAISE update site" url="https://github.com/kiniry/eRAISE/tree/master/update">
+   <description name="eRAISE" url="https://github.com/kiniry/eRAISE/tree/master/update">
       eRAISE is a development environment for the RAISE method. eRAISE allows users to create and  edit RSL specifications, syntax and type check them, translate them to SML, run RSL test cases and generate Latex documentation.
    </description>
-   <feature url="features/eRAISE.feature_1.0.0.jar" id="eRAISE.feature" version="1.0.0" os="linux,win32">
+   <feature url="features/eRAISE.Feature_1.0.0.jar" id="eRAISE.Feature" version="1.0.0" os="linux,win32">
       <category name="eRAISE"/>
    </feature>
    <category-def name="eRAISE" label="eRAISE">
