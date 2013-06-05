@@ -954,24 +954,7 @@ structure R_coverage =
 	if FileMarks.equ (fm, FileMarks.empty)
 	then ()
 	else
-	  let val file = FileMarks.hd fm;
-	      val filename = implode file;
-	      val lispfilename = filename ^ ".el";
-	      val marks = FileMarks.R_app fm file;
-	      val os = TextIO.openOut lispfilename
-	  in if Marks.equ(marks, [])
-	    then
-	      (TextIO.output(os, "(setq rsl-overlay-poss nil)");
-	       TextIO.closeOut os;
-	       (*text of string must match coverage-message-string in rsltc.el*)
-	       TextIO.print ("Complete expression coverage of " ^ filename ^ "\n"))
-	    else
-	      (TextIO.output(os, toLisp marks);
-	       TextIO.closeOut os;
-	       (*text of string must match coverage-message-string in rsltc.el*)
-	       TextIO.print ("Unexecuted expressions in " ^ filename ^ "\n"));
-	    save_marked1 (FileMarks.R_del (file, fm))
-	  end;
+	  ()
 
     fun save_marked () = save_marked1 (!file_marks);
 

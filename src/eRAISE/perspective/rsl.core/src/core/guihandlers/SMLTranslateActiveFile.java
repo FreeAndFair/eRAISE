@@ -99,6 +99,9 @@ public class SMLTranslateActiveFile extends AbstractHandler {
 		
 		scanner = new Scanner(message);
 		
+		Console console = Console.getInstance();
+		console.print(message);
+		
 		while (scanner.hasNextLine()) {
 			log.debug("Reading output line per line to se if it contains 'SML translation was correct'");
 			String line = scanner.nextLine();
@@ -120,10 +123,7 @@ public class SMLTranslateActiveFile extends AbstractHandler {
 		    
 				log.debug("Calling move sml file in project: "+smlProject.getName());
 				ResourceHandler.move(ifile.getProject(),smlProject, smlFileName1, smlFileName2, ifile.getProjectRelativePath().removeLastSegments(1));
-		    		    
-				Console console = Console.getInstance();
-				console.print(message);
-		    
+		    		    					    
 				log.debug("----SML tranlsateandprint returns true");
 				return true;
 			}	 

@@ -30,6 +30,8 @@ import editor.config.RSLDocumentProvider;
  */
 public class RSLEditor extends TextEditor {
 
+	private PluginLog log = PluginLog.getInstance();
+	
 	/**
 	 *Stores the color manager 
 	 */
@@ -80,7 +82,7 @@ public class RSLEditor extends TextEditor {
 				}
 			}
 		}catch(Exception e){
-			System.out.println("Error when trying to get file from editor");
+			log.error(e.getMessage(), e);
 			return;
 		}
 		
@@ -112,7 +114,7 @@ public class RSLEditor extends TextEditor {
 				}
 			}
 		}catch(Exception e){
-			System.out.println("Error when trying to get file from editor");
+			log.error(e.getMessage(), e);
 			return;
 		}
 		

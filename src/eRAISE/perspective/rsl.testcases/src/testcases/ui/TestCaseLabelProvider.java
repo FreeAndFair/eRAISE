@@ -4,16 +4,13 @@
 package testcases.ui;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -21,6 +18,7 @@ import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import testcases.PluginLog;
 import testcases.model.RSLTestFile;
 import testcases.model.TestCase;
 
@@ -32,13 +30,16 @@ import testcases.model.TestCase;
  *
  */
 public class TestCaseLabelProvider extends LabelProvider{
-	private static final Image TEST_TRUE = getImage("testok.gif");
-	private static final Image TEST_FALSE = getImage("testfail.gif");
-	private static final Image TEST_ERROR = getImage("testerr.gif");
+	
+	private PluginLog log = PluginLog.getInstance();
+	
+	private static final Image TEST_TRUE = getIcon("testok.gif");
+	private static final Image TEST_FALSE = getIcon("testfail.gif");
+	private static final Image TEST_ERROR = getIcon("testerr.gif");
 	  
-	private static final Image FILE_TEST_TRUE = getImage("file_true.gif");
-	private static final Image FILE_TEST_FALSE = getImage("file_false.gif");
-	private static final Image FILE_TEST_ERROR = getImage("file_error.gif");
+	private static final Image FILE_TEST_TRUE = getIcon("file_true.gif");
+	private static final Image FILE_TEST_FALSE = getIcon("file_false.gif");
+	private static final Image FILE_TEST_ERROR = getIcon("file_error.gif");
 	  
 	private final String RUNTIME_ERR_FILE = "resources/sml_rt_errors.txt";
 	
@@ -92,7 +93,7 @@ public class TestCaseLabelProvider extends LabelProvider{
 	  }
 
 	// Helper Method to load the images
-	private static Image getImage(String file) {
+	private static Image getIcon(String file) {
 	    Bundle bundle = FrameworkUtil.getBundle(TestCaseLabelProvider.class);
 	    URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
 	    ImageDescriptor image = ImageDescriptor.createFromURL(url);
@@ -101,41 +102,25 @@ public class TestCaseLabelProvider extends LabelProvider{
 	} 
 	
 	public boolean isRunTimeError(String value) {
-		File setupFile = null;
-		
-		//get access to bundle
-		Bundle bundle = FrameworkUtil.getBundle(TestCaseLabelProvider.class);
-		
-		//get the runtime path to the resources/rsltc program
-		IPath path = new Path(RUNTIME_ERR_FILE);				
-		URL setupUrl = FileLocator.find(bundle, path, Collections.EMPTY_MAP);
-		
-		//get the file with the absolute path 
+		URL url;
 		try {
-			setupFile = new File(FileLocator.toFileURL(setupUrl).toURI());	
-		
-		} catch (URISyntaxException | IOException e) {			
-			e.printStackTrace();
-		}
-		
-		
-		//log.debug("sml_rt_errors.txt location: "+ setupFile.getAbsolutePath());
-		
-		BufferedReader br=null;
-		FileReader fr = null;
-		String line;
-		
-		try {
-			fr = new FileReader(setupFile);
-			br = new BufferedReader(fr);
-				
-			while ((line = br.readLine()) != null) {
+			
+			String pathToRes ="platform:/plugin/rsl.testcases/"+RUNTIME_ERR_FILE; 
+			url = new URL(pathToRes);
+			
+			log.debug("Runtime_err_file url: "+url.toString());
+			
+			InputStream inputStream = url.openConnection().getInputStream();
+			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+			
+			while ((line = in.readLine()) != null) {
 			   String[] pieces = line.split(" x ");
 			   
 			   if(pieces.length == 1 && value.contains(pieces[0])){ //it contains one line with no x
-				  //log.debug("Just one line "+pieces[0]);
-				   br.close();
-				   return true;
+				  log.debug("Just one line "+pieces[0]);
+				  in.close();
+				  return true;
 			   }
 			   
 			   int i=0;
@@ -146,14 +131,14 @@ public class TestCaseLabelProvider extends LabelProvider{
 			   }
 			   
 			   if(i < pieces.length+3){//if all pieces were found in the test value
-				   br.close();
+				   in.close();
 				   return true;
 			   }
 			}
-			br.close();
+			in.close();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 		
 		return false;

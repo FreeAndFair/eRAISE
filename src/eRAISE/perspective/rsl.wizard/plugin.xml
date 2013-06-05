@@ -7,6 +7,7 @@
             category="rsl.perspective.category.RSLcategory"
             class="wizard.NewRSLProjectWizard"
             finalPerspective="rsl.wizard.RSLPerspective"
+            icon="icons/16RSLgreen.png"
             id="rsl.perspective.wizard.NewRSL"
             name="RSL Project"
             preferredPerspectives="rsl.wizard.RSLPerspective"
@@ -21,6 +22,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="wizard.RSLPerspective"
+            icon="icons/16RSLgreen.png"
             id="rsl.wizard.RSLPerspective"
             name="RSL">
       </perspective>

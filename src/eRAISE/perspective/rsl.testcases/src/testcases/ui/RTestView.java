@@ -25,7 +25,9 @@ import testcases.model.RSLTestCaseModel;
  */
 public class RTestView extends ViewPart {
 
+	
 	public static final String ID = "rsl.testcases.testview";
+	
 	private static TreeViewer viewer;
 	
 	
@@ -37,8 +39,7 @@ public class RTestView extends ViewPart {
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	public void createPartControl(Composite parent) {
-		//log.debug("Call createPartControl");	
+	public void createPartControl(Composite parent) {	
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		
 		
@@ -66,8 +67,7 @@ public class RTestView extends ViewPart {
 
 			 
 		});
-				
-		
+	
 	}
 	
 
@@ -78,6 +78,10 @@ public class RTestView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 
+	}
+	
+	public TreeViewer getViewer(){
+		return viewer;
 	}
 
 }

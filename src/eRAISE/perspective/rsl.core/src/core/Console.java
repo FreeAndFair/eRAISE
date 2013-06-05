@@ -24,6 +24,8 @@ import org.eclipse.ui.console.MessageConsoleStream;
  */
 public class Console {
 	
+	private static PluginLog log = PluginLog.getInstance();
+	
 	private final String CONSOLE_ID = IConsoleConstants.ID_CONSOLE_VIEW;
 	
 	private String message;
@@ -64,7 +66,7 @@ public class Console {
 		try {
 			view = (IConsoleView) page.showView(CONSOLE_ID);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 		
 		rslConsole = findConsole(IConsoleConstants.ID_CONSOLE_VIEW);

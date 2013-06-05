@@ -14,6 +14,7 @@ import org.eclipse.ui.PlatformUI;
 import core.IRSLTestCasesListener;
 import core.PluginLog;
 
+import testcases.ui.RTestView;
 import testcases.ui.TestCaseContentProvider;
 
 
@@ -102,6 +103,8 @@ public class TestCasesListener implements IRSLTestCasesListener{
 		//display test view
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(RT_VIEW_ID );
+			RTestView rtv = new RTestView();
+			rtv.getViewer().setInput(new RSLTestCaseModel());
 			
 		} catch (PartInitException e) {
 			log.error(e.getMessage(), e);

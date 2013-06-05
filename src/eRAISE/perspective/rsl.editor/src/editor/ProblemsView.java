@@ -17,6 +17,8 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  *
  */
 public class ProblemsView {
+	
+	private PluginLog log = PluginLog.getInstance();
 
 	private static ProblemsView instance = null;
 	
@@ -45,8 +47,7 @@ public class ProblemsView {
 		
 		
 		} catch (CoreException e) {
-			System.out.println("Error when displaying markers "+ e.getLocalizedMessage());
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 		
 	}

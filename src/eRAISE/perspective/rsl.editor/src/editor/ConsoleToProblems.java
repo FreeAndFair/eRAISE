@@ -18,6 +18,7 @@ import org.eclipse.ui.console.PatternMatchEvent;
 import org.eclipse.ui.console.TextConsole;
 
 
+
 /**
  * @author Marieta V. Fasie
  * 	marietafasie at gmail dot com
@@ -26,6 +27,8 @@ import org.eclipse.ui.console.TextConsole;
 public class ConsoleToProblems implements
 		IPatternMatchListenerDelegate {
 
+	private PluginLog log = PluginLog.getInstance();
+	
 	private TextConsole tconsole;
 	
 	private static ProblemsView problemView = ProblemsView.getInstance();  
@@ -75,8 +78,7 @@ public class ConsoleToProblems implements
 		try {
 			lineStr = doc.get(offset, length);
 		} catch (BadLocationException e) {
-			System.out.println("Error when reading Console content "+e.getMessage());
-			e.printStackTrace();
+			log.error(e.getLocalizedMessage(), e);
 		}
 		
 		//extract error messages from Console		

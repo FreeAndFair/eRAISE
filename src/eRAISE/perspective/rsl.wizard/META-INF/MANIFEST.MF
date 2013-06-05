@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RSL Perspective
+Bundle-Name: RSL Wizard
 Bundle-SymbolicName: rsl.wizard;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: wizard.Activator

@@ -19,6 +19,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
+
 /**
  * Creates a new RSL project wizard 
  * 
@@ -28,6 +29,7 @@ import org.eclipse.ui.IWorkbench;
  */
 public class NewRSLProjectWizard extends Wizard implements INewWizard {
 	
+	private static PluginLog log = PluginLog.getInstance();
 	
 	private IStructuredSelection intialSelection = null;
 	
@@ -69,10 +71,10 @@ public class NewRSLProjectWizard extends Wizard implements INewWizard {
 				}
 			});
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 			return false;
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 			return false;
 		}
 		
@@ -143,9 +145,11 @@ public class NewRSLProjectWizard extends Wizard implements INewWizard {
 	            project.refreshLocal(IResource.DEPTH_INFINITE, null);
 	           
             } catch (CoreException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
        }
 
+       
+        
 		monitor.done();
 		
 	}

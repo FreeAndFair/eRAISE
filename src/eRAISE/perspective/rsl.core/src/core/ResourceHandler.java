@@ -3,14 +3,15 @@
  */
 package core;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Scanner;
 
 import org.eclipse.core.resources.IFile;
@@ -22,11 +23,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 
 /**
@@ -164,8 +163,12 @@ public class ResourceHandler {
 		URI projectLocation;
 		
 		try {
-    	   projectLocation = new URI(root.getLocationURI().toString()+IPath.SEPARATOR+projectName);
-		} catch (URISyntaxException e1) {
+			String rootLocation =  root.getLocationURI().toString();
+			rootLocation = URLEncoder.encode(rootLocation, "UTF-8").replace("+", "%20");
+			String name = URLEncoder.encode(projectName, "UTF-8").replace("+", "%20");
+    	   
+			projectLocation = new URI(rootLocation+ IPath.SEPARATOR+ name);
+		} catch (URISyntaxException | UnsupportedEncodingException e1) {
 			log.error(e1.getLocalizedMessage(), e1);
 			return;
 		}
@@ -276,19 +279,16 @@ public class ResourceHandler {
 		 IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path.append(fileName));
 		 if(file.exists())
 			 return;
-		 
-		 Bundle bundle = FrameworkUtil.getBundle(ResourceHandler.class);
-		 URL url = FileLocator.find(bundle, new Path(LATEX_PATH), null);
-		 log.debug("URL: "+url);
-		 File setupFile=null;
-		 
+
 		//get the file with the absolute path 
 		try {
-			setupFile = new File(FileLocator.toFileURL(url).toURI());	
-			InputStream input = new FileInputStream(setupFile);
-			file.create(input, false, null);
+			String pathToRes ="platform:/plugin/rsl.core/"+LATEX_PATH; 
+			URL url = new URL(pathToRes);
+			InputStream inputStream = url.openConnection().getInputStream();
 			
-		} catch (CoreException | URISyntaxException | IOException e) {
+			file.create(inputStream, false, new NullProgressMonitor());
+			
+		} catch (CoreException | IOException e) {
 			log.error(e.getMessage(), e);
 		}
 		log.debug("---Exit addFile");

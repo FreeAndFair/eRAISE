@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import testcases.PluginLog;
+
+
 /**
  * Stores the model that will be displayed in RTestView
  * 
@@ -15,11 +18,13 @@ import java.util.List;
  *
  */
 public class RSLTestCaseModel {
+	private PluginLog log = PluginLog.getInstance();
 	
 	List<RSLTestFile> rtfList = new ArrayList<RSLTestFile>();
 	
 	public void addRSLFile(RSLTestFile rslfile){
 		rtfList.add(rslfile);
+		log.debug("Added "+rslfile.getName()+" to list");
 		Collections.sort(rtfList);
 	}
 	

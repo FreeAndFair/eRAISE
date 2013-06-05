@@ -97,14 +97,26 @@ public class TestRunner{
 		else
 			if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0 ){
 				log.debug("Running SML on "+os);
-				
+				//give rights
 				String programPath = findPluginResource("rsl.core", "resources/linux/sml/bin/sml");
 				log.debug("sml path: "+programPath);
-				//give rights
 				ProcessBuilder giveRights = new ProcessBuilder("chmod", "777",programPath);
+				
+				String archPath = findPluginResource("rsl.core", "resources/linux/sml/bin/.arch-n-opsys");
+				ProcessBuilder giveRightsArch = new ProcessBuilder("chmod", "777", archPath);
+				
+				String runPath = findPluginResource("rsl.core", "resources/linux/sml/bin/.run");
+				ProcessBuilder giveRightsRun = new ProcessBuilder("chmod", "777", "-R", runPath);
+				
+				String heapPath = findPluginResource("rsl.core", "resources/linux/sml/bin/.heap");
+				ProcessBuilder giveRightsHeap = new ProcessBuilder("chmod", "777", "-R", heapPath);
+				
 				log.debug("Rights given");
 				try {
 					giveRights.start();
+					giveRightsArch.start();
+					giveRightsRun.start();
+					giveRightsHeap.start();
 				} catch (IOException e) {
 					log.error(e.getMessage(), e);
 				}
@@ -113,7 +125,6 @@ public class TestRunner{
 				log.debug("building builder");
 				builder = new ProcessBuilder(programPath, smlfilePath);
 				
-
 				Map<String, String> env = builder.environment();				
 				log.debug("sml full path: "+smlnjPath);
 				
@@ -176,7 +187,7 @@ public class TestRunner{
 		}
 		
 		//return test case execution message
-		log.debug("----Returning message: \n");
+		log.debug("----Returning message: "+infomessage);
 		return infomessage;
 				
 	}

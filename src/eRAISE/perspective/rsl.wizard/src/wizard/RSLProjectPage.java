@@ -285,18 +285,6 @@ public class RSLProjectPage extends WizardPage{
 			return;
 		}
 		
-		if(projectName.contains(" ")){
-			setMessage(null);
-			setErrorMessage("There can not be spaces in a project name");
-			return;
-		}
-		
-		if(destinationFolder.contains(" ")){
-			setMessage(null);
-			setErrorMessage("There can not be spaces in a project path");
-			return;
-		}
-		
 		String fullProjectPath = destinationFolder+"/"+projectName;
 		File newPrj = new File(fullProjectPath);
 		if(newPrj.exists()){
