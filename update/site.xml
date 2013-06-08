@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/eRAISE_feature_1.0.0.jar" id="eRAISE_feature" version="1.0.0">
+      <category name="eRAISE"/>
+   </feature>
+   <category-def name="eRAISE" label="eRAISE">
+      <description>
+         This category contains all eRAISE features.
+      </description>
+   </category-def>
+</site>
